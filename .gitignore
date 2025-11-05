@@ -1,31 +1,54 @@
-# Dependencies
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Composer
+/vendor/
 vendor/
 composer.lock
 
-# Environment
-.env
+# Logs
+/logs/
+logs/
+*.log
+
+# Cache
+/cache/
+cache/
+/tmp/
+temp/
+
+# Uploads
+/uploads/
+uploads/
+!/uploads/.gitkeep
 
 # IDE
 .idea/
 .vscode/
-*.swp
-*.swo
-*~
+*.sublime-project
+*.sublime-workspace
 
 # OS
 .DS_Store
 Thumbs.db
+*.swp
+*.swo
+*~
 
-# Logs
-*.log
-logs/
+# Testing
+/coverage/
+.phpunit.result.cache
 
-# Cache
-cache/
-temp/
+# Build
+/build/
+/dist/
 
-# User uploads
-uploads/
+# Node
+node_modules/
+package-lock.json
+yarn.lock
 
 # Database
 *.sql
