@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bestenliste - ModernQuiz</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <i class="fas fa-brain"></i> ModernQuiz
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="quiz.html" class="nav-item">
+                <i class="fas fa-play"></i>
+                <span>Quiz spielen</span>
+            </a>
+            <a href="shop.html" class="nav-item">
+                <i class="fas fa-store"></i>
+                <span>Shop</span>
+            </a>
+            <a href="leaderboard.html" class="nav-item active">
+                <i class="fas fa-trophy"></i>
+                <span>Bestenliste</span>
+            </a>
+        </nav>
+
+        <div class="user-section">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <div class="user-details">
+                    <div class="user-name" id="userName">Benutzer</div>
+                    <div class="user-coins">
+                        <i class="fas fa-coins"></i> <span id="userCoins">100</span> Coins
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h1 class="card-title">
+                        <i class="fas fa-trophy"></i> Bestenliste
+                    </h1>
+                </div>
+
+                <!-- Filter Tabs -->
+                <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="loadLeaderboard('all')">
+                        <i class="fas fa-globe"></i> Alle Zeit
+                    </button>
+                    <button class="btn" style="background: #6b7280; color: white;" onclick="loadLeaderboard('weekly')">
+                        <i class="fas fa-calendar-week"></i> Diese Woche
+                    </button>
+                    <button class="btn" style="background: #6b7280; color: white;" onclick="loadLeaderboard('daily')">
+                        <i class="fas fa-calendar-day"></i> Heute
+                    </button>
+                </div>
+
+                <!-- Leaderboard Table -->
+                <div style="overflow-x: auto;">
+                    <table class="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>Rang</th>
+                                <th>Spieler</th>
+                                <th>Punkte</th>
+                                <th>Spiele</th>
+                                <th>Korrekte Antworten</th>
+                                <th>Level</th>
+                                <th>Serie</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboardBody">
+                            <!-- Leaderboard-Daten werden hier geladen -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Meine Platzierung -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <i class="fas fa-user"></i> Meine Platzierung
+                    </h2>
+                </div>
+                <div id="myRanking">
+                    <div style="text-align: center; padding: 2rem;">
+                        <div style="font-size: 3rem; font-weight: 800; color: var(--primary); margin-bottom: 1rem;">
+                            #<span id="myRank">-</span>
+                        </div>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon primary">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="stat-details">
+                                    <h3 id="myPoints">0</h3>
+                                    <p>Punkte</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon success">
+                                    <i class="fas fa-gamepad"></i>
+                                </div>
+                                <div class="stat-details">
+                                    <h3 id="myGames">0</h3>
+                                    <p>Spiele</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon warning">
+                                    <i class="fas fa-fire"></i>
+                                </div>
+                                <div class="stat-details">
+                                    <h3 id="myStreak">0</h3>
+                                    <p>Serie</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/leaderboard.js"></script>
+</body>
+</html>
