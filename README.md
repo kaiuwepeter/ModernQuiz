@@ -161,7 +161,21 @@ Interaktives Lernen neu gedacht - Eine moderne Quiz-Plattform mit Multiplayer-Fu
    php src/database/Migration.php
    ```
 
-4. **Konfiguration**
+4. **Quiz-Datenbank füllen** (Optional aber empfohlen)
+   ```bash
+   # Füllt die Datenbank mit 120+ Fragen aus 15 Kategorien
+   php seed-quizzes.php
+   ```
+
+   Dies erstellt:
+   - **15 verschiedene Kategorien**: Allgemeinwissen, Geografie, Geschichte, Naturwissenschaften, Technik, Sport, Kunst & Kultur, Film & Musik, Literatur, Politik, Wirtschaft, Mathematik, Sprachen, Essen & Trinken, Tiere
+   - **~18 Quizze** mit verschiedenen Schwierigkeitsgraden
+   - **~120+ Fragen** aus allen Wissensbereichen
+   - **~480+ Antworten** (Multiple Choice)
+
+   Siehe [SEEDING.md](SEEDING.md) für Details.
+
+5. **Konfiguration**
    - Datenbank-Verbindung konfigurieren
    - Session-Einstellungen anpassen
    - Admin-Rollen erstellen
