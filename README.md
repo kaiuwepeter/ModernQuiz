@@ -1,387 +1,342 @@
-# ModernQuiz
-
-Interaktives Lernen neu gedacht - Eine moderne Quiz-Plattform mit Multiplayer-Funktionen, Social Features und umfassendem Admin-System.
-
-## Features
-
-### 1. Session-Management
-- Sichere Session-Verwaltung mit Device-Fingerprinting
-- Multi-Device-Support (max. 5 Sessions pro User)
-- Automatisches Session-Cleanup
-- IP-Tracking und User-Agent-Validierung
-- Sichere Cookie-Verwaltung (HttpOnly, Secure, SameSite)
-
-### 2. Quiz-System
-- **Quiz-Erstellung**: Benutzer können eigene Quizze erstellen
-- **Fragentypen**: Multiple Choice, True/False, Text-Input
-- **Kategorien und Schwierigkeitsgrade**: Easy, Medium, Hard
-- **Zeit-Limits**: Pro Quiz und pro Frage konfigurierbar
-- **Öffentliche/Private Quizze**: Sichtbarkeitseinstellungen
-- **Bestenlisten**: Top-Scores für jedes Quiz
-- **Statistiken**: Detaillierte Ergebnisse und Antwort-Tracking
-
-### 3. Multiplayer-Modus
-- **Game Rooms**: Erstelle oder trete Räumen bei
-- **Room-Codes**: 6-stellige eindeutige Codes
-- **Passwort-Schutz**: Optional für private Spiele
-- **Live-Gameplay**: Echtzeit-Synchronisation
-- **Bestenlisten**: Live-Rankings während des Spiels
-- **Max. Spieler**: Konfigurierbar (Standard: 10)
-- **Room-Status**: Waiting, In Progress, Finished
-
-### 4. Social Features
-
-#### Freundschaften
-- Freundschaftsanfragen senden/akzeptieren/ablehnen
-- Freundesliste mit Stats
-- Benutzer blockieren
-- Freunde entfernen
-
-#### Challenges
-- Fordere Freunde zu Quiz-Duellen heraus
-- Challenge-Status: Pending, Accepted, Declined, Completed
-- Automatische Gewinner-Ermittlung
-- Challenge-History
-- 7-Tage-Ablaufzeit
-
-#### Achievements
-- Erfolge freischalten
-- Kategorien: Quizzes, Multiplayer, Social, etc.
-- Punktesystem
-- Achievement-Tracking
-
-#### Statistiken
-- Gespielte Quizze
-- Erstellte Quizze
-- Richtige Antworten
-- Gewinn-Streaks
-- Multiplayer-Siege
-- Gesamtpunkte
-
-### 5. Admin-System
-
-#### Benutzerverwaltung
-- Benutzer aktivieren/deaktivieren
-- Benutzer löschen
-- Ban-System (temporär/permanent)
-- Benutzer-Suche und Filterung
-
-#### Rollen & Berechtigungen
-- Flexible Rollenverwaltung
-- Granulare Berechtigungen
-- Rollen-Zuweisung
-- Permission-Checks
-
-#### Quiz-Moderation
-- Alle Quizze einsehen
-- Quizze aktivieren/deaktivieren
-- Quizze löschen
-- Quiz-Reports verwalten
-
-#### Report-System
-- Reports für User, Quizze, Fragen
-- Report-Stati: Pending, Reviewing, Resolved, Dismissed
-- Review-Workflow
-- Resolutions-Tracking
-
-#### System-Einstellungen
-- Konfigurierbare Settings
-- Verschiedene Datentypen (String, Number, Boolean, JSON)
-- Setting-History
-
-#### Dashboard
-- Übersichts-Statistiken
-- Aktive Benutzer
-- Aktive Spiele
-- Ausstehende Reports
-- Neue Registrierungen
-
-#### Admin-Logs
-- Vollständiges Audit-Log
-- Alle Admin-Aktionen werden protokolliert
-- IP-Tracking
-- Filtermöglichkeiten
-
-## Datenbank-Schema
-
-### Core Tables
-- `users` - Benutzer-Accounts
-- `sessions` - Session-Management
-- `user_stats` - Benutzer-Statistiken
-
-### Quiz Tables
-- `quizzes` - Quiz-Definitionen
-- `questions` - Quiz-Fragen
-- `answers` - Antwort-Optionen
-- `quiz_results` - Quiz-Ergebnisse
-- `user_answers` - Benutzer-Antworten
-
-### Multiplayer Tables
-- `game_rooms` - Spiel-Räume
-- `game_participants` - Teilnehmer
-- `game_answers` - Multiplayer-Antworten
-
-### Social Tables
-- `friendships` - Freundschaften
-- `challenges` - Quiz-Challenges
-- `achievements` - Erfolge
-- `user_achievements` - Freigeschaltete Erfolge
-
-### Admin Tables
-- `user_roles` - Benutzer-Rollen
-- `user_role_assignments` - Rollen-Zuweisungen
-- `admin_logs` - Admin-Aktions-Log
-- `reports` - Meldungen
-- `system_settings` - System-Einstellungen
-- `banned_users` - Gebannte Benutzer
-
-### Security Tables
-- `bot_detection` - Anti-Bot-System
-
-## Installation
-
-1. **Voraussetzungen**
-   ```bash
-   PHP >= 8.1
-   MySQL/MariaDB
-   Composer
-   ```
-
-2. **Installation**
-   ```bash
-   composer install
-   ```
-
-3. **Datenbank-Setup**
-   ```bash
-   # Datenbank erstellen
-   CREATE DATABASE modernquiz;
-
-   # Migrationen ausführen
-   php src/database/Migration.php
-   ```
-
-4. **Quiz-Datenbank füllen** (Optional aber empfohlen)
-   ```bash
-   # Füllt die Datenbank mit 120+ Fragen aus 15 Kategorien
-   php seed-quizzes.php
-   ```
-
-   Dies erstellt:
-   - **15 verschiedene Kategorien**: Allgemeinwissen, Geografie, Geschichte, Naturwissenschaften, Technik, Sport, Kunst & Kultur, Film & Musik, Literatur, Politik, Wirtschaft, Mathematik, Sprachen, Essen & Trinken, Tiere
-   - **~18 Quizze** mit verschiedenen Schwierigkeitsgraden
-   - **~120+ Fragen** aus allen Wissensbereichen
-   - **~480+ Antworten** (Multiple Choice)
-
-   Siehe [SEEDING.md](SEEDING.md) für Details.
-
-5. **Konfiguration**
-   - Datenbank-Verbindung konfigurieren
-   - Session-Einstellungen anpassen
-   - Admin-Rollen erstellen
-
-## Nutzung
-
-### Session-Management
-
-```php
-use ModernQuiz\Core\SessionManager;
-
-$sessionManager = new SessionManager($db);
-
-// Session erstellen
-$sessionId = $sessionManager->createSession($userId);
-
-// Session validieren
-$session = $sessionManager->validateSession($sessionId);
-
-// Session beenden
-$sessionManager->destroySession($sessionId);
-```
-
-### Quiz-Management
-
-```php
-use ModernQuiz\Modules\Quiz\QuizManager;
-
-$quizManager = new QuizManager($db);
-
-// Quiz erstellen
-$quizId = $quizManager->createQuiz($userId, [
-    'title' => 'Mein Quiz',
-    'description' => 'Ein tolles Quiz',
-    'category' => 'general',
-    'difficulty' => 'medium'
-]);
-
-// Frage hinzufügen
-$questionId = $quizManager->addQuestion($quizId, [
-    'question_text' => 'Was ist 2+2?',
-    'question_type' => 'multiple_choice',
-    'points' => 10
-]);
-
-// Antwort hinzufügen
-$quizManager->addAnswer($questionId, '4', true, 0);
-$quizManager->addAnswer($questionId, '5', false, 1);
-```
-
-### Multiplayer
-
-```php
-use ModernQuiz\Modules\Multiplayer\MultiplayerManager;
-
-$multiplayerManager = new MultiplayerManager($db);
-
-// Room erstellen
-$room = $multiplayerManager->createRoom($quizId, $hostUserId, [
-    'max_players' => 10,
-    'is_private' => false
-]);
-
-// Room beitreten
-$multiplayerManager->joinRoom($roomId, $userId, 'Nickname');
-
-// Spiel starten
-$multiplayerManager->startGame($roomId, $hostUserId);
-
-// Antwort submitten
-$multiplayerManager->submitAnswer($roomId, $userId, $questionId, [
-    'answer_id' => $answerId,
-    'is_correct' => true,
-    'time_taken' => 5,
-    'points_earned' => 100
-]);
-```
-
-### Social Features
-
-```php
-use ModernQuiz\Modules\Social\SocialManager;
-
-$socialManager = new SocialManager($db);
-
-// Freundschaftsanfrage senden
-$socialManager->sendFriendRequest($userId, $friendId);
-
-// Anfrage akzeptieren
-$socialManager->acceptFriendRequest($userId, $friendId);
-
-// Challenge erstellen
-$challengeId = $socialManager->createChallenge($challengerId, $challengedId, $quizId, 'Beat this!');
-
-// Challenge akzeptieren
-$socialManager->acceptChallenge($challengeId, $userId);
-
-// Ergebnis submitten
-$socialManager->submitChallengeResult($challengeId, $userId, $score);
-```
-
-### Admin-Funktionen
-
-```php
-use ModernQuiz\Modules\Admin\AdminController;
-
-$adminController = new AdminController($db);
-
-// Benutzer verwalten
-$users = $adminController->listUsers(['search' => 'john']);
-$adminController->banUser($userId, $adminId, 'Spam', 24); // 24 Stunden
-
-// Rollen verwalten
-$roleId = $adminController->createRole('Moderator', 'Can moderate content', [
-    'moderate_quiz',
-    'review_reports'
-]);
-$adminController->assignRole($userId, $roleId, $adminId);
-
-// Reports verwalten
-$reports = $adminController->listReports('pending');
-$adminController->reviewReport($reportId, $adminId, 'resolved', 'Issue fixed');
-
-// System-Einstellungen
-$adminController->setSetting('max_quiz_length', 50, 'number', $adminId);
-$value = $adminController->getSetting('max_quiz_length');
-
-// Dashboard-Stats
-$stats = $adminController->getDashboardStats();
-```
-
-## Sicherheitsfeatures
-
-- **Password-Hashing**: Argon2id via `password_hash()`
-- **Session-Security**: HttpOnly, Secure, SameSite Cookies
-- **SQL-Injection-Schutz**: Prepared Statements
-- **Device-Fingerprinting**: Multi-Faktor Session-Validierung
-- **IP-Tracking**: Verdächtige Aktivitäten erkennen
-- **Bot-Detection**: Anti-Bot-System integriert
-- **Rate-Limiting**: Session-Limits pro User
-- **Admin-Audit-Log**: Alle Admin-Aktionen werden protokolliert
-
-## API-Struktur
-
-```
-src/
-├── core/
-│   ├── Security.php
-│   ├── Security/
-│   │   ├── AntiBot.php
-│   │   └── BotDetection.js
-│   └── SessionManager.php
-├── database/
-│   ├── Migration.php
-│   └── migrations/
-│       ├── 20241231_000001_create_users_table.php
-│       ├── 20241231_000002_create_sessions_table.php
-│       ├── 20241231_000003_create_bot_detection_table.php
-│       ├── 20241231_000004_create_quiz_tables.php
-│       ├── 20241231_000005_create_multiplayer_tables.php
-│       ├── 20241231_000006_create_social_tables.php
-│       └── 20241231_000007_create_admin_tables.php
-└── modules/
-    ├── auth/
-    │   ├── Auth.php
-    │   ├── Login.php
-    │   └── Register.php
-    ├── quiz/
-    │   └── QuizManager.php
-    ├── multiplayer/
-    │   └── MultiplayerManager.php
-    ├── social/
-    │   └── SocialManager.php
-    └── admin/
-        └── AdminController.php
-```
-
-## Entwicklung
-
-### Tests ausführen
+# ModernQuiz 🧠
+
+Eine moderne, interaktive Quiz-Webanwendung mit vielen spannenden Features!
+
+## ✨ Features
+
+### 🎮 Quiz-System
+- **Interaktives Quiz** mit Multiple-Choice-Fragen
+- **Timer-System** mit Time-Bonus für schnelle Antworten
+- **Verschiedene Kategorien** (Allgemeinwissen, Geographie, Geschichte, Wissenschaft, etc.)
+- **Schwierigkeitsgrade** (Easy, Medium, Hard, Expert)
+- **Punkte-System** mit Bonus für Schnelligkeit
+- **Streak-System** für aufeinanderfolgende richtige Antworten
+
+### 🏪 Shop-System
+- **Powerups kaufen** mit verdienten Coins
+- **6 verschiedene Powerups**:
+  - 50:50 (Entfernt 2 falsche Antworten)
+  - Frage überspringen
+  - Extra Zeit (+15 Sekunden)
+  - Doppelte Punkte
+  - Zeit einfrieren
+  - Hinweis anzeigen
+- **Inventar-System** zum Verwalten gekaufter Powerups
+
+### 💎 Jackpot-System
+- **4 verschiedene Jackpots** (Bronze, Silber, Gold, Diamant)
+- Jackpots erhöhen sich bei **jeder richtigen Antwort**
+- **Zufällige Gewinnchancen** basierend auf Wahrscheinlichkeiten
+- **Gewinner-Historie** mit allen Jackpot-Gewinnen
+
+### 🏆 Bestenlisten-System
+- **Globale Rangliste** aller Spieler
+- **Tägliche & Wöchentliche Ranglisten**
+- **Kategorie-basierte Ranglisten**
+- **Persönliche Statistiken**:
+  - Gesamtpunkte
+  - Gespielte Spiele
+  - Richtige Antworten
+  - Längste Serie
+  - Level & Erfahrung
+
+### 🎖️ Achievement-System
+- **13+ Achievements** zum Freischalten
+- Verschiedene **Achievement-Kategorien**:
+  - Spiele gespielt
+  - Richtige Antworten
+  - Punkte erreicht
+  - Serien erreicht
+
+### 🎨 Modernes UI/UX
+- **Linke Seitennavigation** für einfache Navigation
+- **Responsive Design** für alle Geräte
+- **Moderne Animationen** und Übergänge
+- **Gradient-Design** mit schönen Farbverläufen
+- **Dark-Theme** Sidebar
+- **Echtzeit-Updates** für Coins, Punkte und Jackpots
+
+## 🛠️ Technologie-Stack
+
+### Backend
+- **PHP 8.1+** mit OOP-Architektur
+- **MySQL/MariaDB** Datenbank
+- **PDO** für sichere Datenbank-Abfragen
+- **RESTful API** für Frontend-Kommunikation
+- **PSR-4 Autoloading** mit Composer
+
+### Frontend
+- **HTML5** mit semantischen Tags
+- **CSS3** mit modernen Features (Grid, Flexbox, Gradients)
+- **Vanilla JavaScript** (ES6+)
+- **Font Awesome** Icons
+- **Responsive Design** (Mobile-First)
+
+### Architektur
+- **MVC-Pattern** für klare Struktur
+- **Modular** aufgebaut
+- **Migration-System** für Datenbank
+- **Namespace-basiert**
+
+## 📦 Installation
+
+### Voraussetzungen
+- PHP 8.1 oder höher
+- MySQL 5.7+ oder MariaDB 10.3+
+- Composer
+- Webserver (Apache/Nginx)
+
+### Schritt-für-Schritt Anleitung
+
+1. **Repository klonen**
 ```bash
-composer test
+git clone https://github.com/deinname/modernquiz.git
+cd modernquiz
 ```
 
-### Code-Coverage
+2. **Abhängigkeiten installieren**
 ```bash
-composer test-coverage
+composer install
 ```
 
-## Roadmap
+3. **Umgebungsvariablen konfigurieren**
+```bash
+cp .env.example .env
+# Bearbeite .env mit deinen Datenbank-Zugangsdaten
+```
 
-- [x] Session-Management verbessern
-- [x] Multiplayer-Modus
-- [x] Eigene Quizze erstellen
-- [x] Social Features (Freunde, Challenges)
-- [x] Admin-Menü
-- [ ] WebSocket-Integration für Echtzeit-Updates
+4. **Datenbank erstellen**
+```sql
+CREATE DATABASE modernquiz CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+5. **Migrationen ausführen**
+```bash
+php migrate.php
+```
+
+6. **Webserver konfigurieren**
+
+**Apache (.htaccess bereits vorhanden)**
+```apache
+DocumentRoot /pfad/zu/modernquiz/public
+```
+
+**Nginx**
+```nginx
+server {
+    listen 80;
+    server_name modernquiz.local;
+    root /pfad/zu/modernquiz/public;
+
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    location /api {
+        try_files $uri /api/index.php$is_args$args;
+        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+}
+```
+
+7. **Anwendung öffnen**
+```
+http://localhost (oder deine konfigurierte URL)
+```
+
+## 📁 Projektstruktur
+
+```
+modernquiz/
+├── config/                 # Konfigurationsdateien
+│   ├── app.php
+│   └── database.php
+├── public/                 # Öffentliche Dateien
+│   ├── css/
+│   │   └── style.css      # Haupt-Stylesheet
+│   ├── js/
+│   │   ├── app.js         # Haupt-App-Logik
+│   │   ├── auth.js        # Login/Register
+│   │   ├── dashboard.js   # Dashboard-Funktionen
+│   │   ├── quiz.js        # Quiz-Logik
+│   │   ├── shop.js        # Shop-Funktionen
+│   │   └── leaderboard.js # Bestenlisten
+│   ├── api/
+│   │   └── index.php      # API-Endpunkte
+│   ├── index.html         # Dashboard
+│   ├── login.html         # Login-Seite
+│   ├── register.html      # Registrierung
+│   ├── quiz.html          # Quiz-Interface
+│   ├── shop.html          # Shop
+│   └── leaderboard.html   # Bestenliste
+├── src/
+│   ├── core/              # Core-Klassen
+│   │   ├── Database.php
+│   │   └── Security.php
+│   ├── modules/           # Feature-Module
+│   │   ├── quiz/
+│   │   │   └── QuizEngine.php
+│   │   ├── shop/
+│   │   │   └── ShopSystem.php
+│   │   ├── jackpot/
+│   │   │   └── JackpotSystem.php
+│   │   ├── leaderboard/
+│   │   │   └── LeaderboardSystem.php
+│   │   └── auth/
+│   └── database/
+│       ├── Migration.php
+│       └── migrations/    # Datenbank-Migrationen
+├── composer.json
+├── migrate.php            # Migrations-Runner
+└── README.md
+```
+
+## 🎮 Verwendung
+
+### Erste Schritte
+
+1. **Registrieren**: Erstelle ein Konto auf der Registrierungsseite
+2. **Dashboard**: Sieh dir deine Statistiken und aktive Jackpots an
+3. **Quiz spielen**: Starte ein Quiz und beantworte Fragen
+4. **Coins verdienen**: Erhalte 5 Coins pro richtiger Antwort
+5. **Powerups kaufen**: Besuche den Shop und kaufe hilfreiche Powerups
+6. **Bestenliste**: Vergleiche dich mit anderen Spielern
+
+### Powerups verwenden
+
+Während eines Quiz kannst du Powerups aus deinem Inventar einsetzen:
+- Klicke auf das gewünschte Powerup
+- Der Effekt wird sofort angewendet
+- Nutze Powerups strategisch für maximale Punkte!
+
+### Jackpots gewinnen
+
+- Jackpots steigen mit jeder richtigen Antwort
+- Je höherwertiger der Jackpot, desto geringer die Gewinnchance
+- Bronze: 1% Chance
+- Silber: 0.5% Chance
+- Gold: 0.1% Chance
+- Diamant: 0.01% Chance
+
+## 🔧 API-Dokumentation
+
+### Quiz-Endpunkte
+
+```
+POST   /api/quiz/start          - Starte neue Quiz-Session
+GET    /api/quiz/question       - Hole zufällige Frage
+POST   /api/quiz/answer         - Sende Antwort
+POST   /api/quiz/end            - Beende Session
+GET    /api/quiz/categories     - Hole alle Kategorien
+```
+
+### Shop-Endpunkte
+
+```
+GET    /api/shop/powerups       - Hole alle Powerups
+GET    /api/shop/inventory      - Hole User-Inventar
+POST   /api/shop/purchase       - Kaufe Powerup
+POST   /api/shop/use            - Verwende Powerup
+```
+
+### Jackpot-Endpunkte
+
+```
+GET    /api/jackpots            - Hole alle Jackpots
+GET    /api/jackpots/winners    - Hole Gewinner-Historie
+```
+
+### Leaderboard-Endpunkte
+
+```
+GET    /api/leaderboard         - Globale Rangliste
+GET    /api/leaderboard/daily   - Tägliche Rangliste
+GET    /api/leaderboard/weekly  - Wöchentliche Rangliste
+GET    /api/leaderboard/user    - User-Ranking
+GET    /api/user/stats          - User-Statistiken
+```
+
+## 🎨 Anpassung
+
+### Farben ändern
+
+Bearbeite die CSS-Variablen in `public/css/style.css`:
+
+```css
+:root {
+    --primary: #6366f1;
+    --secondary: #8b5cf6;
+    --success: #10b981;
+    /* ... weitere Farben */
+}
+```
+
+### Neue Kategorien hinzufügen
+
+```sql
+INSERT INTO quiz_categories (name, description, icon)
+VALUES ('Deine Kategorie', 'Beschreibung', 'fa-icon-name');
+```
+
+### Neue Fragen hinzufügen
+
+```sql
+INSERT INTO quiz_questions (category_id, question, difficulty, points, time_limit)
+VALUES (1, 'Deine Frage?', 'medium', 15, 30);
+
+INSERT INTO quiz_answers (question_id, answer_text, is_correct)
+VALUES
+  (LAST_INSERT_ID(), 'Antwort 1', TRUE),
+  (LAST_INSERT_ID(), 'Antwort 2', FALSE);
+```
+
+## 🔒 Sicherheit
+
+- SQL-Injection-Schutz durch PDO Prepared Statements
+- XSS-Schutz durch Output-Escaping
+- CSRF-Schutz implementierbar
+- Password-Hashing mit bcrypt
+- Bot-Detection-System bereits vorhanden
+
+## 🚀 Roadmap
+
+- [ ] Session-Management verbessern
+- [ ] Multiplayer-Modus
+- [ ] Eigene Quizze erstellen
+- [ ] Social Features (Freunde, Challenges)
 - [ ] Mobile App
-- [ ] Video-Quizze
-- [ ] KI-generierte Fragen
-- [ ] Internationalisierung (i18n)
+- [ ] Voice-Integration
+- [ ] Mehr Sprachen
 
-## Lizenz
+## 🤝 Beitragen
 
-MIT License
+Beiträge sind willkommen! Bitte:
 
-## Kontakt
+1. Forke das Repository
+2. Erstelle einen Feature-Branch (`git checkout -b feature/AmazingFeature`)
+3. Committe deine Änderungen (`git commit -m 'Add some AmazingFeature'`)
+4. Pushe zum Branch (`git push origin feature/AmazingFeature`)
+5. Öffne einen Pull Request
 
-Für Fragen und Support kontaktiere uns unter: support@modernquiz.com
+## 📝 Lizenz
+
+Dieses Projekt ist unter der MIT-Lizenz lizenziert.
+
+## 👨‍💻 Autor
+
+Erstellt mit ❤️ von [Dein Name]
+
+## 🙏 Danksagungen
+
+- Font Awesome für die Icons
+- Alle Contributors
+- Die Open-Source-Community
+
+---
+
+**Viel Spaß beim Quizzen! 🎉**

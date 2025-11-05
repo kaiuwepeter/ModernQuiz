@@ -5,18 +5,23 @@
 
 # Composer
 /vendor/
+vendor/
 composer.lock
 
 # Logs
 /logs/
+logs/
 *.log
 
 # Cache
 /cache/
+cache/
 /tmp/
+temp/
 
 # Uploads
 /uploads/
+uploads/
 !/uploads/.gitkeep
 
 # IDE
@@ -44,3 +49,8 @@ Thumbs.db
 node_modules/
 package-lock.json
 yarn.lock
+
+# Database
+*.sql
+*.sqlite
+*.db
