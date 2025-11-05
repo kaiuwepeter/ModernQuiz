@@ -1,3 +1,46 @@
-vendor/
+# Environment
 .env
+.env.local
+.env.*.local
+
+# Composer
+/vendor/
+composer.lock
+
+# Logs
+/logs/
 *.log
+
+# Cache
+/cache/
+/tmp/
+
+# Uploads
+/uploads/
+!/uploads/.gitkeep
+
+# IDE
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Testing
+/coverage/
+.phpunit.result.cache
+
+# Build
+/build/
+/dist/
+
+# Node
+node_modules/
+package-lock.json
+yarn.lock
