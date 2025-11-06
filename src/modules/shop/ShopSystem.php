@@ -40,8 +40,13 @@ class ShopSystem
 
     /**
      * Kauft ein Powerup
+     *
+     * @param int $userId User ID
+     * @param int $powerupId Powerup ID
+     * @param int $quantity Anzahl
+     * @param string $currency Währung: 'coins', 'bonus_coins', oder 'auto' (Bonus Coins zuerst)
      */
-    public function purchasePowerup(int $userId, int $powerupId, int $quantity = 1): array
+    public function purchasePowerup(int $userId, int $powerupId, int $quantity = 1, string $currency = 'auto'): array
     {
         // Hole Powerup-Details
         $powerup = $this->db->fetch(
@@ -55,7 +60,7 @@ class ShopSystem
 
         // Hole User-Coins
         $user = $this->db->fetch(
-            "SELECT coins FROM user_stats WHERE user_id = ?",
+            "SELECT coins, bonus_coins FROM user_stats WHERE user_id = ?",
             [$userId]
         );
 
@@ -63,20 +68,63 @@ class ShopSystem
             return ['success' => false, 'message' => 'User-Stats nicht gefunden'];
         }
 
-        $totalCost = $powerup['price'] * $quantity;
+        $totalCost = (float)($powerup['price'] * $quantity);
+        $coins = (float)$user['coins'];
+        $bonusCoins = (float)$user['bonus_coins'];
 
-        if ($user['coins'] < $totalCost) {
-            return ['success' => false, 'message' => 'Nicht genügend Coins'];
+        // Validiere Währungswahl
+        if (!in_array($currency, ['coins', 'bonus_coins', 'auto'])) {
+            return ['success' => false, 'message' => 'Ungültige Währung'];
+        }
+
+        // Bestimme Zahlungsmethode
+        $coinsToDeduct = 0;
+        $bonusCoinsToDeduct = 0;
+
+        if ($currency === 'coins') {
+            // Nur normale Coins verwenden
+            if ($coins < $totalCost) {
+                return ['success' => false, 'message' => 'Nicht genügend Coins'];
+            }
+            $coinsToDeduct = $totalCost;
+
+        } elseif ($currency === 'bonus_coins') {
+            // Nur Bonus Coins verwenden
+            if ($bonusCoins < $totalCost) {
+                return ['success' => false, 'message' => 'Nicht genügend Bonus Coins'];
+            }
+            $bonusCoinsToDeduct = $totalCost;
+
+        } else {
+            // Auto: Bonus Coins zuerst, dann normale Coins
+            $bonusCoinsToDeduct = min($bonusCoins, $totalCost);
+            $coinsToDeduct = $totalCost - $bonusCoinsToDeduct;
+
+            if ($coins < $coinsToDeduct) {
+                return ['success' => false, 'message' => 'Nicht genügend Coins (brauche ' . $coinsToDeduct . ' Coins + ' . $bonusCoinsToDeduct . ' Bonus Coins)'];
+            }
         }
 
         try {
             $this->db->beginTransaction();
 
-            // Ziehe Coins ab
-            $this->db->query(
-                "UPDATE user_stats SET coins = coins - ? WHERE user_id = ?",
-                [$totalCost, $userId]
+            // Verwende CoinManager für Coin-Abzug (mit Transaction Logging)
+            $coinManager = new \ModernQuiz\Modules\Coins\CoinManager($this->db->getConnection());
+
+            $deductResult = $coinManager->deductCoins(
+                $userId,
+                (int)$totalCost, // Total amount
+                \ModernQuiz\Modules\Coins\CoinManager::TX_SHOP_PURCHASE,
+                'shop',
+                $powerupId,
+                "Shop-Kauf: {$powerup['name']} ({$quantity}x)",
+                ['powerup_id' => $powerupId, 'quantity' => $quantity, 'currency' => $currency]
             );
+
+            if (!$deductResult['success']) {
+                $this->db->rollBack();
+                return ['success' => false, 'message' => 'Fehler beim Abbuchen: ' . ($deductResult['error'] ?? 'Unbekannter Fehler')];
+            }
 
             // Füge zu Inventar hinzu
             $existing = $this->db->fetch(
@@ -107,7 +155,9 @@ class ShopSystem
             return [
                 'success' => true,
                 'message' => 'Powerup erfolgreich gekauft',
-                'remaining_coins' => $user['coins'] - $totalCost
+                'remaining_coins' => $deductResult['coins_after'],
+                'remaining_bonus_coins' => $deductResult['bonus_coins_after'],
+                'currency_used' => $currency
             ];
         } catch (\Exception $e) {
             $this->db->rollBack();
@@ -165,14 +215,18 @@ class ShopSystem
     }
 
     /**
-     * Holt User-Coins
+     * Holt User-Coins (beide Währungen)
      */
-    public function getUserCoins(int $userId): int
+    public function getUserCoins(int $userId): array
     {
         $result = $this->db->fetch(
-            "SELECT coins FROM user_stats WHERE user_id = ?",
+            "SELECT coins, bonus_coins FROM user_stats WHERE user_id = ?",
             [$userId]
         );
-        return $result['coins'] ?? 0;
+        return [
+            'coins' => (float)($result['coins'] ?? 0),
+            'bonus_coins' => (float)($result['bonus_coins'] ?? 0),
+            'total' => (float)(($result['coins'] ?? 0) + ($result['bonus_coins'] ?? 0))
+        ];
     }
 }

@@ -185,23 +185,22 @@ class QuizEngine
                 [$userId, $isCorrect ? 1 : 0, $points]
             );
         } else {
+            // Coins earned: 5 per correct answer (as DECIMAL now)
+            $coinsEarned = $isCorrect ? 5.00 : 0.00;
+
+            // Update stats (without coins - will be handled by CoinManager)
             $sql = "UPDATE user_stats SET
                     total_questions_answered = total_questions_answered + 1,
                     total_correct_answers = total_correct_answers + ?,
                     total_points = total_points + ?,
-                    coins = coins + ?,
-                    current_streak = ?,
+                    current_streak = IF(?, current_streak + 1, 0),
                     experience = experience + ?
                     WHERE user_id = ?";
-
-            $coinsEarned = $isCorrect ? 5 : 0;
-            $newStreak = $isCorrect ? "current_streak + 1" : 0;
 
             $this->db->query($sql, [
                 $isCorrect ? 1 : 0,
                 $points,
-                $coinsEarned,
-                $newStreak,
+                $isCorrect,
                 $points,
                 $userId
             ]);
@@ -212,6 +211,28 @@ class QuizEngine
                     "UPDATE user_stats SET longest_streak = GREATEST(longest_streak, current_streak) WHERE user_id = ?",
                     [$userId]
                 );
+            }
+
+            // Award coins using CoinManager (with transaction logging)
+            if ($coinsEarned > 0) {
+                $coinManager = new \ModernQuiz\Modules\Coins\CoinManager($this->db->getConnection());
+
+                $coinResult = $coinManager->addCoins(
+                    $userId,
+                    $coinsEarned,
+                    0, // No bonus coins for quiz
+                    \ModernQuiz\Modules\Coins\CoinManager::TX_QUIZ_WIN,
+                    'quiz',
+                    null,
+                    "Quiz-Gewinn: {$points} Punkte, korrekte Antwort",
+                    ['points' => $points]
+                );
+
+                // Trigger referral commission (6% for referrer if user was referred)
+                if ($coinResult['success'] && isset($coinResult['transaction_id'])) {
+                    $referralManager = new \ModernQuiz\Modules\Referral\ReferralManager($this->db->getConnection());
+                    $referralManager->processCommission($userId, $coinsEarned, $coinResult['transaction_id']);
+                }
             }
         }
     }
