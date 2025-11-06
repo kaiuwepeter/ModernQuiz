@@ -968,10 +968,69 @@ class QuizSeederExtended {
         // Implementation folgt...
     }
 
+    /**
+     * Technik Extended (40 Fragen)
+     */
     private function seedTechnikExtended(): void {
         echo "Seeding Technik Extended...\n";
-        echo "  ✓ 40 Technik-Fragen würden hier hinzugefügt\n";
-        // Implementation folgt...
+
+        $quizId = $this->quizManager->createQuiz($this->defaultUserId, [
+            'title' => 'Technik Extended - Digitale Welt',
+            'description' => 'Von Computern bis Smartphones',
+            'category' => 'Technik',
+            'difficulty' => 'medium',
+            'time_limit' => 0,
+            'is_public' => true
+        ]);
+
+        $questions = [
+            ['question' => 'Wer gründete Apple?', 'answers' => [['text' => 'Bill Gates', 'correct' => false], ['text' => 'Steve Jobs', 'correct' => true], ['text' => 'Mark Zuckerberg', 'correct' => false], ['text' => 'Elon Musk', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was bedeutet "CPU"?', 'answers' => [['text' => 'Computer Processing Unit', 'correct' => false], ['text' => 'Central Processing Unit', 'correct' => true], ['text' => 'Central Program Unit', 'correct' => false], ['text' => 'Computer Program Unit', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'In welchem Jahr wurde das erste iPhone vorgestellt?', 'answers' => [['text' => '2005', 'correct' => false], ['text' => '2006', 'correct' => false], ['text' => '2007', 'correct' => true], ['text' => '2008', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist ein Algorithmus?', 'answers' => [['text' => 'Eine Programmiersprache', 'correct' => false], ['text' => 'Eine Rechenanleitung', 'correct' => true], ['text' => 'Ein Computer', 'correct' => false], ['text' => 'Eine App', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer erfand das World Wide Web?', 'answers' => [['text' => 'Bill Gates', 'correct' => false], ['text' => 'Tim Berners-Lee', 'correct' => true], ['text' => 'Steve Jobs', 'correct' => false], ['text' => 'Larry Page', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was bedeutet "RAM"?', 'answers' => [['text' => 'Random Access Memory', 'correct' => true], ['text' => 'Read Access Memory', 'correct' => false], ['text' => 'Rapid Access Memory', 'correct' => false], ['text' => 'Real Access Memory', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'In welchem Jahr wurde Google gegründet?', 'answers' => [['text' => '1996', 'correct' => false], ['text' => '1997', 'correct' => false], ['text' => '1998', 'correct' => true], ['text' => '1999', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Was ist HTML?', 'answers' => [['text' => 'Eine Programmiersprache', 'correct' => false], ['text' => 'Eine Markup-Sprache', 'correct' => true], ['text' => 'Ein Betriebssystem', 'correct' => false], ['text' => 'Ein Browser', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer entwickelte das Android-Betriebssystem?', 'answers' => [['text' => 'Apple', 'correct' => false], ['text' => 'Google', 'correct' => true], ['text' => 'Microsoft', 'correct' => false], ['text' => 'Samsung', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was bedeutet "USB"?', 'answers' => [['text' => 'Universal Serial Bus', 'correct' => true], ['text' => 'Universal System Bus', 'correct' => false], ['text' => 'Unified Serial Bus', 'correct' => false], ['text' => 'Universal Storage Bus', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer gründete Microsoft?', 'answers' => [['text' => 'Steve Jobs', 'correct' => false], ['text' => 'Bill Gates', 'correct' => true], ['text' => 'Larry Ellison', 'correct' => false], ['text' => 'Jeff Bezos', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist Python?', 'answers' => [['text' => 'Ein Betriebssystem', 'correct' => false], ['text' => 'Eine Programmiersprache', 'correct' => true], ['text' => 'Ein Browser', 'correct' => false], ['text' => 'Eine Datenbank', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'In welchem Jahr wurde Facebook gegründet?', 'answers' => [['text' => '2002', 'correct' => false], ['text' => '2003', 'correct' => false], ['text' => '2004', 'correct' => true], ['text' => '2005', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was bedeutet "WiFi"?', 'answers' => [['text' => 'Wireless Fidelity', 'correct' => true], ['text' => 'Wireless Finance', 'correct' => false], ['text' => 'Wide Fidelity', 'correct' => false], ['text' => 'Wireless Filter', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer ist der CEO von Tesla?', 'answers' => [['text' => 'Jeff Bezos', 'correct' => false], ['text' => 'Elon Musk', 'correct' => true], ['text' => 'Tim Cook', 'correct' => false], ['text' => 'Mark Zuckerberg', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist JavaScript?', 'answers' => [['text' => 'Eine Kaffeemarke', 'correct' => false], ['text' => 'Eine Programmiersprache', 'correct' => true], ['text' => 'Ein Betriebssystem', 'correct' => false], ['text' => 'Ein Browser', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'In welchem Jahr wurde YouTube gegründet?', 'answers' => [['text' => '2003', 'correct' => false], ['text' => '2004', 'correct' => false], ['text' => '2005', 'correct' => true], ['text' => '2006', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist Linux?', 'answers' => [['text' => 'Eine Programmiersprache', 'correct' => false], ['text' => 'Ein Betriebssystem', 'correct' => true], ['text' => 'Ein Browser', 'correct' => false], ['text' => 'Eine App', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer erfand das Telefon?', 'answers' => [['text' => 'Thomas Edison', 'correct' => false], ['text' => 'Alexander Graham Bell', 'correct' => true], ['text' => 'Nikola Tesla', 'correct' => false], ['text' => 'Guglielmo Marconi', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was bedeutet "PDF"?', 'answers' => [['text' => 'Portable Document Format', 'correct' => true], ['text' => 'Personal Document Format', 'correct' => false], ['text' => 'Public Document Format', 'correct' => false], ['text' => 'Printed Document Format', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'In welchem Jahr wurde Twitter gegründet?', 'answers' => [['text' => '2004', 'correct' => false], ['text' => '2005', 'correct' => false], ['text' => '2006', 'correct' => true], ['text' => '2007', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Was ist Bitcoin?', 'answers' => [['text' => 'Eine Aktie', 'correct' => false], ['text' => 'Eine Kryptowährung', 'correct' => true], ['text' => 'Ein Unternehmen', 'correct' => false], ['text' => 'Ein Zahlungssystem', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer entwickelte den ersten Computer?', 'answers' => [['text' => 'Bill Gates', 'correct' => false], ['text' => 'Charles Babbage', 'correct' => true], ['text' => 'Alan Turing', 'correct' => false], ['text' => 'Steve Jobs', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Was ist SQL?', 'answers' => [['text' => 'Eine Programmiersprache', 'correct' => false], ['text' => 'Eine Datenbanksprache', 'correct' => true], ['text' => 'Ein Betriebssystem', 'correct' => false], ['text' => 'Ein Browser', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'In welchem Jahr kam Windows 95 heraus?', 'answers' => [['text' => '1993', 'correct' => false], ['text' => '1994', 'correct' => false], ['text' => '1995', 'correct' => true], ['text' => '1996', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist ein Router?', 'answers' => [['text' => 'Ein Computer', 'correct' => false], ['text' => 'Ein Netzwerkgerät', 'correct' => true], ['text' => 'Ein Programm', 'correct' => false], ['text' => 'Ein Monitor', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer gründete Amazon?', 'answers' => [['text' => 'Bill Gates', 'correct' => false], ['text' => 'Jeff Bezos', 'correct' => true], ['text' => 'Elon Musk', 'correct' => false], ['text' => 'Mark Zuckerberg', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was bedeutet "GPU"?', 'answers' => [['text' => 'Graphics Processing Unit', 'correct' => true], ['text' => 'General Processing Unit', 'correct' => false], ['text' => 'Global Processing Unit', 'correct' => false], ['text' => 'Game Processing Unit', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'In welchem Jahr wurde das iPad vorgestellt?', 'answers' => [['text' => '2008', 'correct' => false], ['text' => '2009', 'correct' => false], ['text' => '2010', 'correct' => true], ['text' => '2011', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist Cloud Computing?', 'answers' => [['text' => 'Ein Betriebssystem', 'correct' => false], ['text' => 'Datenspeicherung im Internet', 'correct' => true], ['text' => 'Ein Programm', 'correct' => false], ['text' => 'Ein Browser', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer erfand die Glühbirne?', 'answers' => [['text' => 'Nikola Tesla', 'correct' => false], ['text' => 'Thomas Edison', 'correct' => true], ['text' => 'Benjamin Franklin', 'correct' => false], ['text' => 'Alexander Bell', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist Blockchain?', 'answers' => [['text' => 'Ein Spiel', 'correct' => false], ['text' => 'Eine Datenbank-Technologie', 'correct' => true], ['text' => 'Ein Betriebssystem', 'correct' => false], ['text' => 'Ein Browser', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'In welchem Jahr wurde Instagram gegründet?', 'answers' => [['text' => '2008', 'correct' => false], ['text' => '2009', 'correct' => false], ['text' => '2010', 'correct' => true], ['text' => '2011', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist ein Virus (Computer)?', 'answers' => [['text' => 'Ein Programm', 'correct' => false], ['text' => 'Schädliche Software', 'correct' => true], ['text' => 'Ein Betriebssystem', 'correct' => false], ['text' => 'Ein Browser', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer entwickelte Java?', 'answers' => [['text' => 'Microsoft', 'correct' => false], ['text' => 'Sun Microsystems', 'correct' => true], ['text' => 'Apple', 'correct' => false], ['text' => 'Google', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Was bedeutet "SSD"?', 'answers' => [['text' => 'Solid State Drive', 'correct' => true], ['text' => 'Super Storage Device', 'correct' => false], ['text' => 'System Storage Drive', 'correct' => false], ['text' => 'Secure Storage Device', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'In welchem Jahr wurde WhatsApp gegründet?', 'answers' => [['text' => '2007', 'correct' => false], ['text' => '2008', 'correct' => false], ['text' => '2009', 'correct' => true], ['text' => '2010', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Was ist Machine Learning?', 'answers' => [['text' => 'Ein Betriebssystem', 'correct' => false], ['text' => 'Künstliche Intelligenz', 'correct' => true], ['text' => 'Eine Programmiersprache', 'correct' => false], ['text' => 'Ein Browser', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer gründete SpaceX?', 'answers' => [['text' => 'Jeff Bezos', 'correct' => false], ['text' => 'Elon Musk', 'correct' => true], ['text' => 'Richard Branson', 'correct' => false], ['text' => 'Bill Gates', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist ein Pixel?', 'answers' => [['text' => 'Ein Programm', 'correct' => false], ['text' => 'Ein Bildpunkt', 'correct' => true], ['text' => 'Ein Monitor', 'correct' => false], ['text' => 'Ein Browser', 'correct' => false]], 'difficulty' => 'easy']
+        ];
+
+        foreach ($questions as $q) {
+            $this->quizManager->addQuestion($quizId, $q);
+        }
+
+        echo "  ✓ 40 Technik-Fragen hinzugefügt\n";
     }
 
     /**
@@ -1140,10 +1199,69 @@ class QuizSeederExtended {
         // Implementation folgt...
     }
 
+    /**
+     * Essen & Trinken Extended (40 Fragen)
+     */
     private function seedEssenExtended(): void {
         echo "Seeding Essen & Trinken Extended...\n";
-        echo "  ✓ 40 Essen-Fragen würden hier hinzugefügt\n";
-        // Implementation folgt...
+
+        $quizId = $this->quizManager->createQuiz($this->defaultUserId, [
+            'title' => 'Essen & Trinken Extended - Kulinarik',
+            'description' => 'Von Weltküche bis Getränke',
+            'category' => 'Essen & Trinken',
+            'difficulty' => 'medium',
+            'time_limit' => 0,
+            'is_public' => true
+        ]);
+
+        $questions = [
+            ['question' => 'Aus welchem Land kommt Sushi?', 'answers' => [['text' => 'China', 'correct' => false], ['text' => 'Japan', 'correct' => true], ['text' => 'Korea', 'correct' => false], ['text' => 'Thailand', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist in einer Margherita-Pizza?', 'answers' => [['text' => 'Schinken', 'correct' => false], ['text' => 'Tomate, Mozzarella, Basilikum', 'correct' => true], ['text' => 'Salami', 'correct' => false], ['text' => 'Thunfisch', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welches Getränk wird aus Hopfen gebraut?', 'answers' => [['text' => 'Wein', 'correct' => false], ['text' => 'Bier', 'correct' => true], ['text' => 'Whisky', 'correct' => false], ['text' => 'Wodka', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist Wasabi?', 'answers' => [['text' => 'Sojasauce', 'correct' => false], ['text' => 'Japanischer Meerrettich', 'correct' => true], ['text' => 'Ingwer', 'correct' => false], ['text' => 'Algen', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Aus welchem Land kommt Paella?', 'answers' => [['text' => 'Italien', 'correct' => false], ['text' => 'Spanien', 'correct' => true], ['text' => 'Frankreich', 'correct' => false], ['text' => 'Griechenland', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist Parmesan?', 'answers' => [['text' => 'Ein Gewürz', 'correct' => false], ['text' => 'Ein Käse', 'correct' => true], ['text' => 'Ein Wein', 'correct' => false], ['text' => 'Eine Sauce', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welche Zutat fehlt in veganer Ernährung?', 'answers' => [['text' => 'Gemüse', 'correct' => false], ['text' => 'Tierische Produkte', 'correct' => true], ['text' => 'Obst', 'correct' => false], ['text' => 'Getreide', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Aus welchem Land kommt Croissant?', 'answers' => [['text' => 'Italien', 'correct' => false], ['text' => 'Frankreich', 'correct' => true], ['text' => 'Spanien', 'correct' => false], ['text' => 'Deutschland', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist Tofu?', 'answers' => [['text' => 'Fleisch', 'correct' => false], ['text' => 'Sojaprodukt', 'correct' => true], ['text' => 'Fisch', 'correct' => false], ['text' => 'Gemüse', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welches Gewürz ist das teuerste der Welt?', 'answers' => [['text' => 'Vanille', 'correct' => false], ['text' => 'Safran', 'correct' => true], ['text' => 'Kardamom', 'correct' => false], ['text' => 'Zimt', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Aus welchem Land kommt Guacamole?', 'answers' => [['text' => 'Spanien', 'correct' => false], ['text' => 'Mexiko', 'correct' => true], ['text' => 'Brasilien', 'correct' => false], ['text' => 'Argentinien', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist Espresso?', 'answers' => [['text' => 'Tee', 'correct' => false], ['text' => 'Kaffeeart', 'correct' => true], ['text' => 'Wein', 'correct' => false], ['text' => 'Likör', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welche Zutat ist Hauptbestandteil von Hummus?', 'answers' => [['text' => 'Linsen', 'correct' => false], ['text' => 'Kichererbsen', 'correct' => true], ['text' => 'Bohnen', 'correct' => false], ['text' => 'Erbsen', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Aus welchem Land kommt Kimchi?', 'answers' => [['text' => 'Japan', 'correct' => false], ['text' => 'Korea', 'correct' => true], ['text' => 'China', 'correct' => false], ['text' => 'Vietnam', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist Gorgonzola?', 'answers' => [['text' => 'Ein Wein', 'correct' => false], ['text' => 'Ein Blauschimmelkäse', 'correct' => true], ['text' => 'Eine Pasta', 'correct' => false], ['text' => 'Eine Sauce', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welches Tier liefert Kaviar?', 'answers' => [['text' => 'Lachs', 'correct' => false], ['text' => 'Stör', 'correct' => true], ['text' => 'Thunfisch', 'correct' => false], ['text' => 'Forelle', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Aus welchem Land kommt Feta-Käse?', 'answers' => [['text' => 'Italien', 'correct' => false], ['text' => 'Griechenland', 'correct' => true], ['text' => 'Frankreich', 'correct' => false], ['text' => 'Spanien', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist in einem Cappuccino?', 'answers' => [['text' => 'Nur Kaffee', 'correct' => false], ['text' => 'Espresso, Milch, Milchschaum', 'correct' => true], ['text' => 'Nur Milch', 'correct' => false], ['text' => 'Tee', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welches Gemüse ist Hauptzutat von Sauerkraut?', 'answers' => [['text' => 'Karotte', 'correct' => false], ['text' => 'Weißkohl', 'correct' => true], ['text' => 'Rotkohl', 'correct' => false], ['text' => 'Gurke', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Aus welchem Land kommt Curry ursprünglich?', 'answers' => [['text' => 'Thailand', 'correct' => false], ['text' => 'Indien', 'correct' => true], ['text' => 'China', 'correct' => false], ['text' => 'Japan', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist Riesling?', 'answers' => [['text' => 'Ein Käse', 'correct' => false], ['text' => 'Eine Weinsorte', 'correct' => true], ['text' => 'Ein Gemüse', 'correct' => false], ['text' => 'Ein Brot', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welche Farbe hat Pesto alla Genovese?', 'answers' => [['text' => 'Rot', 'correct' => false], ['text' => 'Grün', 'correct' => true], ['text' => 'Weiß', 'correct' => false], ['text' => 'Gelb', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Aus welchem Land kommt Tapas?', 'answers' => [['text' => 'Italien', 'correct' => false], ['text' => 'Spanien', 'correct' => true], ['text' => 'Portugal', 'correct' => false], ['text' => 'Griechenland', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist Matcha?', 'answers' => [['text' => 'Kaffee', 'correct' => false], ['text' => 'Grüner Tee', 'correct' => true], ['text' => 'Schokolade', 'correct' => false], ['text' => 'Gewürz', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welches Fleisch wird für Peking-Ente verwendet?', 'answers' => [['text' => 'Huhn', 'correct' => false], ['text' => 'Ente', 'correct' => true], ['text' => 'Schwein', 'correct' => false], ['text' => 'Rind', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Aus welchem Land kommt Tiramisu?', 'answers' => [['text' => 'Frankreich', 'correct' => false], ['text' => 'Italien', 'correct' => true], ['text' => 'Spanien', 'correct' => false], ['text' => 'Griechenland', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist Quinoa?', 'answers' => [['text' => 'Ein Gemüse', 'correct' => false], ['text' => 'Ein Pseudogetreide', 'correct' => true], ['text' => 'Ein Obst', 'correct' => false], ['text' => 'Ein Gewürz', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welcher Cocktail enthält Rum, Minze und Limette?', 'answers' => [['text' => 'Caipirinha', 'correct' => false], ['text' => 'Mojito', 'correct' => true], ['text' => 'Pina Colada', 'correct' => false], ['text' => 'Daiquiri', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Aus welchem Land kommt Baklava?', 'answers' => [['text' => 'Griechenland', 'correct' => false], ['text' => 'Türkei', 'correct' => true], ['text' => 'Italien', 'correct' => false], ['text' => 'Spanien', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist Bruschetta?', 'answers' => [['text' => 'Eine Suppe', 'correct' => false], ['text' => 'Geröstetes Brot mit Belag', 'correct' => true], ['text' => 'Eine Pasta', 'correct' => false], ['text' => 'Ein Käse', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welches Getränk ist Nationalgetränk Russlands?', 'answers' => [['text' => 'Bier', 'correct' => false], ['text' => 'Wodka', 'correct' => true], ['text' => 'Whisky', 'correct' => false], ['text' => 'Rum', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Aus welchem Land kommt Ramen?', 'answers' => [['text' => 'China', 'correct' => false], ['text' => 'Japan', 'correct' => true], ['text' => 'Korea', 'correct' => false], ['text' => 'Vietnam', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist Chorizo?', 'answers' => [['text' => 'Ein Käse', 'correct' => false], ['text' => 'Eine Wurst', 'correct' => true], ['text' => 'Ein Wein', 'correct' => false], ['text' => 'Ein Gemüse', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welche Nuss wird für Nutella verwendet?', 'answers' => [['text' => 'Walnuss', 'correct' => false], ['text' => 'Haselnuss', 'correct' => true], ['text' => 'Mandel', 'correct' => false], ['text' => 'Erdnuss', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Aus welchem Land kommt Fondue?', 'answers' => [['text' => 'Frankreich', 'correct' => false], ['text' => 'Schweiz', 'correct' => true], ['text' => 'Deutschland', 'correct' => false], ['text' => 'Italien', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist Tabasco?', 'answers' => [['text' => 'Ein Gewürz', 'correct' => false], ['text' => 'Eine scharfe Sauce', 'correct' => true], ['text' => 'Ein Käse', 'correct' => false], ['text' => 'Ein Wein', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welcher Fisch wird für klassisches Sushi verwendet?', 'answers' => [['text' => 'Lachs oder Thunfisch', 'correct' => true], ['text' => 'Nur Forelle', 'correct' => false], ['text' => 'Nur Hering', 'correct' => false], ['text' => 'Nur Kabeljau', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Aus welchem Land kommt Sangria?', 'answers' => [['text' => 'Italien', 'correct' => false], ['text' => 'Spanien', 'correct' => true], ['text' => 'Portugal', 'correct' => false], ['text' => 'Frankreich', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist Bulgur?', 'answers' => [['text' => 'Ein Gewürz', 'correct' => false], ['text' => 'Vorgekochter Weizen', 'correct' => true], ['text' => 'Ein Käse', 'correct' => false], ['text' => 'Ein Gemüse', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welches Getränk wird aus Agave hergestellt?', 'answers' => [['text' => 'Rum', 'correct' => false], ['text' => 'Tequila', 'correct' => true], ['text' => 'Wodka', 'correct' => false], ['text' => 'Whisky', 'correct' => false]], 'difficulty' => 'medium']
+        ];
+
+        foreach ($questions as $q) {
+            $this->quizManager->addQuestion($quizId, $q);
+        }
+
+        echo "  ✓ 40 Essen & Trinken-Fragen hinzugefügt\n";
     }
 
     /**
