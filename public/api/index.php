@@ -710,6 +710,264 @@ try {
     }
 
     // ========================================
+    // BANK ENDPOINTS (User)
+    // ========================================
+
+    elseif ($segments[0] === 'bank') {
+        $bankManager = new \ModernQuiz\Modules\Bank\BankManager($pdo);
+
+        // POST /bank/deposit - Neue Einlage erstellen
+        if ($method === 'POST' && $segments[1] === 'deposit') {
+            $data = getJsonInput();
+
+            $coins = validateInt($data['coins'] ?? 0, 'coins', 0);
+            $bonusCoins = validateInt($data['bonus_coins'] ?? 0, 'bonus_coins', 0);
+
+            $response = $bankManager->createDeposit($authenticatedUserId, $coins, $bonusCoins);
+            sendResponse($response, $response['success'] ? 201 : 400);
+        }
+
+        // POST /bank/withdraw/{id}/early - Vorzeitige Auszahlung
+        elseif ($method === 'POST' && isset($segments[2]) && $segments[3] === 'early') {
+            $depositId = validateInt($segments[2], 'deposit_id', 1);
+            $response = $bankManager->withdrawEarly($authenticatedUserId, $depositId);
+            sendResponse($response, $response['success'] ? 200 : 400);
+        }
+
+        // POST /bank/withdraw/{id} - Normale Auszahlung (fällig)
+        elseif ($method === 'POST' && isset($segments[2]) && $segments[1] === 'withdraw') {
+            $depositId = validateInt($segments[2], 'deposit_id', 1);
+            $response = $bankManager->withdrawMatured($authenticatedUserId, $depositId);
+            sendResponse($response, $response['success'] ? 200 : 400);
+        }
+
+        // GET /bank/deposits - Eigene Einlagen
+        elseif ($method === 'GET' && $segments[1] === 'deposits') {
+            $filters = [];
+            if (isset($_GET['status'])) {
+                $filters['status'] = $_GET['status'];
+            }
+
+            $deposits = $bankManager->getUserDeposits($authenticatedUserId, $filters);
+            sendResponse(['success' => true, 'deposits' => $deposits]);
+        }
+
+        // GET /bank/balance - Bank-Kontostand
+        elseif ($method === 'GET' && $segments[1] === 'balance') {
+            $balance = $bankManager->getUserBankBalance($authenticatedUserId);
+            sendResponse(['success' => true, 'balance' => $balance]);
+        }
+
+        // GET /bank/statement - Kontoauszug
+        elseif ($method === 'GET' && $segments[1] === 'statement') {
+            $limit = validateInt($_GET['limit'] ?? 50, 'limit', 1, 100);
+            $offset = validateInt($_GET['offset'] ?? 0, 'offset', 0);
+
+            $coinManager = new \ModernQuiz\Modules\Coins\CoinManager($pdo);
+            $transactions = $coinManager->getUserTransactions($authenticatedUserId, $limit, $offset);
+
+            // Hole auch Bank-Transaktionen
+            $stmt = $pdo->prepare("
+                SELECT * FROM bank_transactions
+                WHERE user_id = ?
+                ORDER BY created_at DESC
+                LIMIT ? OFFSET ?
+            ");
+            $stmt->execute([$authenticatedUserId, $limit, $offset]);
+            $bankTransactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            sendResponse([
+                'success' => true,
+                'coin_transactions' => $transactions,
+                'bank_transactions' => $bankTransactions
+            ]);
+        }
+
+        else {
+            sendError('Bank endpoint not found', 404);
+        }
+    }
+
+    // ========================================
+    // ADMIN BANK ENDPOINTS
+    // ========================================
+
+    elseif ($segments[0] === 'admin' && $segments[1] === 'bank') {
+        // Require admin role
+        $authMiddleware->requireAdmin($authenticatedUserId);
+
+        $bankManager = new \ModernQuiz\Modules\Bank\BankManager($pdo);
+
+        // GET /admin/bank/deposits - Alle Einlagen
+        if ($method === 'GET' && $segments[2] === 'deposits') {
+            $filters = [];
+
+            if (isset($_GET['user_id'])) {
+                $filters['user_id'] = validateInt($_GET['user_id'], 'user_id', 1);
+            }
+
+            if (isset($_GET['status'])) {
+                $filters['status'] = $_GET['status'];
+            }
+
+            if (isset($_GET['is_locked'])) {
+                $filters['is_locked'] = (bool)$_GET['is_locked'];
+            }
+
+            $deposits = $bankManager->getAllDeposits($filters);
+            sendResponse(['success' => true, 'deposits' => $deposits]);
+        }
+
+        // PUT /admin/bank/deposits/{id}/lock - Einlage sperren
+        elseif ($method === 'PUT' && isset($segments[3]) && $segments[4] === 'lock') {
+            $depositId = validateInt($segments[3], 'deposit_id', 1);
+            $data = getJsonInput();
+            $reason = $data['reason'] ?? 'Keine Angabe';
+
+            $response = $bankManager->lockDeposit($depositId, $authenticatedUserId, $reason);
+            sendResponse($response, $response['success'] ? 200 : 400);
+        }
+
+        // PUT /admin/bank/deposits/{id}/unlock - Einlage entsperren
+        elseif ($method === 'PUT' && isset($segments[3]) && $segments[4] === 'unlock') {
+            $depositId = validateInt($segments[3], 'deposit_id', 1);
+            $response = $bankManager->unlockDeposit($depositId, $authenticatedUserId);
+            sendResponse($response, $response['success'] ? 200 : 400);
+        }
+
+        // PUT /admin/bank/deposits/{id}/release - Sofort freigeben
+        elseif ($method === 'PUT' && isset($segments[3]) && $segments[4] === 'release') {
+            $depositId = validateInt($segments[3], 'deposit_id', 1);
+            $response = $bankManager->releaseDeposit($depositId, $authenticatedUserId);
+            sendResponse($response, $response['success'] ? 200 : 400);
+        }
+
+        else {
+            sendError('Admin bank endpoint not found', 404);
+        }
+    }
+
+    // ========================================
+    // ADMIN USER ENDPOINTS
+    // ========================================
+
+    elseif ($segments[0] === 'admin' && $segments[1] === 'users') {
+        // Require admin role
+        $authMiddleware->requireAdmin($authenticatedUserId);
+
+        $adminUserManager = new \ModernQuiz\Modules\Admin\AdminUserManager($pdo);
+
+        // GET /admin/users - Alle User
+        if ($method === 'GET' && !isset($segments[2])) {
+            $filters = [];
+
+            if (isset($_GET['search'])) {
+                $filters['search'] = $_GET['search'];
+            }
+
+            if (isset($_GET['is_active'])) {
+                $filters['is_active'] = (int)$_GET['is_active'];
+            }
+
+            if (isset($_GET['role'])) {
+                $filters['role'] = $_GET['role'];
+            }
+
+            $users = $adminUserManager->getAllUsers($filters);
+            sendResponse(['success' => true, 'users' => $users]);
+        }
+
+        // GET /admin/users/{id} - User-Details
+        elseif ($method === 'GET' && isset($segments[2]) && is_numeric($segments[2])) {
+            $userId = validateInt($segments[2], 'user_id', 1);
+            $user = $adminUserManager->getUserDetails($userId);
+
+            if ($user) {
+                sendResponse(['success' => true, 'user' => $user]);
+            } else {
+                sendError('User nicht gefunden', 404);
+            }
+        }
+
+        // PUT /admin/users/{id}/lock - User sperren
+        elseif ($method === 'PUT' && isset($segments[2]) && $segments[3] === 'lock') {
+            $userId = validateInt($segments[2], 'user_id', 1);
+            $data = getJsonInput();
+            $reason = $data['reason'] ?? 'Keine Angabe';
+
+            $response = $adminUserManager->lockUser($userId, $authenticatedUserId, $reason);
+            sendResponse($response, $response['success'] ? 200 : 400);
+        }
+
+        // PUT /admin/users/{id}/unlock - User entsperren
+        elseif ($method === 'PUT' && isset($segments[2]) && $segments[3] === 'unlock') {
+            $userId = validateInt($segments[2], 'user_id', 1);
+            $response = $adminUserManager->unlockUser($userId, $authenticatedUserId);
+            sendResponse($response, $response['success'] ? 200 : 400);
+        }
+
+        // PUT /admin/users/{id}/email - Email ändern
+        elseif ($method === 'PUT' && isset($segments[2]) && $segments[3] === 'email') {
+            $userId = validateInt($segments[2], 'user_id', 1);
+            $data = getJsonInput();
+
+            if (!isset($data['email']) || empty($data['email'])) {
+                sendError('Email ist erforderlich', 400);
+            }
+
+            $response = $adminUserManager->changeUserEmail($userId, $authenticatedUserId, $data['email']);
+            sendResponse($response, $response['success'] ? 200 : 400);
+        }
+
+        // PUT /admin/users/{id}/password - Passwort ändern
+        elseif ($method === 'PUT' && isset($segments[2]) && $segments[3] === 'password') {
+            $userId = validateInt($segments[2], 'user_id', 1);
+            $data = getJsonInput();
+
+            if (!isset($data['password']) || empty($data['password'])) {
+                sendError('Passwort ist erforderlich', 400);
+            }
+
+            $response = $adminUserManager->changeUserPassword($userId, $authenticatedUserId, $data['password']);
+            sendResponse($response, $response['success'] ? 200 : 400);
+        }
+
+        // GET /admin/users/{id}/statement - Kontoauszug
+        elseif ($method === 'GET' && isset($segments[2]) && $segments[3] === 'statement') {
+            $userId = validateInt($segments[2], 'user_id', 1);
+            $limit = validateInt($_GET['limit'] ?? 50, 'limit', 1, 100);
+            $offset = validateInt($_GET['offset'] ?? 0, 'offset', 0);
+
+            $statement = $adminUserManager->getUserBankStatement($userId, $limit, $offset);
+            sendResponse(['success' => true, 'statement' => $statement]);
+        }
+
+        // GET /admin/actions - Admin-Aktionen Log
+        elseif ($method === 'GET' && $segments[2] === 'actions') {
+            $filters = [];
+
+            if (isset($_GET['admin_user_id'])) {
+                $filters['admin_user_id'] = validateInt($_GET['admin_user_id'], 'admin_user_id', 1);
+            }
+
+            if (isset($_GET['target_user_id'])) {
+                $filters['target_user_id'] = validateInt($_GET['target_user_id'], 'target_user_id', 1);
+            }
+
+            if (isset($_GET['action_type'])) {
+                $filters['action_type'] = $_GET['action_type'];
+            }
+
+            $actions = $adminUserManager->getAdminActions($filters);
+            sendResponse(['success' => true, 'actions' => $actions]);
+        }
+
+        else {
+            sendError('Admin user endpoint not found', 404);
+        }
+    }
+
+    // ========================================
     // 404 - ENDPOINT NOT FOUND
     // ========================================
 
