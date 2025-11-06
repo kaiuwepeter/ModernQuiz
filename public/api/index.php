@@ -604,6 +604,112 @@ try {
     }
 
     // ========================================
+    // VOUCHER ENDPOINTS (User)
+    // ========================================
+
+    elseif ($segments[0] === 'vouchers') {
+        $voucherManager = new \ModernQuiz\Modules\Voucher\VoucherManager($pdo);
+
+        // POST /vouchers/redeem
+        if ($method === 'POST' && $segments[1] === 'redeem') {
+            $data = getJsonInput();
+
+            if (!isset($data['code']) || empty(trim($data['code']))) {
+                sendError('Gutscheincode ist erforderlich', 400);
+            }
+
+            // Get IP and User Agent
+            $ipAddress = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+            $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
+
+            $response = $voucherManager->redeemVoucher(
+                $authenticatedUserId,
+                $data['code'],
+                $ipAddress,
+                $userAgent
+            );
+
+            sendResponse($response, $response['success'] ? 200 : 400);
+        }
+        else {
+            sendError('Voucher endpoint not found', 404);
+        }
+    }
+
+    // ========================================
+    // ADMIN VOUCHER ENDPOINTS
+    // ========================================
+
+    elseif ($segments[0] === 'admin' && $segments[1] === 'vouchers') {
+        // Require admin role
+        $authMiddleware->requireAdmin($authenticatedUserId);
+
+        $voucherManager = new \ModernQuiz\Modules\Voucher\VoucherManager($pdo);
+
+        // POST /admin/vouchers/create
+        if ($method === 'POST' && (!isset($segments[2]) || $segments[2] === 'create')) {
+            $data = getJsonInput();
+
+            $response = $voucherManager->createVoucher($authenticatedUserId, $data);
+            sendResponse($response, $response['success'] ? 201 : 400);
+        }
+
+        // GET /admin/vouchers
+        elseif ($method === 'GET' && !isset($segments[2])) {
+            $filters = [];
+
+            if (isset($_GET['is_active'])) {
+                $filters['is_active'] = (int)$_GET['is_active'];
+            }
+
+            if (isset($_GET['search']) && !empty($_GET['search'])) {
+                $filters['search'] = $_GET['search'];
+            }
+
+            $vouchers = $voucherManager->listVouchers($filters);
+            sendResponse(['success' => true, 'vouchers' => $vouchers]);
+        }
+
+        // GET /admin/vouchers/{id}/stats
+        elseif ($method === 'GET' && isset($segments[2]) && $segments[2] !== 'fraud-log' && isset($segments[3]) && $segments[3] === 'stats') {
+            $voucherId = validateInt($segments[2], 'voucher_id', 1);
+            $response = $voucherManager->getVoucherStats($voucherId);
+            sendResponse($response, $response['success'] ? 200 : 404);
+        }
+
+        // DELETE /admin/vouchers/{id}
+        elseif ($method === 'DELETE' && isset($segments[2])) {
+            $voucherId = validateInt($segments[2], 'voucher_id', 1);
+            $response = $voucherManager->deleteVoucher($voucherId, $authenticatedUserId);
+            sendResponse($response, $response['success'] ? 200 : 400);
+        }
+
+        // GET /admin/vouchers/fraud-log
+        elseif ($method === 'GET' && isset($segments[2]) && $segments[2] === 'fraud-log') {
+            $filters = [];
+
+            if (isset($_GET['user_id'])) {
+                $filters['user_id'] = validateInt($_GET['user_id'], 'user_id', 1);
+            }
+
+            if (isset($_GET['is_suspicious'])) {
+                $filters['is_suspicious'] = (bool)$_GET['is_suspicious'];
+            }
+
+            if (isset($_GET['admin_notified'])) {
+                $filters['admin_notified'] = (bool)$_GET['admin_notified'];
+            }
+
+            $logs = $voucherManager->getFraudLog($filters);
+            sendResponse(['success' => true, 'fraud_log' => $logs]);
+        }
+
+        else {
+            sendError('Admin voucher endpoint not found', 404);
+        }
+    }
+
+    // ========================================
     // 404 - ENDPOINT NOT FOUND
     // ========================================
 
