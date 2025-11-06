@@ -1045,10 +1045,69 @@ class QuizSeederExtended {
         // Implementation folgt...
     }
 
+    /**
+     * Film & Musik Extended (40 Fragen)
+     */
     private function seedFilmMusikExtended(): void {
         echo "Seeding Film & Musik Extended...\n";
-        echo "  ✓ 40 Film-Fragen würden hier hinzugefügt\n";
-        // Implementation folgt...
+
+        $quizId = $this->quizManager->createQuiz($this->defaultUserId, [
+            'title' => 'Film & Musik Extended - Pop Culture',
+            'description' => 'Von Hollywood bis zur Hitparade',
+            'category' => 'Film & Musik',
+            'difficulty' => 'medium',
+            'time_limit' => 0,
+            'is_public' => true
+        ]);
+
+        $questions = [
+            ['question' => 'Wer spielte Harry Potter?', 'answers' => [['text' => 'Rupert Grint', 'correct' => false], ['text' => 'Daniel Radcliffe', 'correct' => true], ['text' => 'Tom Felton', 'correct' => false], ['text' => 'Matthew Lewis', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welcher Film gewann 2020 den Oscar als bester Film?', 'answers' => [['text' => '1917', 'correct' => false], ['text' => 'Parasite', 'correct' => true], ['text' => 'Joker', 'correct' => false], ['text' => 'Once Upon a Time', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welche Band sang "Bohemian Rhapsody"?', 'answers' => [['text' => 'The Beatles', 'correct' => false], ['text' => 'Queen', 'correct' => true], ['text' => 'Led Zeppelin', 'correct' => false], ['text' => 'Pink Floyd', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Mitglieder hatten The Beatles?', 'answers' => [['text' => '3', 'correct' => false], ['text' => '4', 'correct' => true], ['text' => '5', 'correct' => false], ['text' => '6', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer führte Regie bei "Titanic"?', 'answers' => [['text' => 'Steven Spielberg', 'correct' => false], ['text' => 'James Cameron', 'correct' => true], ['text' => 'Martin Scorsese', 'correct' => false], ['text' => 'Christopher Nolan', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welcher Song ist von Michael Jackson?', 'answers' => [['text' => 'Purple Rain', 'correct' => false], ['text' => 'Thriller', 'correct' => true], ['text' => 'Like a Prayer', 'correct' => false], ['text' => 'Imagine', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'In welchem Jahr starb Elvis Presley?', 'answers' => [['text' => '1975', 'correct' => false], ['text' => '1976', 'correct' => false], ['text' => '1977', 'correct' => true], ['text' => '1978', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wer ist der Regisseur von "Pulp Fiction"?', 'answers' => [['text' => 'Quentin Tarantino', 'correct' => true], ['text' => 'Martin Scorsese', 'correct' => false], ['text' => 'Coen Brothers', 'correct' => false], ['text' => 'David Fincher', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welche Serie spielt in Westeros?', 'answers' => [['text' => 'Vikings', 'correct' => false], ['text' => 'Game of Thrones', 'correct' => true], ['text' => 'The Witcher', 'correct' => false], ['text' => 'Lord of the Rings', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer sang "Rolling in the Deep"?', 'answers' => [['text' => 'Taylor Swift', 'correct' => false], ['text' => 'Adele', 'correct' => true], ['text' => 'Beyoncé', 'correct' => false], ['text' => 'Rihanna', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'In welchem Film sagt man "May the Force be with you"?', 'answers' => [['text' => 'Star Trek', 'correct' => false], ['text' => 'Star Wars', 'correct' => true], ['text' => 'Alien', 'correct' => false], ['text' => 'Avatar', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie heißt der Hauptcharakter in "Breaking Bad"?', 'answers' => [['text' => 'Jesse Pinkman', 'correct' => false], ['text' => 'Walter White', 'correct' => true], ['text' => 'Hank Schrader', 'correct' => false], ['text' => 'Saul Goodman', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welche Band ist bekannt für "Stairway to Heaven"?', 'answers' => [['text' => 'The Rolling Stones', 'correct' => false], ['text' => 'Led Zeppelin', 'correct' => true], ['text' => 'Deep Purple', 'correct' => false], ['text' => 'Black Sabbath', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer spielte Iron Man im MCU?', 'answers' => [['text' => 'Chris Evans', 'correct' => false], ['text' => 'Robert Downey Jr.', 'correct' => true], ['text' => 'Chris Hemsworth', 'correct' => false], ['text' => 'Mark Ruffalo', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welcher Film gewann die meisten Oscars?', 'answers' => [['text' => 'Titanic', 'correct' => false], ['text' => 'Ben Hur / Titanic / LotR (je 11)', 'correct' => true], ['text' => 'Avatar', 'correct' => false], ['text' => 'Forrest Gump', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wer ist der "King of Pop"?', 'answers' => [['text' => 'Elvis Presley', 'correct' => false], ['text' => 'Michael Jackson', 'correct' => true], ['text' => 'Prince', 'correct' => false], ['text' => 'Freddie Mercury', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'In welchem Film spielt Tom Hanks einen Soldaten im 2. WK?', 'answers' => [['text' => 'Pearl Harbor', 'correct' => false], ['text' => 'Saving Private Ryan', 'correct' => true], ['text' => 'Fury', 'correct' => false], ['text' => 'Dunkirk', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welche Band sang "Hotel California"?', 'answers' => [['text' => 'The Doors', 'correct' => false], ['text' => 'Eagles', 'correct' => true], ['text' => 'Fleetwood Mac', 'correct' => false], ['text' => 'Creedence', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer komponierte die Musik für "Star Wars"?', 'answers' => [['text' => 'Hans Zimmer', 'correct' => false], ['text' => 'John Williams', 'correct' => true], ['text' => 'Ennio Morricone', 'correct' => false], ['text' => 'Danny Elfman', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welcher Rapper ist bekannt als "Slim Shady"?', 'answers' => [['text' => 'Dr. Dre', 'correct' => false], ['text' => 'Eminem', 'correct' => true], ['text' => '50 Cent', 'correct' => false], ['text' => 'Snoop Dogg', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'In welchem Jahr erschien der erste "Jurassic Park"?', 'answers' => [['text' => '1991', 'correct' => false], ['text' => '1992', 'correct' => false], ['text' => '1993', 'correct' => true], ['text' => '1994', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer sang "Like a Virgin"?', 'answers' => [['text' => 'Cher', 'correct' => false], ['text' => 'Madonna', 'correct' => true], ['text' => 'Cyndi Lauper', 'correct' => false], ['text' => 'Whitney Houston', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welcher Film begann das Marvel Cinematic Universe?', 'answers' => [['text' => 'The Hulk', 'correct' => false], ['text' => 'Iron Man', 'correct' => true], ['text' => 'Thor', 'correct' => false], ['text' => 'Captain America', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer ist der Frontmann von U2?', 'answers' => [['text' => 'The Edge', 'correct' => false], ['text' => 'Bono', 'correct' => true], ['text' => 'Adam Clayton', 'correct' => false], ['text' => 'Larry Mullen Jr.', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'In welchem Film spielt Leonardo DiCaprio einen Dieb in Träumen?', 'answers' => [['text' => 'Shutter Island', 'correct' => false], ['text' => 'Inception', 'correct' => true], ['text' => 'The Departed', 'correct' => false], ['text' => 'Django Unchained', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welches Instrument spielte Jimi Hendrix?', 'answers' => [['text' => 'Schlagzeug', 'correct' => false], ['text' => 'Gitarre', 'correct' => true], ['text' => 'Bass', 'correct' => false], ['text' => 'Keyboard', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer führte Regie bei "The Dark Knight"?', 'answers' => [['text' => 'Tim Burton', 'correct' => false], ['text' => 'Christopher Nolan', 'correct' => true], ['text' => 'Zack Snyder', 'correct' => false], ['text' => 'Matt Reeves', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welche Band hatte einen Hit mit "Smells Like Teen Spirit"?', 'answers' => [['text' => 'Pearl Jam', 'correct' => false], ['text' => 'Nirvana', 'correct' => true], ['text' => 'Soundgarden', 'correct' => false], ['text' => 'Alice in Chains', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'In welchem Film kämpft Russell Crowe als Gladiator?', 'answers' => [['text' => '300', 'correct' => false], ['text' => 'Gladiator', 'correct' => true], ['text' => 'Troy', 'correct' => false], ['text' => 'Ben Hur', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer sang "Purple Rain"?', 'answers' => [['text' => 'Michael Jackson', 'correct' => false], ['text' => 'Prince', 'correct' => true], ['text' => 'Stevie Wonder', 'correct' => false], ['text' => 'David Bowie', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welcher Film beginnt mit "Rosebud"?', 'answers' => [['text' => 'Casablanca', 'correct' => false], ['text' => 'Citizen Kane', 'correct' => true], ['text' => 'Gone with the Wind', 'correct' => false], ['text' => 'The Wizard of Oz', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wer ist der Sänger von Coldplay?', 'answers' => [['text' => 'Chris Martin', 'correct' => true], ['text' => 'Thom Yorke', 'correct' => false], ['text' => 'Brandon Flowers', 'correct' => false], ['text' => 'Alex Turner', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'In welchem Film sagt Arnold "I\'ll be back"?', 'answers' => [['text' => 'Predator', 'correct' => false], ['text' => 'The Terminator', 'correct' => true], ['text' => 'Total Recall', 'correct' => false], ['text' => 'Commando', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welche Sängerin ist bekannt als "Queen B"?', 'answers' => [['text' => 'Rihanna', 'correct' => false], ['text' => 'Beyoncé', 'correct' => true], ['text' => 'Lady Gaga', 'correct' => false], ['text' => 'Ariana Grande', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer spielte Jack in "Titanic"?', 'answers' => [['text' => 'Brad Pitt', 'correct' => false], ['text' => 'Leonardo DiCaprio', 'correct' => true], ['text' => 'Johnny Depp', 'correct' => false], ['text' => 'Tom Cruise', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welche Band ist bekannt für "Wonderwall"?', 'answers' => [['text' => 'Blur', 'correct' => false], ['text' => 'Oasis', 'correct' => true], ['text' => 'Radiohead', 'correct' => false], ['text' => 'The Verve', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'In welcher Serie arbeitet Dr. House?', 'answers' => [['text' => 'ER', 'correct' => false], ['text' => 'House M.D.', 'correct' => true], ['text' => 'Grey\'s Anatomy', 'correct' => false], ['text' => 'Scrubs', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer sang "Imagine"?', 'answers' => [['text' => 'Paul McCartney', 'correct' => false], ['text' => 'John Lennon', 'correct' => true], ['text' => 'George Harrison', 'correct' => false], ['text' => 'Bob Dylan', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welcher Film zeigt die Geschichte von Facebook?', 'answers' => [['text' => 'Steve Jobs', 'correct' => false], ['text' => 'The Social Network', 'correct' => true], ['text' => 'Pirates of Silicon Valley', 'correct' => false], ['text' => 'Jobs', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welche Band sang "We Will Rock You"?', 'answers' => [['text' => 'AC/DC', 'correct' => false], ['text' => 'Queen', 'correct' => true], ['text' => 'Kiss', 'correct' => false], ['text' => 'Aerosmith', 'correct' => false]], 'difficulty' => 'easy']
+        ];
+
+        foreach ($questions as $q) {
+            $this->quizManager->addQuestion($quizId, $q);
+        }
+
+        echo "  ✓ 40 Film & Musik-Fragen hinzugefügt\n";
     }
 
     private function seedLiteraturExtended(): void {
@@ -1087,9 +1146,68 @@ class QuizSeederExtended {
         // Implementation folgt...
     }
 
+    /**
+     * Tiere Extended (40 Fragen)
+     */
     private function seedTiereExtended(): void {
         echo "Seeding Tiere Extended...\n";
-        echo "  ✓ 40 Tier-Fragen würden hier hinzugefügt\n";
-        // Implementation folgt...
+
+        $quizId = $this->quizManager->createQuiz($this->defaultUserId, [
+            'title' => 'Tiere Extended - Tierwelt',
+            'description' => 'Von Säugetieren bis Insekten',
+            'category' => 'Tiere',
+            'difficulty' => 'medium',
+            'time_limit' => 0,
+            'is_public' => true
+        ]);
+
+        $questions = [
+            ['question' => 'Wie lange ist die Tragzeit eines Elefanten?', 'answers' => [['text' => '12 Monate', 'correct' => false], ['text' => '18 Monate', 'correct' => false], ['text' => '22 Monate', 'correct' => true], ['text' => '24 Monate', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Welches Tier lebt am längsten?', 'answers' => [['text' => 'Elefant', 'correct' => false], ['text' => 'Grönlandwal', 'correct' => true], ['text' => 'Schildkröte', 'correct' => false], ['text' => 'Mensch', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Können Pinguine fliegen?', 'answers' => [['text' => 'Ja', 'correct' => false], ['text' => 'Nein', 'correct' => true], ['text' => 'Nur kurze Strecken', 'correct' => false], ['text' => 'Nur im Wasser', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Beine hat ein Insekt?', 'answers' => [['text' => '4', 'correct' => false], ['text' => '6', 'correct' => true], ['text' => '8', 'correct' => false], ['text' => '10', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welches Tier kann nicht rückwärts laufen?', 'answers' => [['text' => 'Pferd', 'correct' => false], ['text' => 'Känguru', 'correct' => true], ['text' => 'Hund', 'correct' => false], ['text' => 'Katze', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie viele Herzen hat ein Oktopus?', 'answers' => [['text' => '1', 'correct' => false], ['text' => '2', 'correct' => false], ['text' => '3', 'correct' => true], ['text' => '4', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Welches Tier hat den höchsten Blutdruck?', 'answers' => [['text' => 'Elefant', 'correct' => false], ['text' => 'Giraffe', 'correct' => true], ['text' => 'Wal', 'correct' => false], ['text' => 'Nashorn', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wie heißt die männliche Biene?', 'answers' => [['text' => 'König', 'correct' => false], ['text' => 'Drohne', 'correct' => true], ['text' => 'Arbeiter', 'correct' => false], ['text' => 'Sumser', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welches Tier kann seinen Kopf um 270 Grad drehen?', 'answers' => [['text' => 'Adler', 'correct' => false], ['text' => 'Eule', 'correct' => true], ['text' => 'Falke', 'correct' => false], ['text' => 'Habicht', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie viele Zähne hat ein Hai normalerweise?', 'answers' => [['text' => '50-100', 'correct' => false], ['text' => '100-200', 'correct' => false], ['text' => '200-300', 'correct' => true], ['text' => '400-500', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Welches Tier schläft im Stehen?', 'answers' => [['text' => 'Kuh', 'correct' => false], ['text' => 'Pferd', 'correct' => true], ['text' => 'Schaf', 'correct' => false], ['text' => 'Ziege', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie schnell kann ein Gepard laufen?', 'answers' => [['text' => '80 km/h', 'correct' => false], ['text' => '100 km/h', 'correct' => false], ['text' => '120 km/h', 'correct' => true], ['text' => '140 km/h', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welches Tier hat die längste Zunge?', 'answers' => [['text' => 'Giraffe', 'correct' => false], ['text' => 'Ameisenbär', 'correct' => false], ['text' => 'Chamäleon', 'correct' => false], ['text' => 'Blauwal (relativ)', 'correct' => true]], 'difficulty' => 'hard'],
+            ['question' => 'Wie nennt man eine Gruppe von Löwen?', 'answers' => [['text' => 'Herde', 'correct' => false], ['text' => 'Rudel', 'correct' => true], ['text' => 'Schwarm', 'correct' => false], ['text' => 'Gruppe', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welches Tier ist ein Allesfresser?', 'answers' => [['text' => 'Löwe', 'correct' => false], ['text' => 'Bär', 'correct' => true], ['text' => 'Giraffe', 'correct' => false], ['text' => 'Kuh', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Augen hat eine Spinne normalerweise?', 'answers' => [['text' => '4', 'correct' => false], ['text' => '6', 'correct' => false], ['text' => '8', 'correct' => true], ['text' => '10', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welches Tier kann bis zu 3 Jahre ohne Wasser überleben?', 'answers' => [['text' => 'Kamel', 'correct' => false], ['text' => 'Känguru-Ratte', 'correct' => true], ['text' => 'Wüstenfuchs', 'correct' => false], ['text' => 'Skorpion', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wie heißt das Baby eines Kängurus?', 'answers' => [['text' => 'Kalb', 'correct' => false], ['text' => 'Joey', 'correct' => true], ['text' => 'Welpe', 'correct' => false], ['text' => 'Junges', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welches Tier hat keinen natürlichen Feind?', 'answers' => [['text' => 'Löwe', 'correct' => false], ['text' => 'Orca', 'correct' => true], ['text' => 'Elefant', 'correct' => false], ['text' => 'Bär', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie viele Flügel hat eine Biene?', 'answers' => [['text' => '2', 'correct' => false], ['text' => '4', 'correct' => true], ['text' => '6', 'correct' => false], ['text' => '8', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welches Tier kann sein Geschlecht ändern?', 'answers' => [['text' => 'Frosch', 'correct' => false], ['text' => 'Clownfisch', 'correct' => true], ['text' => 'Chamäleon', 'correct' => false], ['text' => 'Seepferdchen', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wie heißt das größte Landraubtier?', 'answers' => [['text' => 'Tiger', 'correct' => false], ['text' => 'Eisbär', 'correct' => true], ['text' => 'Löwe', 'correct' => false], ['text' => 'Grizzlybär', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welches Tier hat das größte Gehirn?', 'answers' => [['text' => 'Elefant', 'correct' => false], ['text' => 'Pottwal', 'correct' => true], ['text' => 'Delfin', 'correct' => false], ['text' => 'Mensch', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wie viele Halswirbel hat eine Giraffe?', 'answers' => [['text' => '5', 'correct' => false], ['text' => '7', 'correct' => true], ['text' => '10', 'correct' => false], ['text' => '15', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Welches Tier kann nicht springen?', 'answers' => [['text' => 'Kuh', 'correct' => false], ['text' => 'Elefant', 'correct' => true], ['text' => 'Nilpferd', 'correct' => false], ['text' => 'Nashorn', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie heißt die Haut eines Eisbären?', 'answers' => [['text' => 'Weiß', 'correct' => false], ['text' => 'Schwarz', 'correct' => true], ['text' => 'Rosa', 'correct' => false], ['text' => 'Grau', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Welches Tier hat den längsten Winterschlaf?', 'answers' => [['text' => 'Bär', 'correct' => false], ['text' => 'Siebenschläfer', 'correct' => true], ['text' => 'Igel', 'correct' => false], ['text' => 'Fledermaus', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wie viele Mägen hat eine Kuh?', 'answers' => [['text' => '1', 'correct' => false], ['text' => '2', 'correct' => false], ['text' => '4', 'correct' => true], ['text' => '6', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welches Tier kann bis zu 30 Minuten unter Wasser bleiben?', 'answers' => [['text' => 'Delfin', 'correct' => false], ['text' => 'Pottwal', 'correct' => true], ['text' => 'Seehund', 'correct' => false], ['text' => 'Otter', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wie nennt man das Geweih eines Hirsches?', 'answers' => [['text' => 'Hörner', 'correct' => false], ['text' => 'Geweih', 'correct' => true], ['text' => 'Krone', 'correct' => false], ['text' => 'Schaufel', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welches Tier produziert Seide?', 'answers' => [['text' => 'Spinne', 'correct' => false], ['text' => 'Seidenraupe', 'correct' => true], ['text' => 'Biene', 'correct' => false], ['text' => 'Ameise', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Tentakel hat ein Tintenfisch?', 'answers' => [['text' => '6', 'correct' => false], ['text' => '8', 'correct' => true], ['text' => '10', 'correct' => false], ['text' => '12', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welches Tier kann rückwärts fliegen?', 'answers' => [['text' => 'Adler', 'correct' => false], ['text' => 'Kolibri', 'correct' => true], ['text' => 'Schwalbe', 'correct' => false], ['text' => 'Specht', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie heißt das schnellste Landtier?', 'answers' => [['text' => 'Antilope', 'correct' => false], ['text' => 'Gepard', 'correct' => true], ['text' => 'Löwe', 'correct' => false], ['text' => 'Pferd', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welches Tier legt die größten Eier?', 'answers' => [['text' => 'Emu', 'correct' => false], ['text' => 'Strauß', 'correct' => true], ['text' => 'Kasuar', 'correct' => false], ['text' => 'Nandu', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Zehen hat eine Katze vorne?', 'answers' => [['text' => '4', 'correct' => false], ['text' => '5', 'correct' => true], ['text' => '6', 'correct' => false], ['text' => '7', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welches Tier hat das beste Gedächtnis?', 'answers' => [['text' => 'Delfin', 'correct' => false], ['text' => 'Elefant', 'correct' => true], ['text' => 'Schimpanse', 'correct' => false], ['text' => 'Rabe', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie nennt man männliche Enten?', 'answers' => [['text' => 'Hahn', 'correct' => false], ['text' => 'Erpel', 'correct' => true], ['text' => 'Enterich', 'correct' => false], ['text' => 'Ganter', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welches Tier hat Fingerabdrücke wie der Mensch?', 'answers' => [['text' => 'Gorilla', 'correct' => false], ['text' => 'Koala', 'correct' => true], ['text' => 'Schimpanse', 'correct' => false], ['text' => 'Orang-Utan', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wie viele Knochen hat eine Schlange?', 'answers' => [['text' => '100-200', 'correct' => false], ['text' => '200-400', 'correct' => true], ['text' => '50-100', 'correct' => false], ['text' => '400-600', 'correct' => false]], 'difficulty' => 'hard']
+        ];
+
+        foreach ($questions as $q) {
+            $this->quizManager->addQuestion($quizId, $q);
+        }
+
+        echo "  ✓ 40 Tier-Fragen hinzugefügt\n";
     }
 }
