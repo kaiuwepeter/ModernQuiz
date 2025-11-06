@@ -897,11 +897,69 @@ class QuizSeederExtended {
         echo "  ✓ 40 Geografie-Fragen hinzugefügt\n";
     }
 
-    // Platzhalter für weitere Kategorien (werden in separaten Methoden implementiert)
+    /**
+     * Geschichte Extended (40 Fragen)
+     */
     private function seedGeschichteExtended(): void {
         echo "Seeding Geschichte Extended...\n";
-        echo "  ✓ 40 Geschichte-Fragen würden hier hinzugefügt\n";
-        // Implementation folgt...
+
+        $quizId = $this->quizManager->createQuiz($this->defaultUserId, [
+            'title' => 'Geschichte Extended - Weltgeschichte',
+            'description' => 'Von der Antike bis zur Moderne',
+            'category' => 'Geschichte',
+            'difficulty' => 'medium',
+            'time_limit' => 0,
+            'is_public' => true
+        ]);
+
+        $questions = [
+            ['question' => 'In welchem Jahr endete der Zweite Weltkrieg?', 'answers' => [['text' => '1944', 'correct' => false], ['text' => '1945', 'correct' => true], ['text' => '1946', 'correct' => false], ['text' => '1947', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer war der erste Bundeskanzler Deutschlands?', 'answers' => [['text' => 'Willy Brandt', 'correct' => false], ['text' => 'Konrad Adenauer', 'correct' => true], ['text' => 'Helmut Kohl', 'correct' => false], ['text' => 'Ludwig Erhard', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'In welchem Jahr fiel die Berliner Mauer?', 'answers' => [['text' => '1987', 'correct' => false], ['text' => '1988', 'correct' => false], ['text' => '1989', 'correct' => true], ['text' => '1990', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer entdeckte Amerika?', 'answers' => [['text' => 'Amerigo Vespucci', 'correct' => false], ['text' => 'Christopher Columbus', 'correct' => true], ['text' => 'Ferdinand Magellan', 'correct' => false], ['text' => 'Vasco da Gama', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'In welchem Jahr begann der Erste Weltkrieg?', 'answers' => [['text' => '1912', 'correct' => false], ['text' => '1913', 'correct' => false], ['text' => '1914', 'correct' => true], ['text' => '1915', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer war Julius Caesar?', 'answers' => [['text' => 'Griechischer Philosoph', 'correct' => false], ['text' => 'Römischer Kaiser', 'correct' => false], ['text' => 'Römischer Feldherr', 'correct' => true], ['text' => 'Persischer König', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'In welchem Jahr landete Neil Armstrong auf dem Mond?', 'answers' => [['text' => '1967', 'correct' => false], ['text' => '1968', 'correct' => false], ['text' => '1969', 'correct' => true], ['text' => '1970', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer war Napoleon Bonaparte?', 'answers' => [['text' => 'Spanischer König', 'correct' => false], ['text' => 'Französischer Kaiser', 'correct' => true], ['text' => 'Italienischer Diktator', 'correct' => false], ['text' => 'Deutscher Fürst', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'In welchem Jahr begann die Französische Revolution?', 'answers' => [['text' => '1789', 'correct' => true], ['text' => '1790', 'correct' => false], ['text' => '1791', 'correct' => false], ['text' => '1792', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer erfand die Glühbirne?', 'answers' => [['text' => 'Nikola Tesla', 'correct' => false], ['text' => 'Thomas Edison', 'correct' => true], ['text' => 'Alexander Graham Bell', 'correct' => false], ['text' => 'Benjamin Franklin', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'In welchem Jahr wurde die DDR gegründet?', 'answers' => [['text' => '1947', 'correct' => false], ['text' => '1948', 'correct' => false], ['text' => '1949', 'correct' => true], ['text' => '1950', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer war Kleopatra?', 'answers' => [['text' => 'Griechische Göttin', 'correct' => false], ['text' => 'Ägyptische Königin', 'correct' => true], ['text' => 'Römische Kaiserin', 'correct' => false], ['text' => 'Persische Prinzessin', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'In welchem Jahr wurde das Römische Reich gegründet?', 'answers' => [['text' => '753 v.Chr.', 'correct' => true], ['text' => '500 v.Chr.', 'correct' => false], ['text' => '1000 v.Chr.', 'correct' => false], ['text' => '250 v.Chr.', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wer schrieb die 95 Thesen?', 'answers' => [['text' => 'Johannes Calvin', 'correct' => false], ['text' => 'Martin Luther', 'correct' => true], ['text' => 'Jan Hus', 'correct' => false], ['text' => 'Huldrych Zwingli', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'In welchem Jahr wurde die USA unabhängig?', 'answers' => [['text' => '1774', 'correct' => false], ['text' => '1775', 'correct' => false], ['text' => '1776', 'correct' => true], ['text' => '1777', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer war Alexander der Große?', 'answers' => [['text' => 'Römischer Kaiser', 'correct' => false], ['text' => 'Makedonischer König', 'correct' => true], ['text' => 'Griechischer Philosoph', 'correct' => false], ['text' => 'Persischer Herrscher', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'In welchem Jahr begann die Russische Revolution?', 'answers' => [['text' => '1915', 'correct' => false], ['text' => '1916', 'correct' => false], ['text' => '1917', 'correct' => true], ['text' => '1918', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer war Dschingis Khan?', 'answers' => [['text' => 'Chinesischer Kaiser', 'correct' => false], ['text' => 'Mongolischer Herrscher', 'correct' => true], ['text' => 'Japanischer Shogun', 'correct' => false], ['text' => 'Koreanischer König', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'In welchem Jahr begann die Industrielle Revolution?', 'answers' => [['text' => 'Mitte 17. Jh.', 'correct' => false], ['text' => 'Mitte 18. Jh.', 'correct' => true], ['text' => 'Mitte 19. Jh.', 'correct' => false], ['text' => 'Anfang 20. Jh.', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wer war Jeanne d\'Arc?', 'answers' => [['text' => 'Französische Heilige', 'correct' => true], ['text' => 'Englische Königin', 'correct' => false], ['text' => 'Spanische Nonne', 'correct' => false], ['text' => 'Italienische Malerin', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'In welchem Jahr endete der Dreißigjährige Krieg?', 'answers' => [['text' => '1646', 'correct' => false], ['text' => '1647', 'correct' => false], ['text' => '1648', 'correct' => true], ['text' => '1649', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wer war Otto von Bismarck?', 'answers' => [['text' => 'Preußischer König', 'correct' => false], ['text' => 'Deutscher Reichskanzler', 'correct' => true], ['text' => 'Österreichischer Kaiser', 'correct' => false], ['text' => 'Bayerischer Herzog', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'In welchem Jahr wurde die Berliner Mauer gebaut?', 'answers' => [['text' => '1959', 'correct' => false], ['text' => '1960', 'correct' => false], ['text' => '1961', 'correct' => true], ['text' => '1962', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer war Sokrates?', 'answers' => [['text' => 'Römischer Kaiser', 'correct' => false], ['text' => 'Griechischer Philosoph', 'correct' => true], ['text' => 'Ägyptischer Pharao', 'correct' => false], ['text' => 'Persischer König', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'In welchem Jahr wurde die UNO gegründet?', 'answers' => [['text' => '1943', 'correct' => false], ['text' => '1944', 'correct' => false], ['text' => '1945', 'correct' => true], ['text' => '1946', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer war Aristoteles?', 'answers' => [['text' => 'Römischer Dichter', 'correct' => false], ['text' => 'Griechischer Philosoph', 'correct' => true], ['text' => 'Makedonischer König', 'correct' => false], ['text' => 'Spartanischer General', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'In welchem Jahr wurde die Magna Carta unterzeichnet?', 'answers' => [['text' => '1215', 'correct' => true], ['text' => '1315', 'correct' => false], ['text' => '1415', 'correct' => false], ['text' => '1515', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wer war Leonardo da Vinci?', 'answers' => [['text' => 'Nur Maler', 'correct' => false], ['text' => 'Universalgelehrter', 'correct' => true], ['text' => 'Nur Erfinder', 'correct' => false], ['text' => 'Nur Architekt', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'In welchem Jahr war die Kubakrise?', 'answers' => [['text' => '1960', 'correct' => false], ['text' => '1961', 'correct' => false], ['text' => '1962', 'correct' => true], ['text' => '1963', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wer war Kolumbus Auftraggeber?', 'answers' => [['text' => 'König von Portugal', 'correct' => false], ['text' => 'Königin von Spanien', 'correct' => true], ['text' => 'König von England', 'correct' => false], ['text' => 'Papst', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'In welchem Jahr wurde die EU gegründet?', 'answers' => [['text' => '1990', 'correct' => false], ['text' => '1991', 'correct' => false], ['text' => '1992', 'correct' => false], ['text' => '1993', 'correct' => true]], 'difficulty' => 'medium'],
+            ['question' => 'Wer war Spartacus?', 'answers' => [['text' => 'Römischer Senator', 'correct' => false], ['text' => 'Gladiator und Anführer', 'correct' => true], ['text' => 'Griechischer Krieger', 'correct' => false], ['text' => 'Ägyptischer Sklave', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'In welchem Jahr wurde Gandhi ermordet?', 'answers' => [['text' => '1946', 'correct' => false], ['text' => '1947', 'correct' => false], ['text' => '1948', 'correct' => true], ['text' => '1949', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wer war Karl der Große?', 'answers' => [['text' => 'Römischer Kaiser', 'correct' => false], ['text' => 'Fränkischer König', 'correct' => true], ['text' => 'Byzantinischer Kaiser', 'correct' => false], ['text' => 'Deutscher Kaiser', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'In welchem Jahr begann der Vietnamkrieg?', 'answers' => [['text' => '1954', 'correct' => false], ['text' => '1955', 'correct' => true], ['text' => '1956', 'correct' => false], ['text' => '1957', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wer war Ramses II?', 'answers' => [['text' => 'Griechischer König', 'correct' => false], ['text' => 'Ägyptischer Pharao', 'correct' => true], ['text' => 'Persischer Kaiser', 'correct' => false], ['text' => 'Babylonischer Herrscher', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'In welchem Jahr endete der Kalte Krieg?', 'answers' => [['text' => '1989', 'correct' => false], ['text' => '1990', 'correct' => false], ['text' => '1991', 'correct' => true], ['text' => '1992', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer war Winston Churchill?', 'answers' => [['text' => 'US-Präsident', 'correct' => false], ['text' => 'Britischer Premierminister', 'correct' => true], ['text' => 'Französischer Präsident', 'correct' => false], ['text' => 'Deutscher Kanzler', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'In welchem Jahr wurde die NATO gegründet?', 'answers' => [['text' => '1947', 'correct' => false], ['text' => '1948', 'correct' => false], ['text' => '1949', 'correct' => true], ['text' => '1950', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wer war Attila?', 'answers' => [['text' => 'Römischer General', 'correct' => false], ['text' => 'Hunnenführer', 'correct' => true], ['text' => 'Gotenkönig', 'correct' => false], ['text' => 'Vandalenherrscher', 'correct' => false]], 'difficulty' => 'medium']
+        ];
+
+        foreach ($questions as $q) {
+            $this->quizManager->addQuestion($quizId, $q);
+        }
+
+        echo "  ✓ 40 Geschichte-Fragen hinzugefügt\n";
     }
 
     private function seedNaturwissenschaftenExtended(): void {
