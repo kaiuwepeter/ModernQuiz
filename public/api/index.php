@@ -387,8 +387,9 @@ try {
             $data = getJsonInput();
             $powerupId = validateInt($data['powerup_id'] ?? 0, 'powerup_id', 1);
             $quantity = validateInt($data['quantity'] ?? 1, 'quantity', 1, 100);
+            $currency = $data['currency'] ?? 'auto'; // 'coins', 'bonus_coins', or 'auto'
 
-            $response = $shopSystem->purchasePowerup($authenticatedUserId, $powerupId, $quantity);
+            $response = $shopSystem->purchasePowerup($authenticatedUserId, $powerupId, $quantity, $currency);
             sendResponse($response, $response['success'] ? 200 : 400);
         }
 
@@ -848,6 +849,88 @@ try {
     }
 
     // ========================================
+    // REFERRAL ENDPOINTS
+    // ========================================
+
+    elseif ($segments[0] === 'referral') {
+        $referralManager = new \ModernQuiz\Modules\Referral\ReferralManager($pdo);
+
+        // GET /referral/stats - User's referral statistics
+        if ($method === 'GET' && $segments[1] === 'stats') {
+            $stats = $referralManager->getReferralStats($authenticatedUserId);
+            sendResponse(['success' => true, 'stats' => $stats]);
+        }
+
+        // GET /referral/referred-users - List of referred users
+        elseif ($method === 'GET' && $segments[1] === 'referred-users') {
+            $users = $referralManager->getReferredUsers($authenticatedUserId);
+            sendResponse(['success' => true, 'referred_users' => $users]);
+        }
+
+        // GET /referral/earnings - Commission earnings history
+        elseif ($method === 'GET' && $segments[1] === 'earnings') {
+            $limit = validateInt($_GET['limit'] ?? 50, 'limit', 1, 100);
+            $offset = validateInt($_GET['offset'] ?? 0, 'offset', 0);
+
+            $earnings = $referralManager->getEarningsHistory($authenticatedUserId, $limit, $offset);
+            sendResponse(['success' => true, 'earnings' => $earnings]);
+        }
+
+        // GET /referral/code - Get user's referral code
+        elseif ($method === 'GET' && $segments[1] === 'code') {
+            $stmt = $pdo->prepare("SELECT referral_code FROM users WHERE id = ?");
+            $stmt->execute([$authenticatedUserId]);
+            $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+            sendResponse([
+                'success' => true,
+                'referral_code' => $result['referral_code'] ?? null
+            ]);
+        }
+
+        // POST /referral/generate-code - Generate new referral code
+        elseif ($method === 'POST' && $segments[1] === 'generate-code') {
+            $newCode = $referralManager->generateReferralCode($authenticatedUserId);
+
+            // Update user's referral code
+            $stmt = $pdo->prepare("UPDATE users SET referral_code = ? WHERE id = ?");
+            $stmt->execute([$newCode, $authenticatedUserId]);
+
+            sendResponse([
+                'success' => true,
+                'referral_code' => $newCode,
+                'message' => 'Neuer Referral-Code generiert'
+            ]);
+        }
+
+        else {
+            sendError('Referral endpoint not found', 404);
+        }
+    }
+
+    // ========================================
+    // ADMIN REFERRAL ENDPOINTS
+    // ========================================
+
+    elseif ($segments[0] === 'admin' && $segments[1] === 'referral') {
+        // Require admin role
+        $authMiddleware->requireAdmin($authenticatedUserId);
+
+        $referralManager = new \ModernQuiz\Modules\Referral\ReferralManager($pdo);
+
+        // GET /admin/referral/top-referrers - Top referrers leaderboard
+        if ($method === 'GET' && $segments[2] === 'top-referrers') {
+            $limit = validateInt($_GET['limit'] ?? 10, 'limit', 1, 100);
+            $topReferrers = $referralManager->getTopReferrers($limit);
+            sendResponse(['success' => true, 'top_referrers' => $topReferrers]);
+        }
+
+        else {
+            sendError('Admin referral endpoint not found', 404);
+        }
+    }
+
+    // ========================================
     // ADMIN USER ENDPOINTS
     // ========================================
 
@@ -962,8 +1045,93 @@ try {
             sendResponse(['success' => true, 'actions' => $actions]);
         }
 
+        // PUT /admin/users/{id}/role - Rolle ändern
+        elseif ($method === 'PUT' && isset($segments[2]) && $segments[3] === 'role') {
+            $userId = validateInt($segments[2], 'user_id', 1);
+            $data = getJsonInput();
+
+            if (!isset($data['role']) || empty($data['role'])) {
+                sendError('Rolle ist erforderlich', 400);
+            }
+
+            $response = $adminUserManager->changeUserRole($userId, $authenticatedUserId, $data['role']);
+            sendResponse($response, $response['success'] ? 200 : 400);
+        }
+
+        // DELETE /admin/users/{id} - User löschen (GDPR)
+        elseif ($method === 'DELETE' && isset($segments[2]) && !isset($segments[3])) {
+            $userId = validateInt($segments[2], 'user_id', 1);
+            $data = getJsonInput();
+            $reason = $data['reason'] ?? 'Admin deletion';
+
+            $response = $adminUserManager->deleteUser($userId, $authenticatedUserId, $reason);
+            sendResponse($response, $response['success'] ? 200 : 400);
+        }
+
+        // POST /admin/users/{id}/logout-all - Alle Sessions beenden
+        elseif ($method === 'POST' && isset($segments[2]) && $segments[3] === 'logout-all') {
+            $userId = validateInt($segments[2], 'user_id', 1);
+
+            $response = $adminUserManager->logoutAllSessions($userId, $authenticatedUserId);
+            sendResponse($response, $response['success'] ? 200 : 400);
+        }
+
+        // PUT /admin/users/{id}/reset-2fa - 2FA zurücksetzen
+        elseif ($method === 'PUT' && isset($segments[2]) && $segments[3] === 'reset-2fa') {
+            $userId = validateInt($segments[2], 'user_id', 1);
+
+            $response = $adminUserManager->reset2FA($userId, $authenticatedUserId);
+            sendResponse($response, $response['success'] ? 200 : 400);
+        }
+
+        // POST /admin/users/batch-lock - Mehrere User sperren
+        elseif ($method === 'POST' && $segments[2] === 'batch-lock') {
+            $data = getJsonInput();
+
+            if (!isset($data['user_ids']) || !is_array($data['user_ids'])) {
+                sendError('user_ids Array ist erforderlich', 400);
+            }
+
+            $reason = $data['reason'] ?? 'Batch lock';
+            $response = $adminUserManager->batchLockUsers($data['user_ids'], $authenticatedUserId, $reason);
+            sendResponse($response, $response['success'] ? 200 : 400);
+        }
+
+        // POST /admin/users/batch-unlock - Mehrere User entsperren
+        elseif ($method === 'POST' && $segments[2] === 'batch-unlock') {
+            $data = getJsonInput();
+
+            if (!isset($data['user_ids']) || !is_array($data['user_ids'])) {
+                sendError('user_ids Array ist erforderlich', 400);
+            }
+
+            $response = $adminUserManager->batchUnlockUsers($data['user_ids'], $authenticatedUserId);
+            sendResponse($response, $response['success'] ? 200 : 400);
+        }
+
         else {
             sendError('Admin user endpoint not found', 404);
+        }
+    }
+
+    // ========================================
+    // ADMIN DASHBOARD ENDPOINTS
+    // ========================================
+
+    elseif ($segments[0] === 'admin' && $segments[1] === 'dashboard') {
+        // Require admin role
+        $authMiddleware->requireAdmin($authenticatedUserId);
+
+        $adminUserManager = new \ModernQuiz\Modules\Admin\AdminUserManager($pdo);
+
+        // GET /admin/dashboard/stats - Dashboard Statistiken
+        if ($method === 'GET' && $segments[2] === 'stats') {
+            $stats = $adminUserManager->getDashboardStats();
+            sendResponse(['success' => true, 'stats' => $stats]);
+        }
+
+        else {
+            sendError('Admin dashboard endpoint not found', 404);
         }
     }
 

@@ -595,4 +595,323 @@ class AdminUserManager {
         $stmt->bind_param('isss', $userId, $type, $title, $message);
         $stmt->execute();
     }
+
+    /**
+     * NEU: Ändert die Rolle eines Users
+     * WICHTIG: User ID 1 kann NIEMALS geändert werden (Super-Admin)
+     */
+    public function changeUserRole(int $userId, int $adminId, string $newRole): array {
+        // SCHUTZ: User ID 1 ist unantastbar
+        if ($userId === 1) {
+            return ['success' => false, 'error' => 'User ID 1 (Super-Admin) kann nicht geändert werden'];
+        }
+
+        // Validiere Rolle
+        $validRoles = ['user', 'admin', 'moderator'];
+        if (!in_array($newRole, $validRoles)) {
+            return ['success' => false, 'error' => 'Ungültige Rolle'];
+        }
+
+        try {
+            $this->db->begin_transaction();
+
+            $user = $this->getUserById($userId);
+            if (!$user) {
+                $this->db->rollback();
+                return ['success' => false, 'error' => 'User nicht gefunden'];
+            }
+
+            $oldRole = $user['role'];
+
+            $stmt = $this->db->prepare("UPDATE users SET role = ? WHERE id = ?");
+            $stmt->bind_param('si', $newRole, $userId);
+            $stmt->execute();
+
+            $this->logAdminAction(
+                $adminId,
+                $userId,
+                'user_role_change',
+                "Rolle geändert von {$oldRole} zu {$newRole}",
+                ['old_role' => $oldRole, 'new_role' => $newRole],
+                $oldRole,
+                $newRole
+            );
+
+            $this->notifyUser($userId, 'role_changed', 'Deine Rolle wurde geändert', "Deine Rolle ist jetzt: {$newRole}");
+
+            $this->db->commit();
+
+            return ['success' => true, 'message' => 'Rolle erfolgreich geändert', 'old_role' => $oldRole, 'new_role' => $newRole];
+
+        } catch (\Exception $e) {
+            $this->db->rollback();
+            error_log("AdminUserManager::changeUserRole error: " . $e->getMessage());
+            return ['success' => false, 'error' => 'Fehler beim Ändern der Rolle'];
+        }
+    }
+
+    /**
+     * NEU: Löscht einen User (GDPR)
+     */
+    public function deleteUser(int $userId, int $adminId, string $reason): array {
+        if ($userId === 1) {
+            return ['success' => false, 'error' => 'User ID 1 (Super-Admin) kann nicht gelöscht werden'];
+        }
+
+        try {
+            $this->db->begin_transaction();
+
+            $user = $this->getUserById($userId);
+            if (!$user) {
+                $this->db->rollback();
+                return ['success' => false, 'error' => 'User nicht gefunden'];
+            }
+
+            // Lösche User (Cascade löscht automatisch zugehörige Daten)
+            $stmt = $this->db->prepare("DELETE FROM users WHERE id = ?");
+            $stmt->bind_param('i', $userId);
+            $stmt->execute();
+
+            $this->logAdminAction(
+                $adminId,
+                null, // User existiert nicht mehr
+                'user_delete',
+                "User gelöscht: {$user['username']} ({$user['email']}). Grund: {$reason}",
+                ['deleted_user_id' => $userId, 'username' => $user['username'], 'email' => $user['email'], 'reason' => $reason],
+                "User ID: {$userId}",
+                "GELÖSCHT"
+            );
+
+            $this->db->commit();
+
+            return ['success' => true, 'message' => 'User erfolgreich gelöscht'];
+
+        } catch (\Exception $e) {
+            $this->db->rollback();
+            error_log("AdminUserManager::deleteUser error: " . $e->getMessage());
+            return ['success' => false, 'error' => 'Fehler beim Löschen des Users'];
+        }
+    }
+
+    /**
+     * NEU: Beendet alle Sessions eines Users
+     */
+    public function logoutAllSessions(int $userId, int $adminId): array {
+        try {
+            $this->db->begin_transaction();
+
+            $user = $this->getUserById($userId);
+            if (!$user) {
+                $this->db->rollback();
+                return ['success' => false, 'error' => 'User nicht gefunden'];
+            }
+
+            $stmt = $this->db->prepare("
+                UPDATE sessions
+                SET expires_at = NOW()
+                WHERE user_id = ? AND expires_at > NOW()
+            ");
+            $stmt->bind_param('i', $userId);
+            $stmt->execute();
+            $affectedSessions = $stmt->affected_rows;
+
+            $this->logAdminAction(
+                $adminId,
+                $userId,
+                'user_logout_all',
+                "Alle Sessions beendet ({$affectedSessions} Sessions)",
+                ['sessions_terminated' => $affectedSessions]
+            );
+
+            $this->notifyUser($userId, 'sessions_terminated', 'Alle Sessions beendet', 'Ein Administrator hat alle deine aktiven Sessions beendet. Bitte logge dich erneut ein.');
+
+            $this->db->commit();
+
+            return ['success' => true, 'message' => "{$affectedSessions} Session(s) beendet"];
+
+        } catch (\Exception $e) {
+            $this->db->rollback();
+            error_log("AdminUserManager::logoutAllSessions error: " . $e->getMessage());
+            return ['success' => false, 'error' => 'Fehler beim Beenden der Sessions'];
+        }
+    }
+
+    /**
+     * NEU: Setzt 2FA zurück
+     */
+    public function reset2FA(int $userId, int $adminId): array {
+        try {
+            $this->db->begin_transaction();
+
+            $user = $this->getUserById($userId);
+            if (!$user) {
+                $this->db->rollback();
+                return ['success' => false, 'error' => 'User nicht gefunden'];
+            }
+
+            $stmt = $this->db->prepare("
+                UPDATE users
+                SET two_factor_enabled = 0,
+                    two_factor_secret = NULL
+                WHERE id = ?
+            ");
+            $stmt->bind_param('i', $userId);
+            $stmt->execute();
+
+            $this->logAdminAction(
+                $adminId,
+                $userId,
+                'user_2fa_reset',
+                "2FA zurückgesetzt",
+                null
+            );
+
+            $this->notifyUser($userId, '2fa_reset', '2FA zurückgesetzt', 'Deine Zwei-Faktor-Authentifizierung wurde von einem Administrator zurückgesetzt. Du kannst 2FA in den Einstellungen neu einrichten.');
+
+            $this->db->commit();
+
+            return ['success' => true, 'message' => '2FA erfolgreich zurückgesetzt'];
+
+        } catch (\Exception $e) {
+            $this->db->rollback();
+            error_log("AdminUserManager::reset2FA error: " . $e->getMessage());
+            return ['success' => false, 'error' => 'Fehler beim Zurücksetzen von 2FA'];
+        }
+    }
+
+    /**
+     * NEU: Batch-Operation - Mehrere User sperren
+     */
+    public function batchLockUsers(array $userIds, int $adminId, string $reason): array {
+        $locked = 0;
+        $failed = 0;
+        $errors = [];
+
+        foreach ($userIds as $userId) {
+            if ($userId === 1) {
+                $errors[] = "User ID 1 übersprungen (Super-Admin)";
+                $failed++;
+                continue;
+            }
+
+            $result = $this->lockUser($userId, $adminId, $reason);
+            if ($result['success']) {
+                $locked++;
+            } else {
+                $failed++;
+                $errors[] = "User {$userId}: {$result['error']}";
+            }
+        }
+
+        return [
+            'success' => true,
+            'locked' => $locked,
+            'failed' => $failed,
+            'errors' => $errors
+        ];
+    }
+
+    /**
+     * NEU: Batch-Operation - Mehrere User entsperren
+     */
+    public function batchUnlockUsers(array $userIds, int $adminId): array {
+        $unlocked = 0;
+        $failed = 0;
+        $errors = [];
+
+        foreach ($userIds as $userId) {
+            $result = $this->unlockUser($userId, $adminId);
+            if ($result['success']) {
+                $unlocked++;
+            } else {
+                $failed++;
+                $errors[] = "User {$userId}: {$result['error']}";
+            }
+        }
+
+        return [
+            'success' => true,
+            'unlocked' => $unlocked,
+            'failed' => $failed,
+            'errors' => $errors
+        ];
+    }
+
+    /**
+     * NEU: Dashboard-Statistiken
+     */
+    public function getDashboardStats(): array {
+        $stats = [];
+
+        // User-Statistiken
+        $result = $this->db->query("
+            SELECT
+                COUNT(*) as total_users,
+                SUM(CASE WHEN is_active = 1 THEN 1 ELSE 0 END) as active_users,
+                SUM(CASE WHEN is_active = 0 THEN 1 ELSE 0 END) as locked_users,
+                SUM(CASE WHEN created_at >= CURDATE() THEN 1 ELSE 0 END) as new_today,
+                SUM(CASE WHEN role = 'admin' THEN 1 ELSE 0 END) as admin_count
+            FROM users
+        ");
+        $stats['users'] = $result->fetch_assoc();
+
+        // Bank-Statistiken
+        $result = $this->db->query("
+            SELECT
+                COUNT(*) as total_deposits,
+                SUM(CASE WHEN status = 'active' THEN 1 ELSE 0 END) as active_deposits,
+                SUM(CASE WHEN status = 'matured' THEN 1 ELSE 0 END) as matured_deposits,
+                SUM(CASE WHEN status = 'completed' THEN total_payout ELSE 0 END) as total_paid_out,
+                SUM(CASE WHEN status = 'completed' THEN interest_earned ELSE 0 END) as total_interest_paid,
+                SUM(CASE WHEN status = 'cancelled' THEN penalty_fee ELSE 0 END) as total_penalties_collected
+            FROM bank_deposits
+        ");
+        $stats['bank'] = $result->fetch_assoc();
+
+        // Voucher-Statistiken
+        $result = $this->db->query("
+            SELECT
+                COUNT(*) as total_vouchers,
+                SUM(CASE WHEN is_active = 1 THEN 1 ELSE 0 END) as active_vouchers,
+                (SELECT COUNT(*) FROM voucher_redemptions) as total_redemptions,
+                (SELECT COUNT(*) FROM voucher_fraud_log WHERE created_at >= CURDATE()) as fraud_attempts_today
+            FROM vouchers
+        ");
+        $stats['vouchers'] = $result->fetch_assoc();
+
+        // Referral-Statistiken
+        $result = $this->db->query("
+            SELECT
+                SUM(total_referrals) as total_referrals,
+                SUM(total_commission_earned) as total_commission_paid,
+                COUNT(*) as users_with_referrals
+            FROM referral_stats
+            WHERE total_referrals > 0
+        ");
+        $stats['referrals'] = $result->fetch_assoc();
+
+        // Coin-Statistiken
+        $result = $this->db->query("
+            SELECT
+                SUM(coins) as total_coins,
+                SUM(bonus_coins) as total_bonus_coins,
+                AVG(coins) as avg_coins_per_user,
+                AVG(bonus_coins) as avg_bonus_coins_per_user
+            FROM user_stats
+        ");
+        $stats['coins'] = $result->fetch_assoc();
+
+        // Aktivität heute
+        $result = $this->db->query("
+            SELECT
+                (SELECT COUNT(*) FROM sessions WHERE created_at >= CURDATE()) as sessions_today,
+                (SELECT COUNT(*) FROM quiz_sessions WHERE started_at >= CURDATE()) as quizzes_today,
+                (SELECT COUNT(*) FROM shop_purchases WHERE purchased_at >= CURDATE()) as purchases_today,
+                (SELECT COUNT(*) FROM coin_transactions WHERE created_at >= CURDATE()) as transactions_today
+        ");
+        $stats['activity'] = $result->fetch_assoc();
+
+        return $stats;
+    }
 }
+

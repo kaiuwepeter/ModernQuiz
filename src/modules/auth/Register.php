@@ -211,36 +211,38 @@ class Register
 
     /**
      * Process referral bonus for both referrer and new user
+     * Using ReferralManager: 300 Bonus Coins for both + 6% commission setup
      */
     private function processReferralBonus(int $referrerId, int $newUserId): void
     {
-        $referrerBonus = (int)($_ENV['REFERRAL_BONUS_FOR_REFERRER'] ?? 50);
-        $newUserBonus = (int)($_ENV['REFERRAL_BONUS_POINTS'] ?? 100);
+        // Use new ReferralManager for complete referral processing
+        $referralManager = new \ModernQuiz\Modules\Referral\ReferralManager($this->db);
 
-        // Award bonus to referrer
-        $stmt = $this->db->prepare("
-            UPDATE users
-            SET coins = coins + ?,
-                referral_count = referral_count + 1
-            WHERE id = ?
-        ");
-        $stmt->execute([$referrerBonus, $referrerId]);
+        // Get referrer's referral code
+        $stmt = $this->db->prepare("SELECT referral_code FROM users WHERE id = ?");
+        $stmt->execute([$referrerId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $referralCode = $result['referral_code'] ?? null;
 
-        // Award bonus to new user (already has 100 coins from INSERT, add bonus)
-        $stmt = $this->db->prepare("
-            UPDATE users
-            SET coins = coins + ?
-            WHERE id = ?
-        ");
-        $stmt->execute([$newUserBonus, $newUserId]);
+        if ($referralCode) {
+            // Process registration referral: 300 Bonus Coins for both users + setup 6% commission
+            $result = $referralManager->processRegistrationReferral($newUserId, $referralCode);
 
-        // Send notification to referrer
-        $this->mailer->sendTemplate(
-            $this->getUserEmail($referrerId),
-            'Neuer Referral-Bonus erhalten!',
-            'referral_success',
-            ['bonus' => $referrerBonus]
-        );
+            if ($result['success']) {
+                // Send notification to referrer
+                $this->mailer->sendTemplate(
+                    $this->getUserEmail($referrerId),
+                    'Neuer Referral-Bonus erhalten!',
+                    'referral_success',
+                    [
+                        'bonus' => $result['bonus_coins_received'] ?? 300,
+                        'referred_username' => $this->getUsername($newUserId)
+                    ]
+                );
+            } else {
+                error_log("ReferralManager error: " . ($result['error'] ?? 'Unknown error'));
+            }
+        }
     }
 
     /**
@@ -252,6 +254,17 @@ class Register
         $stmt->execute([$userId]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['email'] ?? '';
+    }
+
+    /**
+     * Get username by ID
+     */
+    private function getUsername(int $userId): string
+    {
+        $stmt = $this->db->prepare("SELECT username FROM users WHERE id = ?");
+        $stmt->execute([$userId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['username'] ?? '';
     }
 
     /**
