@@ -58,6 +58,8 @@ class ReferralManager {
 
     /**
      * Verarbeitet Referral bei User-Registration
+     * WICHTIG: Zahlt KEINE 300 Bonus Coins sofort aus!
+     * Coins werden erst nach 10 abgeschlossenen Quizzes ausgezahlt.
      *
      * @param int $newUserId Der neue User
      * @param string|null $referralCode Code des Werbers
@@ -101,44 +103,14 @@ class ReferralManager {
             $stmt->bind_param('ii', $referrerId, $newUserId);
             $stmt->execute();
 
-            // 3. Hole Settings
-            $settings = $this->getSettings();
-            $bonusCoins = (float)$settings['referral_bonus_coins'];
-
-            // 4. Gebe BEIDEN Usern 300 Bonus Coins
-            $coinManager = new \ModernQuiz\Modules\Coins\CoinManager($this->db);
-
-            // Werber bekommt 300 Bonus Coins
-            $coinManager->addCoins(
-                $referrerId,
-                0,
-                $bonusCoins,
-                \ModernQuiz\Modules\Coins\CoinManager::TX_REFERRAL_BONUS,
-                'referral',
-                $newUserId,
-                "Referral-Bonus: User {$newUserId} geworben",
-                ['referred_user_id' => $newUserId]
-            );
-
-            // Geworbener bekommt 300 Bonus Coins
-            $coinManager->addCoins(
-                $newUserId,
-                0,
-                $bonusCoins,
-                \ModernQuiz\Modules\Coins\CoinManager::TX_REFERRAL_BONUS,
-                'referral',
-                $referrerId,
-                "Willkommens-Bonus: Von User {$referrerId} geworben",
-                ['referrer_user_id' => $referrerId]
-            );
-
-            // 5. Update Referral Stats für Werber
+            // 3. Initialisiere Referral Stats für BEIDE User (bonus_paid = FALSE)
+            // Werber Stats
             $this->updateReferralStats($referrerId, 'add_referral', [
                 'referred_user_id' => $newUserId,
-                'bonus_received' => $bonusCoins
+                'bonus_received' => 0 // KEINE Coins sofort
             ]);
 
-            // 6. Erstelle Referral Stats für Geworbenen
+            // 4. Erstelle Referral Stats für Geworbenen (bonus_paid = FALSE)
             $this->createReferralStats($newUserId);
 
             $this->db->commit();
@@ -147,8 +119,7 @@ class ReferralManager {
                 'success' => true,
                 'referrer_id' => $referrerId,
                 'referrer_username' => $referrer['username'],
-                'bonus_coins_received' => $bonusCoins,
-                'message' => "Willkommen! Du und {$referrer['username']} habt je {$bonusCoins} Bonus Coins erhalten!"
+                'message' => "Willkommen! Du und {$referrer['username']} erhaltet je 300 Bonus Coins nach 10 abgeschlossenen Quizzes!"
             ];
 
         } catch (\Exception $e) {
@@ -460,5 +431,124 @@ class ReferralManager {
         }
 
         return $topReferrers;
+    }
+
+    /**
+     * Prüft ob User 10 Quizzes abgeschlossen hat und zahlt ggf. Registrierungs-Bonus aus
+     *
+     * WICHTIG: Diese Methode wird nach JEDEM Quiz-Ende (endSession) aufgerufen
+     * Sie zahlt nur EINMAL die 300 Bonus Coins aus - nach dem 10. Quiz
+     *
+     * @param int $userId Der User der gerade ein Quiz beendet hat
+     * @return array|null
+     */
+    public function checkAndPayRegistrationBonus(int $userId): ?array {
+        try {
+            // 1. Prüfe ob User geworben wurde
+            $stmt = $this->db->prepare("
+                SELECT referred_by FROM users WHERE id = ?
+            ");
+            $stmt->bind_param('i', $userId);
+            $stmt->execute();
+            $result = $stmt->get_result()->fetch_assoc();
+
+            if (!$result || !$result['referred_by']) {
+                // User wurde nicht geworben
+                return null;
+            }
+
+            $referrerId = (int)$result['referred_by'];
+
+            // 2. Prüfe ob Bonus bereits ausgezahlt wurde
+            $stmt = $this->db->prepare("
+                SELECT registration_bonus_paid FROM referral_stats WHERE user_id = ?
+            ");
+            $stmt->bind_param('i', $userId);
+            $stmt->execute();
+            $stats = $stmt->get_result()->fetch_assoc();
+
+            if ($stats && $stats['registration_bonus_paid']) {
+                // Bonus wurde bereits ausgezahlt
+                return null;
+            }
+
+            // 3. Zähle abgeschlossene Quizzes
+            $stmt = $this->db->prepare("
+                SELECT COUNT(*) as completed_quizzes
+                FROM quiz_sessions
+                WHERE user_id = ? AND status = 'completed'
+            ");
+            $stmt->bind_param('i', $userId);
+            $stmt->execute();
+            $quizCount = $stmt->get_result()->fetch_assoc();
+
+            $completedQuizzes = (int)$quizCount['completed_quizzes'];
+
+            if ($completedQuizzes < 10) {
+                // Noch nicht 10 Quizzes abgeschlossen
+                return null;
+            }
+
+            // 4. ALLE Bedingungen erfüllt! Zahle 300 Bonus Coins an BEIDE aus
+            $this->db->begin_transaction();
+
+            $settings = $this->getSettings();
+            $bonusCoins = (float)$settings['referral_bonus_coins'];
+
+            $coinManager = new \ModernQuiz\Modules\Coins\CoinManager($this->db);
+
+            // Geworbener bekommt 300 Bonus Coins
+            $coinManager->addCoins(
+                $userId,
+                0,
+                $bonusCoins,
+                \ModernQuiz\Modules\Coins\CoinManager::TX_REFERRAL_BONUS,
+                'referral',
+                $referrerId,
+                "Referral-Bonus freigeschaltet: 10 Quizzes abgeschlossen!",
+                ['referrer_user_id' => $referrerId, 'completed_quizzes' => $completedQuizzes]
+            );
+
+            // Werber bekommt 300 Bonus Coins
+            $coinManager->addCoins(
+                $referrerId,
+                0,
+                $bonusCoins,
+                \ModernQuiz\Modules\Coins\CoinManager::TX_REFERRAL_BONUS,
+                'referral',
+                $userId,
+                "Referral-Bonus: User {$userId} hat 10 Quizzes abgeschlossen!",
+                ['referred_user_id' => $userId, 'completed_quizzes' => $completedQuizzes]
+            );
+
+            // 5. Markiere Bonus als ausgezahlt für BEIDE
+            $stmt = $this->db->prepare("
+                UPDATE referral_stats
+                SET registration_bonus_paid = TRUE,
+                    registration_bonus_paid_at = NOW(),
+                    total_bonus_received = total_bonus_received + ?
+                WHERE user_id IN (?, ?)
+            ");
+            $stmt->bind_param('dii', $bonusCoins, $userId, $referrerId);
+            $stmt->execute();
+
+            $this->db->commit();
+
+            return [
+                'success' => true,
+                'bonus_paid' => $bonusCoins,
+                'referred_user_id' => $userId,
+                'referrer_user_id' => $referrerId,
+                'completed_quizzes' => $completedQuizzes,
+                'message' => "Glückwunsch! {$bonusCoins} Bonus Coins freigeschaltet nach {$completedQuizzes} Quizzes!"
+            ];
+
+        } catch (\Exception $e) {
+            if ($this->db->inTransaction()) {
+                $this->db->rollback();
+            }
+            error_log("ReferralManager::checkAndPayRegistrationBonus error: " . $e->getMessage());
+            return null;
+        }
     }
 }

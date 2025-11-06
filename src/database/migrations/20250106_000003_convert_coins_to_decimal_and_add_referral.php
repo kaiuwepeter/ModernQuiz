@@ -152,6 +152,9 @@ class ConvertCoinsToDecimalAndAddReferral {
                 total_commission_earned DECIMAL(10,2) DEFAULT 0.00 COMMENT 'Gesamt-Provision verdient',
                 total_bonus_received DECIMAL(10,2) DEFAULT 0.00 COMMENT 'Gesamt Bonus Coins erhalten',
 
+                registration_bonus_paid BOOLEAN DEFAULT FALSE COMMENT 'Wurde der 300 Bonus bereits ausgezahlt?',
+                registration_bonus_paid_at TIMESTAMP NULL COMMENT 'Wann wurde der Bonus ausgezahlt?',
+
                 last_referral_at TIMESTAMP NULL,
 
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

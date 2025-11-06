@@ -154,6 +154,19 @@ class QuizEngine
      */
     public function endSession(int $sessionId): array
     {
+        // Hole User ID vor dem Update
+        $session = $this->db->fetch(
+            "SELECT user_id FROM quiz_sessions WHERE id = ?",
+            [$sessionId]
+        );
+
+        if (!$session) {
+            return ['success' => false, 'message' => 'Session nicht gefunden'];
+        }
+
+        $userId = (int)$session['user_id'];
+
+        // Markiere Session als completed
         $this->db->query(
             "UPDATE quiz_sessions SET status = 'completed', completed_at = NOW() WHERE id = ?",
             [$sessionId]
@@ -164,10 +177,22 @@ class QuizEngine
             [$sessionId]
         );
 
-        return [
+        $response = [
             'success' => true,
             'stats' => $stats
         ];
+
+        // WICHTIG: Prüfe ob User 10 Quizzes abgeschlossen hat → 300 Bonus Coins Auszahlung
+        $referralManager = new \ModernQuiz\Modules\Referral\ReferralManager($this->db->getConnection());
+        $bonusResult = $referralManager->checkAndPayRegistrationBonus($userId);
+
+        if ($bonusResult && $bonusResult['success']) {
+            // Bonus wurde ausgezahlt!
+            $response['referral_bonus'] = $bonusResult;
+            $response['message'] = $bonusResult['message'];
+        }
+
+        return $response;
     }
 
     /**
