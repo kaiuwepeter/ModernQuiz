@@ -1157,10 +1157,69 @@ class QuizSeederExtended {
         echo "  ✓ 40 Sport-Fragen hinzugefügt\n";
     }
 
+    /**
+     * Kunst & Kultur Extended (40 Fragen)
+     */
     private function seedKunstKulturExtended(): void {
         echo "Seeding Kunst & Kultur Extended...\n";
-        echo "  ✓ 40 Kunst-Fragen würden hier hinzugefügt\n";
-        // Implementation folgt...
+
+        $quizId = $this->quizManager->createQuiz($this->defaultUserId, [
+            'title' => 'Kunst & Kultur Extended - Kulturwissen',
+            'description' => 'Von Malerei bis Architektur',
+            'category' => 'Kunst & Kultur',
+            'difficulty' => 'medium',
+            'time_limit' => 0,
+            'is_public' => true
+        ]);
+
+        $questions = [
+            ['question' => 'Wer malte die Mona Lisa?', 'answers' => [['text' => 'Michelangelo', 'correct' => false], ['text' => 'Leonardo da Vinci', 'correct' => true], ['text' => 'Raphael', 'correct' => false], ['text' => 'Donatello', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'In welcher Stadt steht der Eiffelturm?', 'answers' => [['text' => 'London', 'correct' => false], ['text' => 'Paris', 'correct' => true], ['text' => 'Rom', 'correct' => false], ['text' => 'Berlin', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer schuf die Skulptur "David"?', 'answers' => [['text' => 'Leonardo', 'correct' => false], ['text' => 'Michelangelo', 'correct' => true], ['text' => 'Donatello', 'correct' => false], ['text' => 'Bernini', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welcher Kunststil ist Salvador Dalí zuzuordnen?', 'answers' => [['text' => 'Impressionismus', 'correct' => false], ['text' => 'Surrealismus', 'correct' => true], ['text' => 'Kubismus', 'correct' => false], ['text' => 'Expressionismus', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'In welchem Museum hängt die Mona Lisa?', 'answers' => [['text' => 'Uffizien', 'correct' => false], ['text' => 'Louvre', 'correct' => true], ['text' => 'Prado', 'correct' => false], ['text' => 'Rijksmuseum', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer malte "Die Sternennacht"?', 'answers' => [['text' => 'Monet', 'correct' => false], ['text' => 'Van Gogh', 'correct' => true], ['text' => 'Renoir', 'correct' => false], ['text' => 'Degas', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welche Epoche kam nach der Renaissance?', 'answers' => [['text' => 'Gotik', 'correct' => false], ['text' => 'Barock', 'correct' => true], ['text' => 'Romantik', 'correct' => false], ['text' => 'Klassizismus', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'In welcher Stadt steht die Sixtinische Kapelle?', 'answers' => [['text' => 'Florenz', 'correct' => false], ['text' => 'Vatikanstadt', 'correct' => true], ['text' => 'Venedig', 'correct' => false], ['text' => 'Mailand', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer malte "Guernica"?', 'answers' => [['text' => 'Dalí', 'correct' => false], ['text' => 'Picasso', 'correct' => true], ['text' => 'Miró', 'correct' => false], ['text' => 'Goya', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist ein Fresko?', 'answers' => [['text' => 'Skulptur', 'correct' => false], ['text' => 'Wandmalerei', 'correct' => true], ['text' => 'Mosaik', 'correct' => false], ['text' => 'Tapisserie', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welcher Architekt entwarf die Sagrada Família?', 'answers' => [['text' => 'Le Corbusier', 'correct' => false], ['text' => 'Antoni Gaudí', 'correct' => true], ['text' => 'Frank Lloyd Wright', 'correct' => false], ['text' => 'Zaha Hadid', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer komponierte "Die vier Jahreszeiten"?', 'answers' => [['text' => 'Bach', 'correct' => false], ['text' => 'Vivaldi', 'correct' => true], ['text' => 'Mozart', 'correct' => false], ['text' => 'Beethoven', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'In welchem Land entstand die Renaissance?', 'answers' => [['text' => 'Frankreich', 'correct' => false], ['text' => 'Italien', 'correct' => true], ['text' => 'Spanien', 'correct' => false], ['text' => 'Deutschland', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer malte "Das Abendmahl"?', 'answers' => [['text' => 'Michelangelo', 'correct' => false], ['text' => 'Leonardo da Vinci', 'correct' => true], ['text' => 'Raphael', 'correct' => false], ['text' => 'Tizian', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist Impressionismus?', 'answers' => [['text' => 'Musikrichtung', 'correct' => false], ['text' => 'Kunststil', 'correct' => true], ['text' => 'Tanzstil', 'correct' => false], ['text' => 'Architektur', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welche Farben sind Primärfarben?', 'answers' => [['text' => 'Grün, Orange, Lila', 'correct' => false], ['text' => 'Rot, Gelb, Blau', 'correct' => true], ['text' => 'Schwarz, Weiß, Grau', 'correct' => false], ['text' => 'Rosa, Türkis, Gold', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer schuf "Der Denker"?', 'answers' => [['text' => 'Michelangelo', 'correct' => false], ['text' => 'Auguste Rodin', 'correct' => true], ['text' => 'Bernini', 'correct' => false], ['text' => 'Donatello', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'In welcher Stadt steht das Kolosseum?', 'answers' => [['text' => 'Athen', 'correct' => false], ['text' => 'Rom', 'correct' => true], ['text' => 'Istanbul', 'correct' => false], ['text' => 'Kairo', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer malte "Der Schrei"?', 'answers' => [['text' => 'Klimt', 'correct' => false], ['text' => 'Edvard Munch', 'correct' => true], ['text' => 'Schiele', 'correct' => false], ['text' => 'Kandinsky', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist Kubismus?', 'answers' => [['text' => 'Musikstil', 'correct' => false], ['text' => 'Kunststil', 'correct' => true], ['text' => 'Architekturstil', 'correct' => false], ['text' => 'Tanzstil', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer komponierte die 9. Sinfonie?', 'answers' => [['text' => 'Mozart', 'correct' => false], ['text' => 'Beethoven', 'correct' => true], ['text' => 'Bach', 'correct' => false], ['text' => 'Haydn', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'In welcher Stadt steht das Brandenburger Tor?', 'answers' => [['text' => 'München', 'correct' => false], ['text' => 'Berlin', 'correct' => true], ['text' => 'Hamburg', 'correct' => false], ['text' => 'Wien', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer malte "Die Geburt der Venus"?', 'answers' => [['text' => 'Da Vinci', 'correct' => false], ['text' => 'Botticelli', 'correct' => true], ['text' => 'Raphael', 'correct' => false], ['text' => 'Caravaggio', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Was ist ein Triptychon?', 'answers' => [['text' => 'Skulptur', 'correct' => false], ['text' => 'Dreiteiliges Altarbild', 'correct' => true], ['text' => 'Musikstück', 'correct' => false], ['text' => 'Gedicht', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Welcher Maler schnitt sich das Ohr ab?', 'answers' => [['text' => 'Picasso', 'correct' => false], ['text' => 'Van Gogh', 'correct' => true], ['text' => 'Gauguin', 'correct' => false], ['text' => 'Cézanne', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'In welchem Land steht Stonehenge?', 'answers' => [['text' => 'Irland', 'correct' => false], ['text' => 'England', 'correct' => true], ['text' => 'Schottland', 'correct' => false], ['text' => 'Wales', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer komponierte "Eine kleine Nachtmusik"?', 'answers' => [['text' => 'Beethoven', 'correct' => false], ['text' => 'Mozart', 'correct' => true], ['text' => 'Haydn', 'correct' => false], ['text' => 'Schubert', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist Art Nouveau?', 'answers' => [['text' => 'Tanzstil', 'correct' => false], ['text' => 'Jugendstil', 'correct' => true], ['text' => 'Musikrichtung', 'correct' => false], ['text' => 'Literaturform', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welche Pyramide ist die größte?', 'answers' => [['text' => 'Maya-Pyramide', 'correct' => false], ['text' => 'Cheops-Pyramide', 'correct' => true], ['text' => 'Azteken-Pyramide', 'correct' => false], ['text' => 'Stufenpyramide', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer malte "American Gothic"?', 'answers' => [['text' => 'Warhol', 'correct' => false], ['text' => 'Grant Wood', 'correct' => true], ['text' => 'Hopper', 'correct' => false], ['text' => 'Pollock', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'In welcher Stadt steht die Oper von Sydney?', 'answers' => [['text' => 'Melbourne', 'correct' => false], ['text' => 'Sydney', 'correct' => true], ['text' => 'Brisbane', 'correct' => false], ['text' => 'Perth', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer komponierte "Der Nussknacker"?', 'answers' => [['text' => 'Strauss', 'correct' => false], ['text' => 'Tschaikowsky', 'correct' => true], ['text' => 'Brahms', 'correct' => false], ['text' => 'Wagner', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist Gothic?', 'answers' => [['text' => 'Musikstil', 'correct' => false], ['text' => 'Architekturstil', 'correct' => true], ['text' => 'Tanzstil', 'correct' => false], ['text' => 'Malstil', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welches Material nutzte Michelangelo für David?', 'answers' => [['text' => 'Bronze', 'correct' => false], ['text' => 'Marmor', 'correct' => true], ['text' => 'Holz', 'correct' => false], ['text' => 'Stein', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'In welcher Stadt steht der Schiefe Turm?', 'answers' => [['text' => 'Rom', 'correct' => false], ['text' => 'Pisa', 'correct' => true], ['text' => 'Florenz', 'correct' => false], ['text' => 'Venedig', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer malte "Die Nachtwache"?', 'answers' => [['text' => 'Vermeer', 'correct' => false], ['text' => 'Rembrandt', 'correct' => true], ['text' => 'Rubens', 'correct' => false], ['text' => 'Van Dyck', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist ein Relief?', 'answers' => [['text' => 'Gemälde', 'correct' => false], ['text' => 'Erhabene Skulptur', 'correct' => true], ['text' => 'Mosaik', 'correct' => false], ['text' => 'Fresko', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer komponierte "Carmen"?', 'answers' => [['text' => 'Verdi', 'correct' => false], ['text' => 'Bizet', 'correct' => true], ['text' => 'Puccini', 'correct' => false], ['text' => 'Rossini', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'In welchem Stil ist der Petersdom?', 'answers' => [['text' => 'Gotik', 'correct' => false], ['text' => 'Renaissance & Barock', 'correct' => true], ['text' => 'Romanik', 'correct' => false], ['text' => 'Klassizismus', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wer malte "Mädchen mit dem Perlenohrring"?', 'answers' => [['text' => 'Rembrandt', 'correct' => false], ['text' => 'Vermeer', 'correct' => true], ['text' => 'Rubens', 'correct' => false], ['text' => 'Hals', 'correct' => false]], 'difficulty' => 'medium']
+        ];
+
+        foreach ($questions as $q) {
+            $this->quizManager->addQuestion($quizId, $q);
+        }
+
+        echo "  ✓ 40 Kunst & Kultur-Fragen hinzugefügt\n";
     }
 
     /**
@@ -1228,22 +1287,199 @@ class QuizSeederExtended {
         echo "  ✓ 40 Film & Musik-Fragen hinzugefügt\n";
     }
 
+    /**
+     * Literatur Extended (40 Fragen)
+     */
     private function seedLiteraturExtended(): void {
         echo "Seeding Literatur Extended...\n";
-        echo "  ✓ 40 Literatur-Fragen würden hier hinzugefügt\n";
-        // Implementation folgt...
+
+        $quizId = $this->quizManager->createQuiz($this->defaultUserId, [
+            'title' => 'Literatur Extended - Bücherwelt',
+            'description' => 'Von Klassikern bis moderne Literatur',
+            'category' => 'Literatur',
+            'difficulty' => 'medium',
+            'time_limit' => 0,
+            'is_public' => true
+        ]);
+
+        $questions = [
+            ['question' => 'Wer schrieb "Faust"?', 'answers' => [['text' => 'Schiller', 'correct' => false], ['text' => 'Goethe', 'correct' => true], ['text' => 'Heine', 'correct' => false], ['text' => 'Lessing', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer schrieb "Romeo und Julia"?', 'answers' => [['text' => 'Marlowe', 'correct' => false], ['text' => 'Shakespeare', 'correct' => true], ['text' => 'Dante', 'correct' => false], ['text' => 'Chaucer', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer schrieb "1984"?', 'answers' => [['text' => 'Huxley', 'correct' => false], ['text' => 'George Orwell', 'correct' => true], ['text' => 'Bradbury', 'correct' => false], ['text' => 'Asimov', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer schrieb "Der Herr der Ringe"?', 'answers' => [['text' => 'C.S. Lewis', 'correct' => false], ['text' => 'J.R.R. Tolkien', 'correct' => true], ['text' => 'Terry Pratchett', 'correct' => false], ['text' => 'George R.R. Martin', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer schrieb "Harry Potter"?', 'answers' => [['text' => 'Suzanne Collins', 'correct' => false], ['text' => 'J.K. Rowling', 'correct' => true], ['text' => 'Stephanie Meyer', 'correct' => false], ['text' => 'Veronica Roth', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer schrieb "Die Verwandlung"?', 'answers' => [['text' => 'Mann', 'correct' => false], ['text' => 'Kafka', 'correct' => true], ['text' => 'Hesse', 'correct' => false], ['text' => 'Brecht', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer schrieb "Der alte Mann und das Meer"?', 'answers' => [['text' => 'Steinbeck', 'correct' => false], ['text' => 'Hemingway', 'correct' => true], ['text' => 'Faulkner', 'correct' => false], ['text' => 'Fitzgerald', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer schrieb "Stolz und Vorurteil"?', 'answers' => [['text' => 'Brontë', 'correct' => false], ['text' => 'Jane Austen', 'correct' => true], ['text' => 'Eliot', 'correct' => false], ['text' => 'Shelley', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer schrieb "Moby Dick"?', 'answers' => [['text' => 'Twain', 'correct' => false], ['text' => 'Melville', 'correct' => true], ['text' => 'Poe', 'correct' => false], ['text' => 'Hawthorne', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer schrieb "Die Odyssee"?', 'answers' => [['text' => 'Sophokles', 'correct' => false], ['text' => 'Homer', 'correct' => true], ['text' => 'Euripides', 'correct' => false], ['text' => 'Aristophanes', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer schrieb "Krieg und Frieden"?', 'answers' => [['text' => 'Dostojewski', 'correct' => false], ['text' => 'Tolstoi', 'correct' => true], ['text' => 'Tschechow', 'correct' => false], ['text' => 'Gogol', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer schrieb "Der kleine Prinz"?', 'answers' => [['text' => 'Camus', 'correct' => false], ['text' => 'Saint-Exupéry', 'correct' => true], ['text' => 'Sartre', 'correct' => false], ['text' => 'Proust', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer schrieb "Hamlet"?', 'answers' => [['text' => 'Marlowe', 'correct' => false], ['text' => 'Shakespeare', 'correct' => true], ['text' => 'Jonson', 'correct' => false], ['text' => 'Webster', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer schrieb "Die Pest"?', 'answers' => [['text' => 'Sartre', 'correct' => false], ['text' => 'Camus', 'correct' => true], ['text' => 'Gide', 'correct' => false], ['text' => 'Mauriac', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer schrieb "Der Prozess"?', 'answers' => [['text' => 'Hesse', 'correct' => false], ['text' => 'Kafka', 'correct' => true], ['text' => 'Mann', 'correct' => false], ['text' => 'Zweig', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer schrieb "Frankenstein"?', 'answers' => [['text' => 'Stoker', 'correct' => false], ['text' => 'Mary Shelley', 'correct' => true], ['text' => 'Poe', 'correct' => false], ['text' => 'Wilde', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer schrieb "Der Fänger im Roggen"?', 'answers' => [['text' => 'Kerouac', 'correct' => false], ['text' => 'Salinger', 'correct' => true], ['text' => 'Vonnegut', 'correct' => false], ['text' => 'Heller', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wer schrieb "Wer die Nachtigall stört"?', 'answers' => [['text' => 'Morrison', 'correct' => false], ['text' => 'Harper Lee', 'correct' => true], ['text' => 'Walker', 'correct' => false], ['text' => 'Angelou', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wer schrieb "Der große Gatsby"?', 'answers' => [['text' => 'Hemingway', 'correct' => false], ['text' => 'Fitzgerald', 'correct' => true], ['text' => 'Steinbeck', 'correct' => false], ['text' => 'Faulkner', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer schrieb "Schuld und Sühne"?', 'answers' => [['text' => 'Tolstoi', 'correct' => false], ['text' => 'Dostojewski', 'correct' => true], ['text' => 'Tschechow', 'correct' => false], ['text' => 'Gogol', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer schrieb "Animal Farm"?', 'answers' => [['text' => 'Huxley', 'correct' => false], ['text' => 'George Orwell', 'correct' => true], ['text' => 'Bradbury', 'correct' => false], ['text' => 'Wells', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer schrieb "Die Buddenbrooks"?', 'answers' => [['text' => 'Hesse', 'correct' => false], ['text' => 'Thomas Mann', 'correct' => true], ['text' => 'Grass', 'correct' => false], ['text' => 'Böll', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer schrieb "Der Name der Rose"?', 'answers' => [['text' => 'Calvino', 'correct' => false], ['text' => 'Umberto Eco', 'correct' => true], ['text' => 'Moravia', 'correct' => false], ['text' => 'Pavese', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer schrieb "Don Quijote"?', 'answers' => [['text' => 'Lope de Vega', 'correct' => false], ['text' => 'Cervantes', 'correct' => true], ['text' => 'Góngora', 'correct' => false], ['text' => 'Quevedo', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer schrieb "Hundert Jahre Einsamkeit"?', 'answers' => [['text' => 'Borges', 'correct' => false], ['text' => 'García Márquez', 'correct' => true], ['text' => 'Llosa', 'correct' => false], ['text' => 'Cortázar', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wer schrieb "Siddharta"?', 'answers' => [['text' => 'Mann', 'correct' => false], ['text' => 'Hermann Hesse', 'correct' => true], ['text' => 'Kafka', 'correct' => false], ['text' => 'Rilke', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer schrieb "Brave New World"?', 'answers' => [['text' => 'Orwell', 'correct' => false], ['text' => 'Aldous Huxley', 'correct' => true], ['text' => 'Bradbury', 'correct' => false], ['text' => 'Clarke', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer schrieb "Die göttliche Komödie"?', 'answers' => [['text' => 'Petrarca', 'correct' => false], ['text' => 'Dante', 'correct' => true], ['text' => 'Boccaccio', 'correct' => false], ['text' => 'Ariosto', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer schrieb "Der Glöckner von Notre Dame"?', 'answers' => [['text' => 'Dumas', 'correct' => false], ['text' => 'Victor Hugo', 'correct' => true], ['text' => 'Balzac', 'correct' => false], ['text' => 'Flaubert', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer schrieb "Ulysses"?', 'answers' => [['text' => 'Woolf', 'correct' => false], ['text' => 'James Joyce', 'correct' => true], ['text' => 'Lawrence', 'correct' => false], ['text' => 'Forster', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wer schrieb "Die drei Musketiere"?', 'answers' => [['text' => 'Hugo', 'correct' => false], ['text' => 'Alexandre Dumas', 'correct' => true], ['text' => 'Balzac', 'correct' => false], ['text' => 'Stendhal', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer schrieb "Der Hobbit"?', 'answers' => [['text' => 'Lewis', 'correct' => false], ['text' => 'Tolkien', 'correct' => true], ['text' => 'Pratchett', 'correct' => false], ['text' => 'Brooks', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer schrieb "Das Parfum"?', 'answers' => [['text' => 'Grass', 'correct' => false], ['text' => 'Patrick Süskind', 'correct' => true], ['text' => 'Böll', 'correct' => false], ['text' => 'Enzensberger', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer schrieb "Fahrenheit 451"?', 'answers' => [['text' => 'Asimov', 'correct' => false], ['text' => 'Ray Bradbury', 'correct' => true], ['text' => 'Heinlein', 'correct' => false], ['text' => 'Clarke', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer schrieb "Anna Karenina"?', 'answers' => [['text' => 'Dostojewski', 'correct' => false], ['text' => 'Tolstoi', 'correct' => true], ['text' => 'Turgenjew', 'correct' => false], ['text' => 'Puschkin', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer schrieb "Der Steppenwolf"?', 'answers' => [['text' => 'Mann', 'correct' => false], ['text' => 'Hermann Hesse', 'correct' => true], ['text' => 'Kafka', 'correct' => false], ['text' => 'Musil', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer schrieb "Dracula"?', 'answers' => [['text' => 'Shelley', 'correct' => false], ['text' => 'Bram Stoker', 'correct' => true], ['text' => 'Poe', 'correct' => false], ['text' => 'Wilde', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer schrieb "Der Zauberberg"?', 'answers' => [['text' => 'Hesse', 'correct' => false], ['text' => 'Thomas Mann', 'correct' => true], ['text' => 'Musil', 'correct' => false], ['text' => 'Broch', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wer schrieb "Wuthering Heights"?', 'answers' => [['text' => 'Charlotte Brontë', 'correct' => false], ['text' => 'Emily Brontë', 'correct' => true], ['text' => 'Jane Austen', 'correct' => false], ['text' => 'George Eliot', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wer schrieb "Im Westen nichts Neues"?', 'answers' => [['text' => 'Jünger', 'correct' => false], ['text' => 'Erich Maria Remarque', 'correct' => true], ['text' => 'Fallada', 'correct' => false], ['text' => 'Seghers', 'correct' => false]], 'difficulty' => 'medium']
+        ];
+
+        foreach ($questions as $q) {
+            $this->quizManager->addQuestion($quizId, $q);
+        }
+
+        echo "  ✓ 40 Literatur-Fragen hinzugefügt\n";
     }
 
+    /**
+     * Politik Extended (40 Fragen)
+     */
     private function seedPolitikExtended(): void {
         echo "Seeding Politik Extended...\n";
-        echo "  ✓ 40 Politik-Fragen würden hier hinzugefügt\n";
-        // Implementation folgt...
+
+        $quizId = $this->quizManager->createQuiz($this->defaultUserId, [
+            'title' => 'Politik Extended - Politikwissen',
+            'description' => 'Von Regierungen bis zur EU',
+            'category' => 'Politik',
+            'difficulty' => 'medium',
+            'time_limit' => 0,
+            'is_public' => true
+        ]);
+
+        $questions = [
+            ['question' => 'Wer ist der aktuelle Bundeskanzler Deutschlands (2025)?', 'answers' => [['text' => 'Angela Merkel', 'correct' => false], ['text' => 'Olaf Scholz', 'correct' => true], ['text' => 'Friedrich Merz', 'correct' => false], ['text' => 'Robert Habeck', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Bundesländer hat Deutschland?', 'answers' => [['text' => '14', 'correct' => false], ['text' => '16', 'correct' => true], ['text' => '17', 'correct' => false], ['text' => '18', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wo ist der Sitz des Bundestags?', 'answers' => [['text' => 'Bonn', 'correct' => false], ['text' => 'Berlin', 'correct' => true], ['text' => 'München', 'correct' => false], ['text' => 'Hamburg', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Sterne hat die EU-Flagge?', 'answers' => [['text' => '10', 'correct' => false], ['text' => '12', 'correct' => true], ['text' => '15', 'correct' => false], ['text' => '27', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer ist der Präsident der USA (2025)?', 'answers' => [['text' => 'Biden', 'correct' => false], ['text' => 'Trump', 'correct' => true], ['text' => 'Obama', 'correct' => false], ['text' => 'Harris', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Mitgliedsstaaten hat die EU?', 'answers' => [['text' => '25', 'correct' => false], ['text' => '27', 'correct' => true], ['text' => '28', 'correct' => false], ['text' => '30', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wo ist der Sitz der UNO?', 'answers' => [['text' => 'Genf', 'correct' => false], ['text' => 'New York', 'correct' => true], ['text' => 'Brüssel', 'correct' => false], ['text' => 'Paris', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer wählt den Bundeskanzler?', 'answers' => [['text' => 'Das Volk', 'correct' => false], ['text' => 'Der Bundestag', 'correct' => true], ['text' => 'Der Bundesrat', 'correct' => false], ['text' => 'Der Bundespräsident', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie heißt der Bundespräsident Deutschlands?', 'answers' => [['text' => 'Joachim Gauck', 'correct' => false], ['text' => 'Frank-Walter Steinmeier', 'correct' => true], ['text' => 'Christian Wulff', 'correct' => false], ['text' => 'Horst Köhler', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welche Partei ist aktuell in Deutschland an der Regierung?', 'answers' => [['text' => 'CDU/CSU', 'correct' => false], ['text' => 'SPD, Grüne, FDP', 'correct' => true], ['text' => 'AfD', 'correct' => false], ['text' => 'Die Linke', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wo ist der Sitz des Europäischen Parlaments?', 'answers' => [['text' => 'Brüssel', 'correct' => false], ['text' => 'Straßburg', 'correct' => true], ['text' => 'Luxemburg', 'correct' => false], ['text' => 'Frankfurt', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was bedeutet NATO?', 'answers' => [['text' => 'European Union', 'correct' => false], ['text' => 'North Atlantic Treaty Organization', 'correct' => true], ['text' => 'United Nations', 'correct' => false], ['text' => 'World Trade Organization', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer ist der britische Premierminister?', 'answers' => [['text' => 'Boris Johnson', 'correct' => false], ['text' => 'Keir Starmer', 'correct' => true], ['text' => 'Rishi Sunak', 'correct' => false], ['text' => 'Liz Truss', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie viele Mitglieder hat der UN-Sicherheitsrat?', 'answers' => [['text' => '10', 'correct' => false], ['text' => '15', 'correct' => true], ['text' => '20', 'correct' => false], ['text' => '25', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Was ist das Grundgesetz?', 'answers' => [['text' => 'Ein Gesetz', 'correct' => false], ['text' => 'Die Verfassung', 'correct' => true], ['text' => 'Ein Vertrag', 'correct' => false], ['text' => 'Eine Verordnung', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer ist der französische Präsident?', 'answers' => [['text' => 'Hollande', 'correct' => false], ['text' => 'Emmanuel Macron', 'correct' => true], ['text' => 'Sarkozy', 'correct' => false], ['text' => 'Le Pen', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie oft wird der Bundestag gewählt?', 'answers' => [['text' => 'Alle 3 Jahre', 'correct' => false], ['text' => 'Alle 4 Jahre', 'correct' => true], ['text' => 'Alle 5 Jahre', 'correct' => false], ['text' => 'Alle 6 Jahre', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist der Bundesrat?', 'answers' => [['text' => 'Die Regierung', 'correct' => false], ['text' => 'Länderkammer', 'correct' => true], ['text' => 'Das Parlament', 'correct' => false], ['text' => 'Das Gericht', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer ist der Generalsekretär der UNO?', 'answers' => [['text' => 'Ban Ki-moon', 'correct' => false], ['text' => 'António Guterres', 'correct' => true], ['text' => 'Kofi Annan', 'correct' => false], ['text' => 'Boutros-Ghali', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wie viele Abgeordnete hat der Bundestag mindestens?', 'answers' => [['text' => '500', 'correct' => false], ['text' => '598', 'correct' => true], ['text' => '650', 'correct' => false], ['text' => '700', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Was ist die G7?', 'answers' => [['text' => 'Eine Bank', 'correct' => false], ['text' => 'Gruppe der 7 Industrienationen', 'correct' => true], ['text' => 'Eine Partei', 'correct' => false], ['text' => 'Eine Organisation', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer wählt den Bundespräsidenten?', 'answers' => [['text' => 'Das Volk', 'correct' => false], ['text' => 'Die Bundesversammlung', 'correct' => true], ['text' => 'Der Bundestag', 'correct' => false], ['text' => 'Der Bundesrat', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Was ist der Brexit?', 'answers' => [['text' => 'EU-Beitritt', 'correct' => false], ['text' => 'UK-Austritt aus EU', 'correct' => true], ['text' => 'EU-Reform', 'correct' => false], ['text' => 'EU-Erweiterung', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wo tagt der Bundesrat?', 'answers' => [['text' => 'Bonn', 'correct' => false], ['text' => 'Berlin', 'correct' => true], ['text' => 'München', 'correct' => false], ['text' => 'Hamburg', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist die CDU?', 'answers' => [['text' => 'Eine Gewerkschaft', 'correct' => false], ['text' => 'Eine Partei', 'correct' => true], ['text' => 'Eine Organisation', 'correct' => false], ['text' => 'Ein Verein', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer ist der russische Präsident?', 'answers' => [['text' => 'Medwedew', 'correct' => false], ['text' => 'Putin', 'correct' => true], ['text' => 'Jelzin', 'correct' => false], ['text' => 'Gorbatschow', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was bedeutet SPD?', 'answers' => [['text' => 'Soziale Partei Deutschlands', 'correct' => false], ['text' => 'Sozialdemokratische Partei Deutschlands', 'correct' => true], ['text' => 'Sozialpolitische Partei', 'correct' => false], ['text' => 'Soziale Demokratie', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Stimmen hat man bei der Bundestagswahl?', 'answers' => [['text' => '1', 'correct' => false], ['text' => '2', 'correct' => true], ['text' => '3', 'correct' => false], ['text' => '4', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist der Bundeskanzler?', 'answers' => [['text' => 'Staatsoberhaupt', 'correct' => false], ['text' => 'Regierungschef', 'correct' => true], ['text' => 'Parlamentspräsident', 'correct' => false], ['text' => 'Richter', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wo ist der Sitz der EZB?', 'answers' => [['text' => 'Brüssel', 'correct' => false], ['text' => 'Frankfurt', 'correct' => true], ['text' => 'Paris', 'correct' => false], ['text' => 'Berlin', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist die AfD?', 'answers' => [['text' => 'Eine Gewerkschaft', 'correct' => false], ['text' => 'Eine Partei', 'correct' => true], ['text' => 'Eine Organisation', 'correct' => false], ['text' => 'Ein Verband', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer ist der chinesische Präsident?', 'answers' => [['text' => 'Hu Jintao', 'correct' => false], ['text' => 'Xi Jinping', 'correct' => true], ['text' => 'Jiang Zemin', 'correct' => false], ['text' => 'Li Keqiang', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist die Sperrklausel bei Bundestagswahlen?', 'answers' => [['text' => '3% Hürde', 'correct' => false], ['text' => '5% Hürde', 'correct' => true], ['text' => '7% Hürde', 'correct' => false], ['text' => '10% Hürde', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist der Bundespräsident?', 'answers' => [['text' => 'Regierungschef', 'correct' => false], ['text' => 'Staatsoberhaupt', 'correct' => true], ['text' => 'Parlamentspräsident', 'correct' => false], ['text' => 'Richter', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie lange ist die Amtszeit des Bundespräsidenten?', 'answers' => [['text' => '4 Jahre', 'correct' => false], ['text' => '5 Jahre', 'correct' => true], ['text' => '6 Jahre', 'correct' => false], ['text' => '7 Jahre', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Was ist die FDP?', 'answers' => [['text' => 'Sozialdemokraten', 'correct' => false], ['text' => 'Liberale Partei', 'correct' => true], ['text' => 'Konservative', 'correct' => false], ['text' => 'Grüne', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wo ist der Sitz des Bundesverfassungsgerichts?', 'answers' => [['text' => 'Berlin', 'correct' => false], ['text' => 'Karlsruhe', 'correct' => true], ['text' => 'München', 'correct' => false], ['text' => 'Hamburg', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was bedeutet EU?', 'answers' => [['text' => 'Europa Union', 'correct' => false], ['text' => 'Europäische Union', 'correct' => true], ['text' => 'European Unity', 'correct' => false], ['text' => 'Euro Union', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie heißt das deutsche Parlament?', 'answers' => [['text' => 'Reichstag', 'correct' => false], ['text' => 'Bundestag', 'correct' => true], ['text' => 'Bundesrat', 'correct' => false], ['text' => 'Landtag', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist die Gewaltenteilung?', 'answers' => [['text' => 'Polizei-System', 'correct' => false], ['text' => 'Legislative, Exekutive, Judikative', 'correct' => true], ['text' => 'Militär-System', 'correct' => false], ['text' => 'Verwaltungs-System', 'correct' => false]], 'difficulty' => 'medium']
+        ];
+
+        foreach ($questions as $q) {
+            $this->quizManager->addQuestion($quizId, $q);
+        }
+
+        echo "  ✓ 40 Politik-Fragen hinzugefügt\n";
     }
 
+    /**
+     * Wirtschaft Extended (40 Fragen)
+     */
     private function seedWirtschaftExtended(): void {
         echo "Seeding Wirtschaft Extended...\n";
-        echo "  ✓ 40 Wirtschaft-Fragen würden hier hinzugefügt\n";
-        // Implementation folgt...
+
+        $quizId = $this->quizManager->createQuiz($this->defaultUserId, [
+            'title' => 'Wirtschaft Extended - Business',
+            'description' => 'Von Unternehmen bis zur Börse',
+            'category' => 'Wirtschaft',
+            'difficulty' => 'medium',
+            'time_limit' => 0,
+            'is_public' => true
+        ]);
+
+        $questions = [
+            ['question' => 'Was ist BIP?', 'answers' => [['text' => 'Brutto Import Produkt', 'correct' => false], ['text' => 'Bruttoinlandsprodukt', 'correct' => true], ['text' => 'Brutto Investitions Produkt', 'correct' => false], ['text' => 'Business Investment Plan', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer gründete Microsoft?', 'answers' => [['text' => 'Steve Jobs', 'correct' => false], ['text' => 'Bill Gates', 'correct' => true], ['text' => 'Mark Zuckerberg', 'correct' => false], ['text' => 'Larry Page', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welche Währung hat die Schweiz?', 'answers' => [['text' => 'Euro', 'correct' => false], ['text' => 'Schweizer Franken', 'correct' => true], ['text' => 'Dollar', 'correct' => false], ['text' => 'Pfund', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist Inflation?', 'answers' => [['text' => 'Preissenkung', 'correct' => false], ['text' => 'Preissteigerung', 'correct' => true], ['text' => 'Währungstausch', 'correct' => false], ['text' => 'Zinssenkung', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wo ist der Sitz von Apple?', 'answers' => [['text' => 'Seattle', 'correct' => false], ['text' => 'Cupertino', 'correct' => true], ['text' => 'New York', 'correct' => false], ['text' => 'Los Angeles', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was bedeutet CEO?', 'answers' => [['text' => 'Central Executive Officer', 'correct' => false], ['text' => 'Chief Executive Officer', 'correct' => true], ['text' => 'Corporate Executive Officer', 'correct' => false], ['text' => 'Company Executive Officer', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welche Börse ist in Frankfurt?', 'answers' => [['text' => 'NYSE', 'correct' => false], ['text' => 'DAX', 'correct' => true], ['text' => 'NASDAQ', 'correct' => false], ['text' => 'LSE', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer gründete Amazon?', 'answers' => [['text' => 'Bill Gates', 'correct' => false], ['text' => 'Jeff Bezos', 'correct' => true], ['text' => 'Elon Musk', 'correct' => false], ['text' => 'Larry Page', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist eine Aktie?', 'answers' => [['text' => 'Ein Kredit', 'correct' => false], ['text' => 'Ein Unternehmensanteil', 'correct' => true], ['text' => 'Eine Anleihe', 'correct' => false], ['text' => 'Eine Versicherung', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welches Unternehmen produziert iPhone?', 'answers' => [['text' => 'Samsung', 'correct' => false], ['text' => 'Apple', 'correct' => true], ['text' => 'Google', 'correct' => false], ['text' => 'Microsoft', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was bedeutet KMU?', 'answers' => [['text' => 'Kleine Mittelständische Union', 'correct' => false], ['text' => 'Klein- und Mittelunternehmen', 'correct' => true], ['text' => 'Kommunale Mittelverwaltung', 'correct' => false], ['text' => 'Kapital Management Unit', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer gründete Tesla?', 'answers' => [['text' => 'Jeff Bezos', 'correct' => false], ['text' => 'Elon Musk', 'correct' => true], ['text' => 'Bill Gates', 'correct' => false], ['text' => 'Mark Zuckerberg', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist die EZB?', 'answers' => [['text' => 'Euro Bank', 'correct' => false], ['text' => 'Europäische Zentralbank', 'correct' => true], ['text' => 'Euro Zentral Büro', 'correct' => false], ['text' => 'European Central Business', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welches Land hat den Yen als Währung?', 'answers' => [['text' => 'China', 'correct' => false], ['text' => 'Japan', 'correct' => true], ['text' => 'Korea', 'correct' => false], ['text' => 'Vietnam', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist ein Monopol?', 'answers' => [['text' => 'Viele Anbieter', 'correct' => false], ['text' => 'Ein Anbieter', 'correct' => true], ['text' => 'Zwei Anbieter', 'correct' => false], ['text' => 'Keine Anbieter', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wo ist der Hauptsitz von Google?', 'answers' => [['text' => 'Seattle', 'correct' => false], ['text' => 'Mountain View', 'correct' => true], ['text' => 'San Francisco', 'correct' => false], ['text' => 'Los Angeles', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was bedeutet GDP auf Englisch?', 'answers' => [['text' => 'General Development Plan', 'correct' => false], ['text' => 'Gross Domestic Product', 'correct' => true], ['text' => 'Global Development Product', 'correct' => false], ['text' => 'Government Debt Plan', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welche Firma produziert Galaxy Smartphones?', 'answers' => [['text' => 'Apple', 'correct' => false], ['text' => 'Samsung', 'correct' => true], ['text' => 'Huawei', 'correct' => false], ['text' => 'LG', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist Deflation?', 'answers' => [['text' => 'Preissteigerung', 'correct' => false], ['text' => 'Preissenkung', 'correct' => true], ['text' => 'Währungstausch', 'correct' => false], ['text' => 'Zinserhöhung', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer gründete Facebook?', 'answers' => [['text' => 'Bill Gates', 'correct' => false], ['text' => 'Mark Zuckerberg', 'correct' => true], ['text' => 'Jeff Bezos', 'correct' => false], ['text' => 'Elon Musk', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist die Wall Street?', 'answers' => [['text' => 'Eine Bank', 'correct' => false], ['text' => 'Börsenstandort in New York', 'correct' => true], ['text' => 'Eine Straße in London', 'correct' => false], ['text' => 'Ein Unternehmen', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welches Land hat den Dollar als Währung?', 'answers' => [['text' => 'England', 'correct' => false], ['text' => 'USA', 'correct' => true], ['text' => 'Frankreich', 'correct' => false], ['text' => 'Deutschland', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was bedeutet AG?', 'answers' => [['text' => 'Allgemeine Gesellschaft', 'correct' => false], ['text' => 'Aktiengesellschaft', 'correct' => true], ['text' => 'Arbeitsgemeinschaft', 'correct' => false], ['text' => 'Anlagen Gesellschaft', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wo ist der Hauptsitz von BMW?', 'answers' => [['text' => 'Stuttgart', 'correct' => false], ['text' => 'München', 'correct' => true], ['text' => 'Frankfurt', 'correct' => false], ['text' => 'Berlin', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist Bitcoin?', 'answers' => [['text' => 'Eine Aktie', 'correct' => false], ['text' => 'Eine Kryptowährung', 'correct' => true], ['text' => 'Ein Unternehmen', 'correct' => false], ['text' => 'Eine Bank', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer ist der reichste Mensch der Welt?', 'answers' => [['text' => 'Jeff Bezos', 'correct' => false], ['text' => 'Elon Musk', 'correct' => true], ['text' => 'Bill Gates', 'correct' => false], ['text' => 'Warren Buffett', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was bedeutet GmbH?', 'answers' => [['text' => 'Große Mittelständische Betriebe', 'correct' => false], ['text' => 'Gesellschaft mit beschränkter Haftung', 'correct' => true], ['text' => 'Gewerbliche Mittel Betriebe', 'correct' => false], ['text' => 'Gemeinsame Handels Gesellschaft', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welche Firma produziert PlayStation?', 'answers' => [['text' => 'Microsoft', 'correct' => false], ['text' => 'Sony', 'correct' => true], ['text' => 'Nintendo', 'correct' => false], ['text' => 'Sega', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist die Börse?', 'answers' => [['text' => 'Eine Bank', 'correct' => false], ['text' => 'Handelsplatz für Wertpapiere', 'correct' => true], ['text' => 'Ein Unternehmen', 'correct' => false], ['text' => 'Eine Versicherung', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wo ist der Hauptsitz von Mercedes?', 'answers' => [['text' => 'München', 'correct' => false], ['text' => 'Stuttgart', 'correct' => true], ['text' => 'Frankfurt', 'correct' => false], ['text' => 'Wolfsburg', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was bedeutet IPO?', 'answers' => [['text' => 'International Public Offering', 'correct' => false], ['text' => 'Initial Public Offering', 'correct' => true], ['text' => 'Investment Private Offering', 'correct' => false], ['text' => 'Internal Public Organization', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Welche Firma produziert Windows?', 'answers' => [['text' => 'Apple', 'correct' => false], ['text' => 'Microsoft', 'correct' => true], ['text' => 'Google', 'correct' => false], ['text' => 'IBM', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist eine Dividende?', 'answers' => [['text' => 'Ein Kredit', 'correct' => false], ['text' => 'Gewinnausschüttung', 'correct' => true], ['text' => 'Eine Steuer', 'correct' => false], ['text' => 'Eine Gebühr', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wo ist der Hauptsitz von Volkswagen?', 'answers' => [['text' => 'Stuttgart', 'correct' => false], ['text' => 'Wolfsburg', 'correct' => true], ['text' => 'München', 'correct' => false], ['text' => 'Frankfurt', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was bedeutet B2B?', 'answers' => [['text' => 'Back to Business', 'correct' => false], ['text' => 'Business to Business', 'correct' => true], ['text' => 'Bank to Bank', 'correct' => false], ['text' => 'Buyer to Buyer', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welche Firma produziert Xbox?', 'answers' => [['text' => 'Sony', 'correct' => false], ['text' => 'Microsoft', 'correct' => true], ['text' => 'Nintendo', 'correct' => false], ['text' => 'Sega', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist eine Rezession?', 'answers' => [['text' => 'Wirtschaftswachstum', 'correct' => false], ['text' => 'Wirtschaftsabschwung', 'correct' => true], ['text' => 'Währungsreform', 'correct' => false], ['text' => 'Zinssenkung', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wo ist die New York Stock Exchange?', 'answers' => [['text' => 'London', 'correct' => false], ['text' => 'New York', 'correct' => true], ['text' => 'Frankfurt', 'correct' => false], ['text' => 'Tokio', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was bedeutet ROI?', 'answers' => [['text' => 'Rate of Interest', 'correct' => false], ['text' => 'Return on Investment', 'correct' => true], ['text' => 'Revenue of Income', 'correct' => false], ['text' => 'Risk of Investment', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Welche Währung hat England?', 'answers' => [['text' => 'Euro', 'correct' => false], ['text' => 'Pfund Sterling', 'correct' => true], ['text' => 'Dollar', 'correct' => false], ['text' => 'Krone', 'correct' => false]], 'difficulty' => 'easy']
+        ];
+
+        foreach ($questions as $q) {
+            $this->quizManager->addQuestion($quizId, $q);
+        }
+
+        echo "  ✓ 40 Wirtschaft-Fragen hinzugefügt\n";
     }
 
     /**
@@ -1311,10 +1547,69 @@ class QuizSeederExtended {
         echo "  ✓ 40 Mathematik-Fragen hinzugefügt\n";
     }
 
+    /**
+     * Sprachen Extended (40 Fragen)
+     */
     private function seedSprachenExtended(): void {
         echo "Seeding Sprachen Extended...\n";
-        echo "  ✓ 40 Sprachen-Fragen würden hier hinzugefügt\n";
-        // Implementation folgt...
+
+        $quizId = $this->quizManager->createQuiz($this->defaultUserId, [
+            'title' => 'Sprachen Extended - Linguistik',
+            'description' => 'Von Vokabular bis Übersetzungen',
+            'category' => 'Sprachen',
+            'difficulty' => 'medium',
+            'time_limit' => 0,
+            'is_public' => true
+        ]);
+
+        $questions = [
+            ['question' => 'Was heißt "Hallo" auf Englisch?', 'answers' => [['text' => 'Goodbye', 'correct' => false], ['text' => 'Hello', 'correct' => true], ['text' => 'Please', 'correct' => false], ['text' => 'Thanks', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was heißt "Danke" auf Spanisch?', 'answers' => [['text' => 'Por favor', 'correct' => false], ['text' => 'Gracias', 'correct' => true], ['text' => 'Adiós', 'correct' => false], ['text' => 'Hola', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was heißt "Haus" auf Französisch?', 'answers' => [['text' => 'Rue', 'correct' => false], ['text' => 'Maison', 'correct' => true], ['text' => 'Ville', 'correct' => false], ['text' => 'Jardin', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welche Sprache spricht man in Brasilien?', 'answers' => [['text' => 'Spanisch', 'correct' => false], ['text' => 'Portugiesisch', 'correct' => true], ['text' => 'Französisch', 'correct' => false], ['text' => 'Italienisch', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was heißt "Buch" auf Englisch?', 'answers' => [['text' => 'Table', 'correct' => false], ['text' => 'Book', 'correct' => true], ['text' => 'Chair', 'correct' => false], ['text' => 'Door', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was heißt "Guten Morgen" auf Italienisch?', 'answers' => [['text' => 'Buona sera', 'correct' => false], ['text' => 'Buongiorno', 'correct' => true], ['text' => 'Buonanotte', 'correct' => false], ['text' => 'Ciao', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie viele Buchstaben hat das deutsche Alphabet?', 'answers' => [['text' => '24', 'correct' => false], ['text' => '26', 'correct' => true], ['text' => '28', 'correct' => false], ['text' => '30', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was heißt "Wasser" auf Spanisch?', 'answers' => [['text' => 'Vino', 'correct' => false], ['text' => 'Agua', 'correct' => true], ['text' => 'Leche', 'correct' => false], ['text' => 'Café', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welche Sprache ist Mandarin?', 'answers' => [['text' => 'Japanisch', 'correct' => false], ['text' => 'Chinesisch', 'correct' => true], ['text' => 'Koreanisch', 'correct' => false], ['text' => 'Thailändisch', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was heißt "Ja" auf Französisch?', 'answers' => [['text' => 'Non', 'correct' => false], ['text' => 'Oui', 'correct' => true], ['text' => 'Si', 'correct' => false], ['text' => 'Yes', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist ein Synonym für "groß"?', 'answers' => [['text' => 'Klein', 'correct' => false], ['text' => 'Riesig', 'correct' => true], ['text' => 'Winzig', 'correct' => false], ['text' => 'Kurz', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was heißt "Auf Wiedersehen" auf Englisch?', 'answers' => [['text' => 'Hello', 'correct' => false], ['text' => 'Goodbye', 'correct' => true], ['text' => 'Welcome', 'correct' => false], ['text' => 'Please', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welche Sprache spricht man in den Niederlanden?', 'answers' => [['text' => 'Deutsch', 'correct' => false], ['text' => 'Niederländisch', 'correct' => true], ['text' => 'Belgisch', 'correct' => false], ['text' => 'Dänisch', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was heißt "Katze" auf Französisch?', 'answers' => [['text' => 'Chien', 'correct' => false], ['text' => 'Chat', 'correct' => true], ['text' => 'Oiseau', 'correct' => false], ['text' => 'Poisson', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist ein Antonym für "heiß"?', 'answers' => [['text' => 'Warm', 'correct' => false], ['text' => 'Kalt', 'correct' => true], ['text' => 'Lau', 'correct' => false], ['text' => 'Glühend', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was heißt "Eins" auf Spanisch?', 'answers' => [['text' => 'Dos', 'correct' => false], ['text' => 'Uno', 'correct' => true], ['text' => 'Tres', 'correct' => false], ['text' => 'Cuatro', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welche Sprache spricht man in Österreich?', 'answers' => [['text' => 'Französisch', 'correct' => false], ['text' => 'Deutsch', 'correct' => true], ['text' => 'Italienisch', 'correct' => false], ['text' => 'Englisch', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was heißt "Rot" auf Englisch?', 'answers' => [['text' => 'Blue', 'correct' => false], ['text' => 'Red', 'correct' => true], ['text' => 'Green', 'correct' => false], ['text' => 'Yellow', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was heißt "Bitte" auf Italienisch?', 'answers' => [['text' => 'Grazie', 'correct' => false], ['text' => 'Per favore', 'correct' => true], ['text' => 'Scusa', 'correct' => false], ['text' => 'Prego', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie viele Vokale hat das deutsche Alphabet?', 'answers' => [['text' => '4', 'correct' => false], ['text' => '5', 'correct' => true], ['text' => '6', 'correct' => false], ['text' => '7', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was heißt "Schwarz" auf Französisch?', 'answers' => [['text' => 'Blanc', 'correct' => false], ['text' => 'Noir', 'correct' => true], ['text' => 'Rouge', 'correct' => false], ['text' => 'Vert', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welche Sprache spricht man in Indien hauptsächlich?', 'answers' => [['text' => 'Englisch', 'correct' => false], ['text' => 'Hindi', 'correct' => true], ['text' => 'Arabisch', 'correct' => false], ['text' => 'Urdu', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was heißt "Hund" auf Englisch?', 'answers' => [['text' => 'Cat', 'correct' => false], ['text' => 'Dog', 'correct' => true], ['text' => 'Bird', 'correct' => false], ['text' => 'Fish', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was heißt "Nein" auf Spanisch?', 'answers' => [['text' => 'Si', 'correct' => false], ['text' => 'No', 'correct' => true], ['text' => 'Tal vez', 'correct' => false], ['text' => 'Quizás', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist ein Palindrom?', 'answers' => [['text' => 'Ein langes Wort', 'correct' => false], ['text' => 'Vorwärts = Rückwärts lesbar', 'correct' => true], ['text' => 'Ein Fremdwort', 'correct' => false], ['text' => 'Ein Reim', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was heißt "Schule" auf Englisch?', 'answers' => [['text' => 'House', 'correct' => false], ['text' => 'School', 'correct' => true], ['text' => 'Church', 'correct' => false], ['text' => 'Hospital', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welche Sprache spricht man in der Türkei?', 'answers' => [['text' => 'Arabisch', 'correct' => false], ['text' => 'Türkisch', 'correct' => true], ['text' => 'Persisch', 'correct' => false], ['text' => 'Griechisch', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was heißt "Grün" auf Französisch?', 'answers' => [['text' => 'Bleu', 'correct' => false], ['text' => 'Vert', 'correct' => true], ['text' => 'Rouge', 'correct' => false], ['text' => 'Jaune', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist ein Homonym?', 'answers' => [['text' => 'Gegenteil', 'correct' => false], ['text' => 'Gleicher Klang, andere Bedeutung', 'correct' => true], ['text' => 'Ähnliche Bedeutung', 'correct' => false], ['text' => 'Fremdwort', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Was heißt "Auto" auf Englisch?', 'answers' => [['text' => 'Bus', 'correct' => false], ['text' => 'Car', 'correct' => true], ['text' => 'Bike', 'correct' => false], ['text' => 'Train', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was heißt "Liebe" auf Spanisch?', 'answers' => [['text' => 'Odio', 'correct' => false], ['text' => 'Amor', 'correct' => true], ['text' => 'Paz', 'correct' => false], ['text' => 'Guerra', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welche Sprache spricht man in Japan?', 'answers' => [['text' => 'Chinesisch', 'correct' => false], ['text' => 'Japanisch', 'correct' => true], ['text' => 'Koreanisch', 'correct' => false], ['text' => 'Mandarin', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was heißt "Baum" auf Englisch?', 'answers' => [['text' => 'Flower', 'correct' => false], ['text' => 'Tree', 'correct' => true], ['text' => 'Grass', 'correct' => false], ['text' => 'Bush', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was heißt "Drei" auf Französisch?', 'answers' => [['text' => 'Deux', 'correct' => false], ['text' => 'Trois', 'correct' => true], ['text' => 'Quatre', 'correct' => false], ['text' => 'Cinq', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist ein Verb?', 'answers' => [['text' => 'Ein Nomen', 'correct' => false], ['text' => 'Ein Tätigkeitswort', 'correct' => true], ['text' => 'Ein Adjektiv', 'correct' => false], ['text' => 'Ein Artikel', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was heißt "Blau" auf Spanisch?', 'answers' => [['text' => 'Rojo', 'correct' => false], ['text' => 'Azul', 'correct' => true], ['text' => 'Verde', 'correct' => false], ['text' => 'Amarillo', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welche Sprache spricht man in Portugal?', 'answers' => [['text' => 'Spanisch', 'correct' => false], ['text' => 'Portugiesisch', 'correct' => true], ['text' => 'Französisch', 'correct' => false], ['text' => 'Italienisch', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was heißt "Kind" auf Englisch?', 'answers' => [['text' => 'Adult', 'correct' => false], ['text' => 'Child', 'correct' => true], ['text' => 'Baby', 'correct' => false], ['text' => 'Parent', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was heißt "Sonne" auf Französisch?', 'answers' => [['text' => 'Lune', 'correct' => false], ['text' => 'Soleil', 'correct' => true], ['text' => 'Étoile', 'correct' => false], ['text' => 'Ciel', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist ein Adjektiv?', 'answers' => [['text' => 'Ein Verb', 'correct' => false], ['text' => 'Ein Eigenschaftswort', 'correct' => true], ['text' => 'Ein Nomen', 'correct' => false], ['text' => 'Ein Pronomen', 'correct' => false]], 'difficulty' => 'easy']
+        ];
+
+        foreach ($questions as $q) {
+            $this->quizManager->addQuestion($quizId, $q);
+        }
+
+        echo "  ✓ 40 Sprachen-Fragen hinzugefügt\n";
     }
 
     /**
