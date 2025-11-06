@@ -962,10 +962,69 @@ class QuizSeederExtended {
         echo "  ✓ 40 Geschichte-Fragen hinzugefügt\n";
     }
 
+    /**
+     * Naturwissenschaften Extended (40 Fragen)
+     */
     private function seedNaturwissenschaftenExtended(): void {
         echo "Seeding Naturwissenschaften Extended...\n";
-        echo "  ✓ 40 Naturwissenschaften-Fragen würden hier hinzugefügt\n";
-        // Implementation folgt...
+
+        $quizId = $this->quizManager->createQuiz($this->defaultUserId, [
+            'title' => 'Naturwissenschaften Extended - Wissenschaft',
+            'description' => 'Physik, Chemie, Biologie, Astronomie',
+            'category' => 'Naturwissenschaften',
+            'difficulty' => 'medium',
+            'time_limit' => 0,
+            'is_public' => true
+        ]);
+
+        $questions = [
+            ['question' => 'Wie lautet die Lichtgeschwindigkeit?', 'answers' => [['text' => '200.000 km/s', 'correct' => false], ['text' => '300.000 km/s', 'correct' => true], ['text' => '400.000 km/s', 'correct' => false], ['text' => '500.000 km/s', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist H2O?', 'answers' => [['text' => 'Sauerstoff', 'correct' => false], ['text' => 'Wasser', 'correct' => true], ['text' => 'Wasserstoff', 'correct' => false], ['text' => 'Kohlendioxid', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Chromosomen hat der Mensch?', 'answers' => [['text' => '23', 'correct' => false], ['text' => '46', 'correct' => true], ['text' => '48', 'correct' => false], ['text' => '50', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie groß ist die Sonne im Vergleich zur Erde?', 'answers' => [['text' => '50x größer', 'correct' => false], ['text' => '100x größer', 'correct' => false], ['text' => '109x größer (Durchmesser)', 'correct' => true], ['text' => '200x größer', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Was ist die Formel für Kohlendioxid?', 'answers' => [['text' => 'CO', 'correct' => false], ['text' => 'CO2', 'correct' => true], ['text' => 'C2O', 'correct' => false], ['text' => 'O2', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie heißt das größte Organ des Menschen?', 'answers' => [['text' => 'Leber', 'correct' => false], ['text' => 'Haut', 'correct' => true], ['text' => 'Gehirn', 'correct' => false], ['text' => 'Herz', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie viele Planeten hat unser Sonnensystem?', 'answers' => [['text' => '7', 'correct' => false], ['text' => '8', 'correct' => true], ['text' => '9', 'correct' => false], ['text' => '10', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist DNA?', 'answers' => [['text' => 'Ein Protein', 'correct' => false], ['text' => 'Desoxyribonukleinsäure', 'correct' => true], ['text' => 'Ein Hormon', 'correct' => false], ['text' => 'Ein Vitamin', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welches Element hat das Symbol "Au"?', 'answers' => [['text' => 'Silber', 'correct' => false], ['text' => 'Gold', 'correct' => true], ['text' => 'Aluminium', 'correct' => false], ['text' => 'Kupfer', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie lange braucht das Licht von der Sonne zur Erde?', 'answers' => [['text' => '5 Minuten', 'correct' => false], ['text' => '8 Minuten', 'correct' => true], ['text' => '12 Minuten', 'correct' => false], ['text' => '15 Minuten', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist Photosynthese?', 'answers' => [['text' => 'Atmung', 'correct' => false], ['text' => 'Umwandlung von Licht in Energie', 'correct' => true], ['text' => 'Verdauung', 'correct' => false], ['text' => 'Zellteilung', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welches Gas atmen wir aus?', 'answers' => [['text' => 'Sauerstoff', 'correct' => false], ['text' => 'Kohlendioxid', 'correct' => true], ['text' => 'Stickstoff', 'correct' => false], ['text' => 'Helium', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Knochen hat ein erwachsener Mensch?', 'answers' => [['text' => '196', 'correct' => false], ['text' => '206', 'correct' => true], ['text' => '216', 'correct' => false], ['text' => '226', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist der härteste natürliche Stoff?', 'answers' => [['text' => 'Stahl', 'correct' => false], ['text' => 'Diamant', 'correct' => true], ['text' => 'Granit', 'correct' => false], ['text' => 'Quarz', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie heißt der rote Planet?', 'answers' => [['text' => 'Venus', 'correct' => false], ['text' => 'Mars', 'correct' => true], ['text' => 'Jupiter', 'correct' => false], ['text' => 'Saturn', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist ein Atom?', 'answers' => [['text' => 'Eine Zelle', 'correct' => false], ['text' => 'Kleinstes Teilchen', 'correct' => true], ['text' => 'Ein Molekül', 'correct' => false], ['text' => 'Ein Elektron', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welche Blutgruppe ist Universalspender?', 'answers' => [['text' => 'A', 'correct' => false], ['text' => '0 negativ', 'correct' => true], ['text' => 'B', 'correct' => false], ['text' => 'AB', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Was ist Schwerkraft?', 'answers' => [['text' => 'Magnetismus', 'correct' => false], ['text' => 'Anziehungskraft', 'correct' => true], ['text' => 'Elektrizität', 'correct' => false], ['text' => 'Reibung', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Zähne hat ein erwachsener Mensch?', 'answers' => [['text' => '28', 'correct' => false], ['text' => '32', 'correct' => true], ['text' => '30', 'correct' => false], ['text' => '34', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist Chlorophyll?', 'answers' => [['text' => 'Ein Vitamin', 'correct' => false], ['text' => 'Grüner Pflanzenfarbstoff', 'correct' => true], ['text' => 'Ein Protein', 'correct' => false], ['text' => 'Ein Mineral', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welcher Planet ist der größte?', 'answers' => [['text' => 'Saturn', 'correct' => false], ['text' => 'Jupiter', 'correct' => true], ['text' => 'Uranus', 'correct' => false], ['text' => 'Neptun', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist Evaporation?', 'answers' => [['text' => 'Schmelzen', 'correct' => false], ['text' => 'Verdunstung', 'correct' => true], ['text' => 'Gefrieren', 'correct' => false], ['text' => 'Kondensation', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie viele Elemente gibt es im Periodensystem?', 'answers' => [['text' => '92', 'correct' => false], ['text' => '118', 'correct' => true], ['text' => '100', 'correct' => false], ['text' => '110', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Was ist Insulin?', 'answers' => [['text' => 'Ein Vitamin', 'correct' => false], ['text' => 'Ein Hormon', 'correct' => true], ['text' => 'Ein Enzym', 'correct' => false], ['text' => 'Ein Mineral', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welcher Planet ist der Erde am nächsten?', 'answers' => [['text' => 'Mars', 'correct' => false], ['text' => 'Venus', 'correct' => true], ['text' => 'Merkur', 'correct' => false], ['text' => 'Jupiter', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist Osmose?', 'answers' => [['text' => 'Zellteilung', 'correct' => false], ['text' => 'Diffusion durch Membran', 'correct' => true], ['text' => 'Atmung', 'correct' => false], ['text' => 'Photosynthese', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wie heißt die Einheit der Kraft?', 'answers' => [['text' => 'Watt', 'correct' => false], ['text' => 'Newton', 'correct' => true], ['text' => 'Joule', 'correct' => false], ['text' => 'Pascal', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist Mitochondrium?', 'answers' => [['text' => 'Zellkern', 'correct' => false], ['text' => 'Kraftwerk der Zelle', 'correct' => true], ['text' => 'Zellmembran', 'correct' => false], ['text' => 'Chromosom', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Welches Gas ist am häufigsten in der Atmosphäre?', 'answers' => [['text' => 'Sauerstoff', 'correct' => false], ['text' => 'Stickstoff', 'correct' => true], ['text' => 'Kohlendioxid', 'correct' => false], ['text' => 'Argon', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist Gravitation?', 'answers' => [['text' => 'Magnetische Kraft', 'correct' => false], ['text' => 'Anziehungskraft zwischen Massen', 'correct' => true], ['text' => 'Elektrische Kraft', 'correct' => false], ['text' => 'Reibungskraft', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Monde hat der Mars?', 'answers' => [['text' => '1', 'correct' => false], ['text' => '2', 'correct' => true], ['text' => '3', 'correct' => false], ['text' => '4', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Was ist ein Elektron?', 'answers' => [['text' => 'Positiv geladen', 'correct' => false], ['text' => 'Negativ geladenes Teilchen', 'correct' => true], ['text' => 'Neutral', 'correct' => false], ['text' => 'Ein Atom', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welches Vitamin produziert die Haut bei Sonnenlicht?', 'answers' => [['text' => 'Vitamin C', 'correct' => false], ['text' => 'Vitamin D', 'correct' => true], ['text' => 'Vitamin A', 'correct' => false], ['text' => 'Vitamin B12', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist die Einheit der Energie?', 'answers' => [['text' => 'Watt', 'correct' => false], ['text' => 'Joule', 'correct' => true], ['text' => 'Newton', 'correct' => false], ['text' => 'Volt', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie heißt die kleinste Einheit des Lebens?', 'answers' => [['text' => 'Atom', 'correct' => false], ['text' => 'Zelle', 'correct' => true], ['text' => 'Molekül', 'correct' => false], ['text' => 'Organ', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist Schallgeschwindigkeit in Luft?', 'answers' => [['text' => '243 m/s', 'correct' => false], ['text' => '343 m/s', 'correct' => true], ['text' => '443 m/s', 'correct' => false], ['text' => '543 m/s', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Welches Organ produziert Insulin?', 'answers' => [['text' => 'Leber', 'correct' => false], ['text' => 'Bauchspeicheldrüse', 'correct' => true], ['text' => 'Niere', 'correct' => false], ['text' => 'Milz', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Was ist Metamorphose?', 'answers' => [['text' => 'Zellteilung', 'correct' => false], ['text' => 'Verwandlung', 'correct' => true], ['text' => 'Atmung', 'correct' => false], ['text' => 'Fortpflanzung', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie viele Monde hat Jupiter?', 'answers' => [['text' => '50', 'correct' => false], ['text' => '79+', 'correct' => true], ['text' => '30', 'correct' => false], ['text' => '100', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Was ist ein Neutron?', 'answers' => [['text' => 'Negativ geladen', 'correct' => false], ['text' => 'Neutral', 'correct' => true], ['text' => 'Positiv geladen', 'correct' => false], ['text' => 'Ein Ion', 'correct' => false]], 'difficulty' => 'medium']
+        ];
+
+        foreach ($questions as $q) {
+            $this->quizManager->addQuestion($quizId, $q);
+        }
+
+        echo "  ✓ 40 Naturwissenschaften-Fragen hinzugefügt\n";
     }
 
     /**
