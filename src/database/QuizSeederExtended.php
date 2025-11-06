@@ -974,10 +974,69 @@ class QuizSeederExtended {
         // Implementation folgt...
     }
 
+    /**
+     * Sport Extended (40 Fragen)
+     */
     private function seedSportExtended(): void {
         echo "Seeding Sport Extended...\n";
-        echo "  ✓ 40 Sport-Fragen würden hier hinzugefügt\n";
-        // Implementation folgt...
+
+        $quizId = $this->quizManager->createQuiz($this->defaultUserId, [
+            'title' => 'Sport Extended - Von Fußball bis Olympia',
+            'description' => 'Teste dein Sport-Wissen!',
+            'category' => 'Sport',
+            'difficulty' => 'medium',
+            'time_limit' => 0,
+            'is_public' => true
+        ]);
+
+        $questions = [
+            ['question' => 'Wie viele Spieler hat ein Fußballteam auf dem Feld?', 'answers' => [['text' => '9', 'correct' => false], ['text' => '10', 'correct' => false], ['text' => '11', 'correct' => true], ['text' => '12', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'In welchem Land fand die Fußball-WM 2014 statt?', 'answers' => [['text' => 'Argentinien', 'correct' => false], ['text' => 'Brasilien', 'correct' => true], ['text' => 'Deutschland', 'correct' => false], ['text' => 'Spanien', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wer gewann die Fußball-WM 2018?', 'answers' => [['text' => 'Deutschland', 'correct' => false], ['text' => 'Brasilien', 'correct' => false], ['text' => 'Frankreich', 'correct' => true], ['text' => 'Kroatien', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Spieler hat ein Basketball-Team?', 'answers' => [['text' => '4', 'correct' => false], ['text' => '5', 'correct' => true], ['text' => '6', 'correct' => false], ['text' => '7', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'In welcher Sportart ist Usain Bolt berühmt?', 'answers' => [['text' => 'Hochsprung', 'correct' => false], ['text' => 'Marathon', 'correct' => false], ['text' => 'Sprint', 'correct' => true], ['text' => 'Hürdenlauf', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Ringe hat das Olympische Symbol?', 'answers' => [['text' => '4', 'correct' => false], ['text' => '5', 'correct' => true], ['text' => '6', 'correct' => false], ['text' => '7', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'In welcher Stadt fanden die Olympischen Spiele 2012 statt?', 'answers' => [['text' => 'Peking', 'correct' => false], ['text' => 'London', 'correct' => true], ['text' => 'Rio', 'correct' => false], ['text' => 'Tokio', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie oft finden Olympische Sommerspiele statt?', 'answers' => [['text' => 'Jedes Jahr', 'correct' => false], ['text' => 'Alle 2 Jahre', 'correct' => false], ['text' => 'Alle 4 Jahre', 'correct' => true], ['text' => 'Alle 5 Jahre', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welcher deutsche Verein gewann 2013 die Champions League?', 'answers' => [['text' => 'Dortmund', 'correct' => false], ['text' => 'Bayern München', 'correct' => true], ['text' => 'Schalke 04', 'correct' => false], ['text' => 'Leverkusen', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer ist Roger Federer?', 'answers' => [['text' => 'Fußballspieler', 'correct' => false], ['text' => 'Tennisspieler', 'correct' => true], ['text' => 'Golfspieler', 'correct' => false], ['text' => 'Skispringer', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Sätze muss man beim Tennis gewinnen (bei Grand Slams)?', 'answers' => [['text' => '2', 'correct' => false], ['text' => '3', 'correct' => true], ['text' => '4', 'correct' => false], ['text' => '5', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'In welchem Team fuhr Michael Schumacher?', 'answers' => [['text' => 'McLaren', 'correct' => false], ['text' => 'Ferrari', 'correct' => true], ['text' => 'Williams', 'correct' => false], ['text' => 'Renault', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie viele Grand-Slam-Turniere gibt es im Tennis?', 'answers' => [['text' => '3', 'correct' => false], ['text' => '4', 'correct' => true], ['text' => '5', 'correct' => false], ['text' => '6', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welche Farbe hat der Puck im Eishockey?', 'answers' => [['text' => 'Weiß', 'correct' => false], ['text' => 'Schwarz', 'correct' => true], ['text' => 'Rot', 'correct' => false], ['text' => 'Blau', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Punkte gibt es für einen Touchdown im American Football?', 'answers' => [['text' => '5', 'correct' => false], ['text' => '6', 'correct' => true], ['text' => '7', 'correct' => false], ['text' => '8', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer ist Cristiano Ronaldo?', 'answers' => [['text' => 'Basketballer', 'correct' => false], ['text' => 'Fußballer', 'correct' => true], ['text' => 'Tennisspieler', 'correct' => false], ['text' => 'Boxer', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'In welcher Sportart gibt es ein "Hole-in-One"?', 'answers' => [['text' => 'Tennis', 'correct' => false], ['text' => 'Golf', 'correct' => true], ['text' => 'Bowling', 'correct' => false], ['text' => 'Billard', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Disziplinen hat ein Zehnkampf?', 'answers' => [['text' => '8', 'correct' => false], ['text' => '9', 'correct' => false], ['text' => '10', 'correct' => true], ['text' => '12', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welches Land gewann die erste Fußball-WM 1930?', 'answers' => [['text' => 'Brasilien', 'correct' => false], ['text' => 'Uruguay', 'correct' => true], ['text' => 'Argentinien', 'correct' => false], ['text' => 'Italien', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wie heißt das berühmteste Tennisturnier in Wimbledon?', 'answers' => [['text' => 'French Open', 'correct' => false], ['text' => 'Wimbledon Championships', 'correct' => true], ['text' => 'US Open', 'correct' => false], ['text' => 'Australian Open', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Spieler pro Team sind beim Volleyball?', 'answers' => [['text' => '5', 'correct' => false], ['text' => '6', 'correct' => true], ['text' => '7', 'correct' => false], ['text' => '8', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'In welcher Stadt spielen die New York Yankees?', 'answers' => [['text' => 'Los Angeles', 'correct' => false], ['text' => 'New York', 'correct' => true], ['text' => 'Chicago', 'correct' => false], ['text' => 'Boston', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Weltmeistertitel gewann Michael Schumacher?', 'answers' => [['text' => '5', 'correct' => false], ['text' => '6', 'correct' => false], ['text' => '7', 'correct' => true], ['text' => '8', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welcher Boxer war "The Greatest"?', 'answers' => [['text' => 'Mike Tyson', 'correct' => false], ['text' => 'Muhammad Ali', 'correct' => true], ['text' => 'George Foreman', 'correct' => false], ['text' => 'Joe Frazier', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Runden hat ein Boxkampf normalerweise?', 'answers' => [['text' => '10', 'correct' => false], ['text' => '12', 'correct' => true], ['text' => '15', 'correct' => false], ['text' => '20', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'In welcher Sportart gibt es den "Grand Slam"?', 'answers' => [['text' => 'Nur Tennis', 'correct' => false], ['text' => 'Tennis und Golf', 'correct' => true], ['text' => 'Nur Golf', 'correct' => false], ['text' => 'Baseball', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie lang ist ein Marathon?', 'answers' => [['text' => '40 km', 'correct' => false], ['text' => '42,195 km', 'correct' => true], ['text' => '45 km', 'correct' => false], ['text' => '50 km', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer ist Lionel Messi?', 'answers' => [['text' => 'Tennisspieler', 'correct' => false], ['text' => 'Fußballspieler', 'correct' => true], ['text' => 'Basketballer', 'correct' => false], ['text' => 'Handballer', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Welches Land ist Rekordweltmeister im Fußball?', 'answers' => [['text' => 'Deutschland', 'correct' => false], ['text' => 'Brasilien', 'correct' => true], ['text' => 'Italien', 'correct' => false], ['text' => 'Argentinien', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Pins gibt es beim Bowling?', 'answers' => [['text' => '8', 'correct' => false], ['text' => '9', 'correct' => false], ['text' => '10', 'correct' => true], ['text' => '12', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'In welcher Sportart gab es die "Hand Gottes"?', 'answers' => [['text' => 'Basketball', 'correct' => false], ['text' => 'Fußball', 'correct' => true], ['text' => 'Handball', 'correct' => false], ['text' => 'Volleyball', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie viele Major-Titel gewann Tiger Woods?', 'answers' => [['text' => '12', 'correct' => false], ['text' => '14', 'correct' => false], ['text' => '15', 'correct' => true], ['text' => '18', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Welche Mannschaft wird "Die Mannschaft" genannt?', 'answers' => [['text' => 'Österreich', 'correct' => false], ['text' => 'Deutschland', 'correct' => true], ['text' => 'Schweiz', 'correct' => false], ['text' => 'Niederlande', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie heißt das Finale im American Football?', 'answers' => [['text' => 'World Series', 'correct' => false], ['text' => 'Super Bowl', 'correct' => true], ['text' => 'NBA Finals', 'correct' => false], ['text' => 'Stanley Cup', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'In welcher Stadt steht das Camp Nou?', 'answers' => [['text' => 'Madrid', 'correct' => false], ['text' => 'Barcelona', 'correct' => true], ['text' => 'Valencia', 'correct' => false], ['text' => 'Sevilla', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie viele Spieler pro Team beim Handball?', 'answers' => [['text' => '5', 'correct' => false], ['text' => '6', 'correct' => false], ['text' => '7', 'correct' => true], ['text' => '8', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wer gewann die meisten Ballon d\'Or Awards?', 'answers' => [['text' => 'Cristiano Ronaldo', 'correct' => false], ['text' => 'Lionel Messi', 'correct' => true], ['text' => 'Pelé', 'correct' => false], ['text' => 'Maradona', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie viele Pokale gibt es bei Wimbledon?', 'answers' => [['text' => '1', 'correct' => false], ['text' => '2', 'correct' => true], ['text' => '3', 'correct' => false], ['text' => '4', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Welche Farbe hat das Trikot des Tour de France Führenden?', 'answers' => [['text' => 'Grün', 'correct' => false], ['text' => 'Gelb', 'correct' => true], ['text' => 'Rot', 'correct' => false], ['text' => 'Blau', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Grand Slams gewann Serena Williams?', 'answers' => [['text' => '20', 'correct' => false], ['text' => '21', 'correct' => false], ['text' => '23', 'correct' => true], ['text' => '25', 'correct' => false]], 'difficulty' => 'hard']
+        ];
+
+        foreach ($questions as $q) {
+            $this->quizManager->addQuestion($quizId, $q);
+        }
+
+        echo "  ✓ 40 Sport-Fragen hinzugefügt\n";
     }
 
     private function seedKunstKulturExtended(): void {
