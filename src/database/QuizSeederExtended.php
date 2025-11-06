@@ -1187,10 +1187,69 @@ class QuizSeederExtended {
         // Implementation folgt...
     }
 
+    /**
+     * Mathematik Extended (40 Fragen)
+     */
     private function seedMathematikExtended(): void {
         echo "Seeding Mathematik Extended...\n";
-        echo "  ✓ 40 Mathematik-Fragen würden hier hinzugefügt\n";
-        // Implementation folgt...
+
+        $quizId = $this->quizManager->createQuiz($this->defaultUserId, [
+            'title' => 'Mathematik Extended - Rechnen',
+            'description' => 'Von Grundrechnen bis Geometrie',
+            'category' => 'Mathematik',
+            'difficulty' => 'medium',
+            'time_limit' => 0,
+            'is_public' => true
+        ]);
+
+        $questions = [
+            ['question' => 'Was ist die Quadratwurzel aus 144?', 'answers' => [['text' => '11', 'correct' => false], ['text' => '12', 'correct' => true], ['text' => '13', 'correct' => false], ['text' => '14', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Grad hat ein Dreieck insgesamt?', 'answers' => [['text' => '90', 'correct' => false], ['text' => '180', 'correct' => true], ['text' => '270', 'correct' => false], ['text' => '360', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist Pi (gerundet)?', 'answers' => [['text' => '2,14', 'correct' => false], ['text' => '3,14', 'correct' => true], ['text' => '4,14', 'correct' => false], ['text' => '5,14', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist 15% von 200?', 'answers' => [['text' => '20', 'correct' => false], ['text' => '30', 'correct' => true], ['text' => '40', 'correct' => false], ['text' => '50', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie viele Seiten hat ein Oktagon?', 'answers' => [['text' => '6', 'correct' => false], ['text' => '8', 'correct' => true], ['text' => '10', 'correct' => false], ['text' => '12', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist 7 × 8?', 'answers' => [['text' => '54', 'correct' => false], ['text' => '56', 'correct' => true], ['text' => '58', 'correct' => false], ['text' => '60', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Grad hat ein rechter Winkel?', 'answers' => [['text' => '45', 'correct' => false], ['text' => '90', 'correct' => true], ['text' => '135', 'correct' => false], ['text' => '180', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist 12²?', 'answers' => [['text' => '124', 'correct' => false], ['text' => '144', 'correct' => true], ['text' => '156', 'correct' => false], ['text' => '164', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Nullen hat eine Million?', 'answers' => [['text' => '5', 'correct' => false], ['text' => '6', 'correct' => true], ['text' => '7', 'correct' => false], ['text' => '8', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist die Fläche eines Quadrats mit Seitenlänge 5?', 'answers' => [['text' => '20', 'correct' => false], ['text' => '25', 'correct' => true], ['text' => '30', 'correct' => false], ['text' => '35', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist 100 ÷ 4?', 'answers' => [['text' => '20', 'correct' => false], ['text' => '25', 'correct' => true], ['text' => '30', 'correct' => false], ['text' => '35', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Primzahlen gibt es unter 10?', 'answers' => [['text' => '3', 'correct' => false], ['text' => '4', 'correct' => true], ['text' => '5', 'correct' => false], ['text' => '6', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist die nächste Zahl: 2, 4, 8, 16, __?', 'answers' => [['text' => '24', 'correct' => false], ['text' => '32', 'correct' => true], ['text' => '40', 'correct' => false], ['text' => '48', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie viele Sekunden hat eine Stunde?', 'answers' => [['text' => '3000', 'correct' => false], ['text' => '3600', 'correct' => true], ['text' => '4000', 'correct' => false], ['text' => '4200', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist 50% von 80?', 'answers' => [['text' => '30', 'correct' => false], ['text' => '40', 'correct' => true], ['text' => '50', 'correct' => false], ['text' => '60', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Diagonalen hat ein Quadrat?', 'answers' => [['text' => '1', 'correct' => false], ['text' => '2', 'correct' => true], ['text' => '3', 'correct' => false], ['text' => '4', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist 9 + 8 × 2?', 'answers' => [['text' => '34', 'correct' => false], ['text' => '25', 'correct' => true], ['text' => '26', 'correct' => false], ['text' => '28', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie viele Grad hat ein Kreis?', 'answers' => [['text' => '180', 'correct' => false], ['text' => '360', 'correct' => true], ['text' => '540', 'correct' => false], ['text' => '720', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist die Summe von 1 bis 10?', 'answers' => [['text' => '45', 'correct' => false], ['text' => '55', 'correct' => true], ['text' => '65', 'correct' => false], ['text' => '75', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wie viele Zentimeter sind 1 Meter?', 'answers' => [['text' => '10', 'correct' => false], ['text' => '100', 'correct' => true], ['text' => '1000', 'correct' => false], ['text' => '10000', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist 2³?', 'answers' => [['text' => '6', 'correct' => false], ['text' => '8', 'correct' => true], ['text' => '9', 'correct' => false], ['text' => '12', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie viele Ecken hat ein Würfel?', 'answers' => [['text' => '6', 'correct' => false], ['text' => '8', 'correct' => true], ['text' => '10', 'correct' => false], ['text' => '12', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist 1/4 als Dezimalzahl?', 'answers' => [['text' => '0,2', 'correct' => false], ['text' => '0,25', 'correct' => true], ['text' => '0,3', 'correct' => false], ['text' => '0,4', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Minuten sind 2,5 Stunden?', 'answers' => [['text' => '120', 'correct' => false], ['text' => '150', 'correct' => true], ['text' => '180', 'correct' => false], ['text' => '200', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist der Umfang eines Quadrats mit Seitenlänge 6?', 'answers' => [['text' => '18', 'correct' => false], ['text' => '24', 'correct' => true], ['text' => '30', 'correct' => false], ['text' => '36', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie heißt ein Viereck mit 4 gleichen Seiten?', 'answers' => [['text' => 'Rechteck', 'correct' => false], ['text' => 'Quadrat', 'correct' => true], ['text' => 'Trapez', 'correct' => false], ['text' => 'Parallelogramm', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist 20% von 500?', 'answers' => [['text' => '50', 'correct' => false], ['text' => '100', 'correct' => true], ['text' => '150', 'correct' => false], ['text' => '200', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie viele Kanten hat ein Würfel?', 'answers' => [['text' => '8', 'correct' => false], ['text' => '12', 'correct' => true], ['text' => '16', 'correct' => false], ['text' => '20', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist √100?', 'answers' => [['text' => '9', 'correct' => false], ['text' => '10', 'correct' => true], ['text' => '11', 'correct' => false], ['text' => '12', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie viele Stunden hat eine Woche?', 'answers' => [['text' => '144', 'correct' => false], ['text' => '168', 'correct' => true], ['text' => '192', 'correct' => false], ['text' => '200', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Was ist 3/4 als Prozent?', 'answers' => [['text' => '50%', 'correct' => false], ['text' => '75%', 'correct' => true], ['text' => '80%', 'correct' => false], ['text' => '90%', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie viele Flächen hat ein Würfel?', 'answers' => [['text' => '4', 'correct' => false], ['text' => '6', 'correct' => true], ['text' => '8', 'correct' => false], ['text' => '12', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist 10!?', 'answers' => [['text' => '100', 'correct' => false], ['text' => '3.628.800', 'correct' => true], ['text' => '10.000', 'correct' => false], ['text' => '1.000.000', 'correct' => false]], 'difficulty' => 'hard'],
+            ['question' => 'Wie viele Millimeter sind 5 cm?', 'answers' => [['text' => '5', 'correct' => false], ['text' => '50', 'correct' => true], ['text' => '500', 'correct' => false], ['text' => '5000', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist die kleinste Primzahl?', 'answers' => [['text' => '1', 'correct' => false], ['text' => '2', 'correct' => true], ['text' => '3', 'correct' => false], ['text' => '5', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie viele Quadratmeter hat ein 10m × 10m Raum?', 'answers' => [['text' => '50', 'correct' => false], ['text' => '100', 'correct' => true], ['text' => '150', 'correct' => false], ['text' => '200', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Was ist 0,5 als Bruch?', 'answers' => [['text' => '1/4', 'correct' => false], ['text' => '1/2', 'correct' => true], ['text' => '2/3', 'correct' => false], ['text' => '3/4', 'correct' => false]], 'difficulty' => 'easy'],
+            ['question' => 'Wie heißt ein 5-Eck?', 'answers' => [['text' => 'Hexagon', 'correct' => false], ['text' => 'Pentagon', 'correct' => true], ['text' => 'Oktagon', 'correct' => false], ['text' => 'Heptagon', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Was ist 2 + 3 × 4?', 'answers' => [['text' => '20', 'correct' => false], ['text' => '14', 'correct' => true], ['text' => '15', 'correct' => false], ['text' => '24', 'correct' => false]], 'difficulty' => 'medium'],
+            ['question' => 'Wie viele Tage hat ein Schaltjahr?', 'answers' => [['text' => '364', 'correct' => false], ['text' => '366', 'correct' => true], ['text' => '365', 'correct' => false], ['text' => '367', 'correct' => false]], 'difficulty' => 'easy']
+        ];
+
+        foreach ($questions as $q) {
+            $this->quizManager->addQuestion($quizId, $q);
+        }
+
+        echo "  ✓ 40 Mathematik-Fragen hinzugefügt\n";
     }
 
     private function seedSprachenExtended(): void {
