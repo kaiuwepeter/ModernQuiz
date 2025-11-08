@@ -60,4 +60,10 @@ export const leaderboardAPI = {
   getMonthly: () => api.get('/leaderboard/monthly')
 }
 
+export const chatAPI = {
+  getMessages: (limit = 50) => api.get('/chat/messages', { params: { limit } }),
+  sendMessage: (message) => api.post('/chat/send', { message }),
+  getUnreadCount: () => api.get('/chat/unread')
+}
+
 export default api
