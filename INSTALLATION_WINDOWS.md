@@ -161,42 +161,52 @@ BASE_URL=http://modernquiz.local
 
 ### Schritt 6: Datenbank-Schema importieren
 
-Es gibt zwei Optionen:
+**EMPFOHLEN: SQL-Dump importieren (schnell & einfach)**
 
-**Option A: SQL-Datei importieren (falls vorhanden)**
+Die Datei `database_setup.sql` enthält:
+- Alle Tabellen-Definitionen
+- 15 Quiz-Kategorien mit 10 Beispiel-Fragen
+- 6 Shop-Powerups
+- Bank-Einstellungen
+- **Superadmin Account (Username: admin, Passwort: admin123)**
+
+**Option A: Via phpMyAdmin (am einfachsten)**
+1. Browser öffnen: http://localhost/phpmyadmin
+2. Datenbank `modernquiz` auswählen (linke Seite)
+3. Tab "Importieren" oben
+4. "Datei auswählen" → `C:\xampp\htdocs\ModernQuiz\database_setup.sql`
+5. Ganz unten auf "OK" klicken
+6. **Warten** (ca. 5-10 Sekunden) bis "Import erfolgreich" erscheint
+
+**Option B: Via MySQL Kommandozeile**
 ```bash
-# Suche nach database.sql oder schema.sql im Projekt
-cd C:\xampp\htdocs\ModernQuiz
-dir /s *.sql
+# Im XAMPP Ordner
+cd C:\xampp
 
-# Importieren via MySQL
-C:\xampp\mysql\bin\mysql -u root modernquiz < pfad/zu/schema.sql
+# SQL-Dump importieren
+mysql\bin\mysql -u root modernquiz < htdocs\ModernQuiz\database_setup.sql
+
+# Erfolgreich wenn keine Fehlermeldung erscheint
 ```
 
-**Option B: phpMyAdmin Import**
-1. http://localhost/phpmyadmin
-2. Datenbank `modernquiz` auswählen
-3. Tab "Importieren"
-4. SQL-Datei auswählen und importieren
-
-**Option C: Migrations ausführen (falls vorhanden)**
+**Option C: Migrations manuell ausführen (alternativ)**
 ```bash
 # Im Projekt-Root
+cd C:\xampp\htdocs\ModernQuiz
 php migrate.php
-# ODER
-composer run migrate
 ```
 
-### Schritt 7: Test-Daten einfügen (Optional)
+**⚠️ WICHTIG: Superadmin Login-Daten**
+Nach dem Import kannst du dich einloggen mit:
+- **Username:** `admin`
+- **Passwort:** `admin123`
+- **Email:** `admin@modernquiz.local`
+- **Startguthaben:** 10.000 Coins + 5.000 Bonus Coins
+- **Level:** 99
 
-Falls es eine Seeder-Datei gibt:
-```bash
-php seed.php
-# ODER
-composer run seed
-```
+**Empfehlung:** Ändere das Admin-Passwort nach dem ersten Login!
 
-### Schritt 8: Backend testen
+### Schritt 7: Backend testen
 
 Browser öffnen:
 
@@ -210,7 +220,7 @@ Browser öffnen:
 
 **Erwartete Antwort:** JSON-Response (z.B. `{"status":"ok"}` oder Liste von Kategorien)
 
-### Schritt 9: Frontend-Setup (Vue.js)
+### Schritt 8: Frontend-Setup (Vue.js)
 
 ```bash
 # In den Frontend-Ordner wechseln
@@ -220,7 +230,7 @@ cd C:\xampp\htdocs\ModernQuiz\frontend
 npm install
 ```
 
-### Schritt 10: Frontend-Konfiguration anpassen
+### Schritt 9: Frontend-Konfiguration anpassen
 
 **Datei:** `frontend/vite.config.js`
 
@@ -246,7 +256,7 @@ Falls du **OHNE Virtual Host** arbeitest, ändere zu:
 target: 'http://localhost/ModernQuiz/public',
 ```
 
-### Schritt 11: Frontend starten
+### Schritt 10: Frontend starten
 
 ```bash
 # Im Frontend-Ordner (solltest du schon sein)
@@ -265,14 +275,14 @@ npm run dev
   ➜  press h + enter to show help
 ```
 
-### Schritt 12: Anwendung testen
+### Schritt 11: Anwendung testen
 
 **Browser öffnen:** http://localhost:5173
 
 **Was du sehen solltest:**
 1. Login/Register Seite
-2. Erstelle einen Account
-3. Nach Login: Dashboard mit Navigation
+2. **Einloggen mit Superadmin:** Username `admin`, Passwort `admin123`
+3. Nach Login: Dashboard mit Navigation (Coins: 10.000, Level: 99)
 
 ## Komponenten testen
 
