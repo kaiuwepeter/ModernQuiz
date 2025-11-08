@@ -72,10 +72,11 @@
       <router-view />
     </main>
 
-    <!-- Notification Toast (für später) -->
-    <div v-if="notification" class="fixed bottom-4 right-4 bg-white shadow-lg rounded-lg p-4 max-w-sm">
-      <p class="text-sm font-medium text-gray-900">{{ notification }}</p>
-    </div>
+    <!-- Global Notifications -->
+    <Notifications />
+
+    <!-- Global Chat (only for authenticated users) -->
+    <Chat v-if="authStore.isAuthenticated" />
   </div>
 </template>
 
@@ -83,11 +84,12 @@
 import { ref, onMounted } from 'vue'
 import { useAuthStore } from './store/auth'
 import { useRouter } from 'vue-router'
+import Chat from './components/Chat.vue'
+import Notifications from './components/Notifications.vue'
 
 const authStore = useAuthStore()
 const router = useRouter()
 const userMenuOpen = ref(false)
-const notification = ref(null)
 
 const logout = async () => {
   await authStore.logout()
