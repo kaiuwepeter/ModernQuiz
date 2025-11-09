@@ -98,7 +98,7 @@
             resultDiv.textContent = 'Loading...';
 
             try {
-                const response = await fetch('/api/debug-login.php');
+                const response = await fetch('/api/check-admin.php');
                 const text = await response.text();
 
                 let data;
@@ -109,7 +109,17 @@
                     return;
                 }
 
-                resultDiv.innerHTML = `<span class="success">✅ Database Check</span>\n\n${JSON.stringify(data, null, 2)}`;
+                if (data.success === false) {
+                    resultDiv.innerHTML = `<span class="error">❌ Database Problem gefunden!</span>\n\n${JSON.stringify(data, null, 2)}`;
+                } else if (!data.password_test.password_matches) {
+                    resultDiv.innerHTML = `<span class="error">❌ Passwort stimmt nicht überein!</span>\n\n${JSON.stringify(data, null, 2)}`;
+                } else if (!data.database_structure.schema_ok) {
+                    resultDiv.innerHTML = `<span class="error">❌ Datenbank-Schema fehlt Spalten!</span>\n\nFehlende Spalten: ${data.database_structure.missing_columns.join(', ')}\n\n${JSON.stringify(data, null, 2)}`;
+                } else if (data.admin_data.email_verified === false) {
+                    resultDiv.innerHTML = `<span class="error">❌ Email nicht verifiziert!</span>\n\n${JSON.stringify(data, null, 2)}`;
+                } else {
+                    resultDiv.innerHTML = `<span class="success">✅ Alles OK! Admin User ist korrekt konfiguriert.</span>\n\n${JSON.stringify(data, null, 2)}`;
+                }
             } catch (error) {
                 resultDiv.innerHTML = `<span class="error">❌ Error: ${error.message}</span>`;
             }
