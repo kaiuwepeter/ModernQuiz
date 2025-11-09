@@ -18,7 +18,7 @@ class Login
     public function __construct()
     {
         $this->db = Database::getInstance()->getConnection();
-        $this->sessionManager = new SessionManager();
+        $this->sessionManager = new SessionManager($this->db);
         $this->security = new Security();
     }
 

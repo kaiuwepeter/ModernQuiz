@@ -141,10 +141,23 @@ try {
     $authenticatedUserId = null;
 
     // ========================================
+    // HEALTH CHECK ENDPOINT (PUBLIC)
+    // ========================================
+
+    if ($segments[0] === 'health') {
+        sendResponse([
+            'success' => true,
+            'status' => 'healthy',
+            'timestamp' => date('Y-m-d H:i:s'),
+            'version' => '1.0.0'
+        ]);
+    }
+
+    // ========================================
     // AUTHENTICATION ENDPOINTS (PUBLIC)
     // ========================================
 
-    if ($segments[0] === 'auth') {
+    elseif ($segments[0] === 'auth') {
 
         // POST /auth/register
         if ($method === 'POST' && $segments[1] === 'register') {
