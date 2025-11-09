@@ -187,6 +187,12 @@ try {
         exit;
     }
 
+    elseif ($segments[0] === 'test-session-creation.php') {
+        // Simple session creation test
+        require_once __DIR__ . '/test-session-creation.php';
+        exit;
+    }
+
     // ========================================
     // AUTHENTICATION ENDPOINTS (PUBLIC)
     // ========================================

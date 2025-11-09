@@ -26,6 +26,7 @@ class AuthMiddleware
         '/api/reset-admin-password.php',  // Admin password reset endpoint
         '/api/test-login-direct.php',  // Direct login test endpoint
         '/api/fix-sessions-table.php',  // Sessions table structure fix endpoint
+        '/api/test-session-creation.php',  // Simple session creation test endpoint
     ];
 
     public function __construct()
