@@ -1,9 +1,18 @@
-RewriteEngine On
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
 
-# API Routes - Leite alle /api/* Anfragen zu api/index.php weiter
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^api/(.*)$ api/index.php [L,QSA,E=REDIRECT_PATH_INFO:/$1]
+    # API Routes - Weiterleitung zu api/index.php
+    RewriteRule ^api/(.*)$ api/index.php [L,QSA]
 
-# Frontend Routes
-DirectoryIndex index.html login.html
+    # Vue.js SPA - Alle anderen Routen zu index.html
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.html [L]
+</IfModule>
+
+# Verhindere Directory Listing
+Options -Indexes
+
+# Error Pages
+ErrorDocument 404 /index.html

@@ -21,7 +21,8 @@ class AuthMiddleware
 
     public function __construct()
     {
-        $this->sessionManager = new SessionManager();
+        $db = Database::getInstance()->getConnection();
+        $this->sessionManager = new SessionManager($db);
     }
 
     /**
