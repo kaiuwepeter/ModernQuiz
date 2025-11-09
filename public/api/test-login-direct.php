@@ -82,11 +82,10 @@ try {
         ],
         'test_4_session_validation' => $sessionDetails ? [
             'session_valid' => true,
-            'session_id' => $sessionDetails['id'],
             'user_id' => $sessionDetails['user_id'],
-            'device_hash' => substr($sessionDetails['device_hash'], 0, 16) . '...',
-            'created_at' => $sessionDetails['created_at'],
-            'expires_at' => $sessionDetails['expires_at']
+            'username' => $sessionDetails['username'] ?? 'N/A',
+            'session_token_matches' => ($sessionDetails['session_token'] ?? '') === $sessionToken,
+            'device_hash' => isset($sessionDetails['device_hash']) ? substr($sessionDetails['device_hash'], 0, 16) . '...' : 'N/A'
         ] : [
             'session_valid' => false,
             'reason' => 'No session token returned from login'
