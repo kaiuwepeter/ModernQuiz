@@ -24,12 +24,15 @@ class SessionManager {
         $ipAddress = $this->getClientIp();
         $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
 
+        // Calculate expiration time
+        $expiresAt = date('Y-m-d H:i:s', time() + $this->sessionLifetime);
+
         $stmt = $this->db->prepare(
-            "INSERT INTO sessions (user_id, session_token, device_hash, ip_address, user_agent, created_at, last_activity)
-             VALUES (?, ?, ?, ?, ?, NOW(), NOW())"
+            "INSERT INTO sessions (user_id, session_token, device_hash, ip_address, user_agent, created_at, expires_at, last_activity)
+             VALUES (?, ?, ?, ?, ?, NOW(), ?, NOW())"
         );
 
-        if ($stmt->execute([$userId, $sessionId, $deviceHash, $ipAddress, $userAgent])) {
+        if ($stmt->execute([$userId, $sessionId, $deviceHash, $ipAddress, $userAgent, $expiresAt])) {
             // Setze Session-Cookie
             $this->setSessionCookie($sessionId);
             return $sessionId;
