@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Login Debug</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #1e1e1e; color: #d4d4d4; }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; margin: 5px; }
+        .success { color: #4ec9b0; }
+        .error { color: #f48771; }
+        pre { background: #252526; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        .section { margin: 20px 0; padding: 15px; background: #2d2d30; border-radius: 5px; }
+        h3 { color: #569cd6; }
+    </style>
+</head>
+<body>
+    <h1>🔍 ModernQuiz Login Debug Tool</h1>
+
+    <div class="section">
+        <h3>1. Test Health Endpoint</h3>
+        <button onclick="testHealth()">Test /api/health</button>
+        <pre id="health-result">Noch nicht getestet...</pre>
+    </div>
+
+    <div class="section">
+        <h3>2. Test Login Endpoint</h3>
+        <button onclick="testLogin()">Test Login (admin / admin123)</button>
+        <pre id="login-result">Noch nicht getestet...</pre>
+    </div>
+
+    <div class="section">
+        <h3>3. Check Database User</h3>
+        <button onclick="checkDatabase()">Check Admin User in DB</button>
+        <pre id="db-result">Noch nicht getestet...</pre>
+    </div>
+
+    <script>
+        async function testHealth() {
+            const resultDiv = document.getElementById('health-result');
+            resultDiv.textContent = 'Loading...';
+
+            try {
+                const response = await fetch('/api/health');
+                const text = await response.text();
+
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch (e) {
+                    resultDiv.innerHTML = `<span class="error">❌ Response ist kein JSON!</span>\n\nHTTP ${response.status}\n\nRaw Response:\n${text}`;
+                    return;
+                }
+
+                resultDiv.innerHTML = `<span class="success">✅ Health Check erfolgreich!</span>\n\n${JSON.stringify(data, null, 2)}`;
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">❌ Error: ${error.message}</span>`;
+            }
+        }
+
+        async function testLogin() {
+            const resultDiv = document.getElementById('login-result');
+            resultDiv.textContent = 'Loading...';
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        identifier: 'admin',
+                        password: 'admin123'
+                    })
+                });
+
+                const text = await response.text();
+
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch (e) {
+                    resultDiv.innerHTML = `<span class="error">❌ Response ist kein JSON!</span>\n\nHTTP ${response.status}\n\nRaw Response:\n${text.substring(0, 500)}...`;
+                    return;
+                }
+
+                if (data.success) {
+                    resultDiv.innerHTML = `<span class="success">✅ Login erfolgreich!</span>\n\nHTTP ${response.status}\n\nResponse:\n${JSON.stringify(data, null, 2)}`;
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ Login fehlgeschlagen</span>\n\nHTTP ${response.status}\n\nResponse:\n${JSON.stringify(data, null, 2)}`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">❌ Error: ${error.message}</span>`;
+            }
+        }
+
+        async function checkDatabase() {
+            const resultDiv = document.getElementById('db-result');
+            resultDiv.textContent = 'Loading...';
+
+            try {
+                const response = await fetch('/api/debug-login.php');
+                const text = await response.text();
+
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch (e) {
+                    resultDiv.innerHTML = `<span class="error">❌ Response ist kein JSON!</span>\n\nRaw Response:\n${text.substring(0, 500)}...`;
+                    return;
+                }
+
+                resultDiv.innerHTML = `<span class="success">✅ Database Check</span>\n\n${JSON.stringify(data, null, 2)}`;
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">❌ Error: ${error.message}</span>`;
+            }
+        }
+
+        // Auto-run health check on load
+        window.onload = () => {
+            testHealth();
+        };
+    </script>
+</body>
+</html>
