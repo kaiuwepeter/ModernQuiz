@@ -29,11 +29,17 @@ CREATE TABLE IF NOT EXISTS `users` (
   `username` VARCHAR(50) UNIQUE NOT NULL,
   `email` VARCHAR(255) UNIQUE NOT NULL,
   `password_hash` VARCHAR(255) NOT NULL,
+  `email_verified` BOOLEAN DEFAULT FALSE,
   `is_active` BOOLEAN DEFAULT TRUE,
   `is_admin` BOOLEAN DEFAULT FALSE,
+  `role` ENUM('user', 'admin') DEFAULT 'user',
   `verification_token` VARCHAR(64) NULL,
   `two_factor_enabled` BOOLEAN DEFAULT FALSE,
   `two_factor_secret` VARCHAR(32) NULL,
+  `coins` DECIMAL(10,2) DEFAULT 100.00,
+  `points` INT DEFAULT 0,
+  `level` INT DEFAULT 1,
+  `avatar` VARCHAR(255) NULL,
   `referral_code` VARCHAR(20) UNIQUE NOT NULL,
   `referred_by` INT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -555,8 +561,8 @@ INSERT INTO `bank_settings` (`setting_key`, `setting_value`, `description`) VALU
 -- Password Hash: $2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi
 -- ============================================
 
-INSERT INTO `users` (`username`, `email`, `password_hash`, `is_active`, `is_admin`, `referral_code`, `created_at`) VALUES
-('admin', 'admin@modernquiz.local', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', TRUE, TRUE, 'ADMIN2024', NOW());
+INSERT INTO `users` (`username`, `email`, `password_hash`, `email_verified`, `is_active`, `is_admin`, `role`, `coins`, `points`, `level`, `referral_code`, `created_at`) VALUES
+('admin', 'admin@modernquiz.local', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', TRUE, TRUE, TRUE, 'admin', 10000.00, 999999, 99, 'ADMIN2024', NOW());
 
 -- User Stats für Admin
 INSERT INTO `user_stats` (`user_id`, `coins`, `bonus_coins`, `level`, `total_points`) VALUES

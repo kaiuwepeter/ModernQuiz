@@ -157,8 +157,8 @@ class Register
     {
         $stmt = $this->db->prepare("
             SELECT
-                COUNT(*) FILTER (WHERE username = ?) as username_exists,
-                COUNT(*) FILTER (WHERE email = ?) as email_exists
+                SUM(CASE WHEN username = ? THEN 1 ELSE 0 END) as username_exists,
+                SUM(CASE WHEN email = ? THEN 1 ELSE 0 END) as email_exists
             FROM users
         ");
         $stmt->execute([$username, $email]);

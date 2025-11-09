@@ -35,14 +35,6 @@ class AuthMiddleware
      */
     public function authenticate(): int
     {
-        // Check if route is public
-        $requestPath = $_SERVER['REQUEST_URI'] ?? '';
-        $path = parse_url($requestPath, PHP_URL_PATH);
-
-        if ($this->isPublicRoute($path)) {
-            throw new \Exception('Public route - authentication not required');
-        }
-
         // Get session token from header or cookie
         $sessionToken = $this->getSessionToken();
 
