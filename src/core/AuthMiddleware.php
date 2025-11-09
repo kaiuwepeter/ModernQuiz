@@ -27,6 +27,7 @@ class AuthMiddleware
         '/api/test-login-direct.php',  // Direct login test endpoint
         '/api/fix-sessions-table.php',  // Sessions table structure fix endpoint
         '/api/test-session-creation.php',  // Simple session creation test endpoint
+        '/api/diagnose-system.php',  // System diagnosis endpoint
     ];
 
     public function __construct()

@@ -193,6 +193,12 @@ try {
         exit;
     }
 
+    elseif ($segments[0] === 'diagnose-system.php') {
+        // System diagnosis for profile/admin/quiz issues
+        require_once __DIR__ . '/diagnose-system.php';
+        exit;
+    }
+
     // ========================================
     // AUTHENTICATION ENDPOINTS (PUBLIC)
     // ========================================
