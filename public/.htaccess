@@ -1,9 +1,9 @@
 RewriteEngine On
 
-# API Routes
+# API Routes - Leite alle /api/* Anfragen zu api/index.php weiter
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^api/(.*)$ api/index.php/$1 [L]
+RewriteRule ^api/(.*)$ api/index.php [L,QSA,E=REDIRECT_PATH_INFO:/$1]
 
 # Frontend Routes
 DirectoryIndex index.html login.html

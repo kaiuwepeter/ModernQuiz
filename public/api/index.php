@@ -40,7 +40,19 @@ use ModernQuiz\Modules\Statistics\StatisticsManager;
 
 // Parse request
 $method = $_SERVER['REQUEST_METHOD'];
-$path = $_SERVER['PATH_INFO'] ?? '/';
+
+// Parse path from PATH_INFO or REQUEST_URI
+if (isset($_SERVER['PATH_INFO'])) {
+    $path = $_SERVER['PATH_INFO'];
+} else {
+    // Fallback: Parse from REQUEST_URI
+    $requestUri = $_SERVER['REQUEST_URI'];
+    // Remove query string
+    $requestUri = strtok($requestUri, '?');
+    // Remove /api/ prefix
+    $path = preg_replace('#^/api#', '', $requestUri);
+}
+
 $path = trim($path, '/');
 $segments = explode('/', $path);
 
