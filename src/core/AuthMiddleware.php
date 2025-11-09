@@ -17,6 +17,10 @@ class AuthMiddleware
         '/api/auth/forgot-password',
         '/api/auth/reset-password',
         '/api/quiz/categories',  // Public category list
+        '/api/health',  // Health check endpoint
+        '/api/test.php',  // Debug endpoints
+        '/api/debug-login.php',
+        '/api/test-root.php',
     ];
 
     public function __construct()
