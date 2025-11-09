@@ -28,6 +28,9 @@ class AuthMiddleware
         '/api/fix-sessions-table.php',  // Sessions table structure fix endpoint
         '/api/test-session-creation.php',  // Simple session creation test endpoint
         '/api/diagnose-system.php',  // System diagnosis endpoint
+        '/api/fix-admin-role.php',  // Fix admin user role endpoint
+        '/api/check-user-role.php',  // Check user role endpoint
+        '/api/check-shop-data.php',  // Check shop data endpoint
     ];
 
     public function __construct()
