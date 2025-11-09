@@ -169,6 +169,12 @@ try {
         exit;
     }
 
+    elseif ($segments[0] === 'reset-admin-password.php') {
+        // Reset admin password to admin123
+        require_once __DIR__ . '/reset-admin-password.php';
+        exit;
+    }
+
     // ========================================
     // AUTHENTICATION ENDPOINTS (PUBLIC)
     // ========================================
