@@ -1,6 +1,0 @@
-RewriteEngine On
-
-# Setze PATH_INFO für alle Anfragen außer index.php
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php/$1 [L,QSA]

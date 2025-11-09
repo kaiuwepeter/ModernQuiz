@@ -106,7 +106,7 @@ function getJsonInput(): array
 /**
  * Validate integer parameter
  */
-function validateInt($value, string $name, int $min = null, int $max = null): int
+function validateInt($value, string $name, ?int $min = null, ?int $max = null): int
 {
     $intValue = filter_var($value, FILTER_VALIDATE_INT);
     if ($intValue === false) {
