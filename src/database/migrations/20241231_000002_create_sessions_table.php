@@ -1,3 +1,4 @@
+<?php
 // src/database/migrations/20241231_000002_create_sessions_table.php
 namespace ModernQuiz\Database\Migrations;
 

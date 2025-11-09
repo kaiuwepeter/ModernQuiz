@@ -1,3 +1,4 @@
+<?php
 // src/database/migrations/20241231_000003_create_bot_detection_table.php
 namespace ModernQuiz\Database\Migrations;
 
