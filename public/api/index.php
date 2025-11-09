@@ -175,6 +175,12 @@ try {
         exit;
     }
 
+    elseif ($segments[0] === 'test-login-direct.php') {
+        // Direct login test
+        require_once __DIR__ . '/test-login-direct.php';
+        exit;
+    }
+
     // ========================================
     // AUTHENTICATION ENDPOINTS (PUBLIC)
     // ========================================

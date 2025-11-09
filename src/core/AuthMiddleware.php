@@ -24,6 +24,7 @@ class AuthMiddleware
         '/api/check-admin.php',  // Admin user check endpoint
         '/api/fix-admin-user.php',  // Admin user fix endpoint
         '/api/reset-admin-password.php',  // Admin password reset endpoint
+        '/api/test-login-direct.php',  // Direct login test endpoint
     ];
 
     public function __construct()
