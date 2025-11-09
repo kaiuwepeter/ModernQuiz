@@ -25,7 +25,7 @@ class SessionManager {
         $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
 
         $stmt = $this->db->prepare(
-            "INSERT INTO sessions (user_id, session_id, device_hash, ip_address, user_agent, created_at, last_activity)
+            "INSERT INTO sessions (user_id, session_token, device_hash, ip_address, user_agent, created_at, last_activity)
              VALUES (?, ?, ?, ?, ?, NOW(), NOW())"
         );
 
@@ -46,7 +46,7 @@ class SessionManager {
             "SELECT s.*, u.username, u.email
              FROM sessions s
              JOIN users u ON s.user_id = u.id
-             WHERE s.session_id = ?
+             WHERE s.session_token = ?
              AND s.last_activity > DATE_SUB(NOW(), INTERVAL ? SECOND)"
         );
 
@@ -64,7 +64,7 @@ class SessionManager {
                 'user_id' => $session['user_id'],
                 'username' => $session['username'],
                 'email' => $session['email'],
-                'session_id' => $session['session_id'],
+                'session_token' => $session['session_token'],
                 'device_hash' => $session['device_hash']
             ];
         }
@@ -77,7 +77,7 @@ class SessionManager {
      */
     public function updateActivity(string $sessionId): bool {
         $stmt = $this->db->prepare(
-            "UPDATE sessions SET last_activity = NOW() WHERE session_id = ?"
+            "UPDATE sessions SET last_activity = NOW() WHERE session_token = ?"
         );
         return $stmt->execute([$sessionId]);
     }
@@ -86,7 +86,7 @@ class SessionManager {
      * Beendet eine Session
      */
     public function destroySession(string $sessionId): bool {
-        $stmt = $this->db->prepare("DELETE FROM sessions WHERE session_id = ?");
+        $stmt = $this->db->prepare("DELETE FROM sessions WHERE session_token = ?");
 
         if ($stmt->execute([$sessionId])) {
             // Lösche Cookie
@@ -103,7 +103,7 @@ class SessionManager {
     public function destroyAllUserSessions(int $userId, ?string $exceptSessionId = null): bool {
         if ($exceptSessionId) {
             $stmt = $this->db->prepare(
-                "DELETE FROM sessions WHERE user_id = ? AND session_id != ?"
+                "DELETE FROM sessions WHERE user_id = ? AND session_token != ?"
             );
             return $stmt->execute([$userId, $exceptSessionId]);
         } else {
@@ -117,7 +117,7 @@ class SessionManager {
      */
     public function getUserSessions(int $userId): array {
         $stmt = $this->db->prepare(
-            "SELECT session_id, ip_address, user_agent, created_at, last_activity
+            "SELECT session_token, ip_address, user_agent, created_at, last_activity
              FROM sessions
              WHERE user_id = ?
              ORDER BY last_activity DESC"
