@@ -86,10 +86,15 @@ class Login
             'id' => (int)$user['id'],
             'username' => $user['username'],
             'email' => $user['email'],
+            'role' => $user['role'] ?? 'user',
+            'is_admin' => (bool)($user['is_admin'] ?? false),
             'coins' => (int)$user['coins'],
+            'bonus_coins' => (int)($user['bonus_coins'] ?? 0),
             'points' => (int)$user['points'],
             'level' => (int)$user['level'],
-            'avatar' => $user['avatar']
+            'avatar' => $user['avatar'],
+            'email_verified' => (bool)$user['email_verified'],
+            'is_active' => (bool)$user['is_active']
         ];
 
         return $response;
@@ -101,7 +106,8 @@ class Login
     private function validateCredentials(string $identifier, string $password): ?array
     {
         $stmt = $this->db->prepare("
-            SELECT id, username, email, password_hash, email_verified, is_active, coins, points, level, avatar
+            SELECT id, username, email, password_hash, email_verified, is_active, role, is_admin,
+                   coins, bonus_coins, points, level, avatar, referral_code, created_at, last_login
             FROM users
             WHERE (username = ? OR email = ?)
             LIMIT 1
@@ -216,7 +222,8 @@ class Login
         }
 
         $stmt = $this->db->prepare("
-            SELECT id, username, email, coins, points, level, avatar, role
+            SELECT id, username, email, role, is_admin, coins, bonus_coins, points, level,
+                   avatar, email_verified, is_active, referral_code, created_at, last_login
             FROM users
             WHERE id = ?
         ");

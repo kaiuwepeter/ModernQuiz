@@ -176,7 +176,7 @@ class SessionManager {
     /**
      * Generiert einen Device-Hash für zusätzliche Sicherheit
      */
-    private function generateDeviceHash(): string {
+    public function generateDeviceHash(): string {
         $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
         $acceptLanguage = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '';
         $acceptEncoding = $_SERVER['HTTP_ACCEPT_ENCODING'] ?? '';
