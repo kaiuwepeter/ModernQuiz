@@ -65,8 +65,7 @@ class Login
 
         // Create session
         $sessionToken = $this->sessionManager->createSession(
-            (int)$user['id'],
-            $user['username']
+            (int)$user['id']
         );
 
         if (!$sessionToken) {
