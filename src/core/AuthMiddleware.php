@@ -21,6 +21,7 @@ class AuthMiddleware
         '/api/test.php',  // Debug endpoints
         '/api/debug-login.php',
         '/api/test-root.php',
+        '/api/check-admin.php',  // Admin user check endpoint
     ];
 
     public function __construct()

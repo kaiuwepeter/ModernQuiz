@@ -154,6 +154,22 @@ try {
     }
 
     // ========================================
+    // DEBUG ENDPOINTS (PUBLIC)
+    // ========================================
+
+    elseif ($segments[0] === 'check-admin.php') {
+        // Redirect to the actual check-admin.php file
+        require_once __DIR__ . '/check-admin.php';
+        exit;
+    }
+
+    elseif ($segments[0] === 'fix-admin-user.php') {
+        // Fix admin user settings
+        require_once __DIR__ . '/fix-admin-user.php';
+        exit;
+    }
+
+    // ========================================
     // AUTHENTICATION ENDPOINTS (PUBLIC)
     // ========================================
 
