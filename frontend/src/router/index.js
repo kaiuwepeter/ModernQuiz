@@ -45,6 +45,12 @@ const router = createRouter({
       name: 'Profile',
       component: () => import('../views/Profile.vue'),
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/admin',
+      name: 'Admin',
+      component: () => import('../views/Admin.vue'),
+      meta: { requiresAuth: true, requiresAdmin: true }
     }
   ]
 })
@@ -57,6 +63,14 @@ router.beforeEach((to, from, next) => {
     next('/login')
   } else if (to.meta.guest && authStore.isAuthenticated) {
     next('/')
+  } else if (to.meta.requiresAdmin) {
+    // Check if user is admin
+    const isAdmin = authStore.user?.role === 'admin' || authStore.user?.is_admin === true
+    if (!isAdmin) {
+      next('/')  // Redirect to home if not admin
+    } else {
+      next()
+    }
   } else {
     next()
   }

@@ -32,6 +32,15 @@
               >
                 🛍️ Shop
               </router-link>
+
+              <!-- Admin Menu (only for admins) -->
+              <router-link
+                v-if="isAdmin"
+                to="/admin"
+                class="inline-flex items-center px-1 pt-1 text-sm font-medium text-red-600 border-b-2 border-transparent hover:border-red-500"
+              >
+                ⚙️ Admin
+              </router-link>
             </div>
           </div>
 
@@ -81,7 +90,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useAuthStore } from './store/auth'
 import { useRouter } from 'vue-router'
 import Chat from './components/Chat.vue'
@@ -90,6 +99,11 @@ import Notifications from './components/Notifications.vue'
 const authStore = useAuthStore()
 const router = useRouter()
 const userMenuOpen = ref(false)
+
+// Check if user is admin
+const isAdmin = computed(() => {
+  return authStore.user?.role === 'admin' || authStore.user?.is_admin === true
+})
 
 const logout = async () => {
   await authStore.logout()
