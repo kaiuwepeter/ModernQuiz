@@ -1,4 +1,5 @@
-// src/core/Security.php
+<?php
+
 namespace ModernQuiz\Core;
 
 class Security {
