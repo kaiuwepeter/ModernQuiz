@@ -181,6 +181,12 @@ try {
         exit;
     }
 
+    elseif ($segments[0] === 'fix-sessions-table.php') {
+        // Fix sessions table structure
+        require_once __DIR__ . '/fix-sessions-table.php';
+        exit;
+    }
+
     // ========================================
     // AUTHENTICATION ENDPOINTS (PUBLIC)
     // ========================================
