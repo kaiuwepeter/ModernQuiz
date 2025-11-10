@@ -211,7 +211,10 @@ const createDeposit = async () => {
 
     if (response.data.success) {
       depositForm.value = { coins: 0, bonusCoins: 0 }
-      await authStore.fetchUser()
+      // Update user coins from response
+      if (response.data.user) {
+        authStore.user = { ...authStore.user, ...response.data.user }
+      }
       await loadBankBalance()
       await loadDeposits()
       activeTab.value = 'deposits'
