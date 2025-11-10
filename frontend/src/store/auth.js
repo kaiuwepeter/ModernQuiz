@@ -36,7 +36,7 @@ export const useAuthStore = defineStore('auth', {
         return { success: false, error: response.data.error }
       } catch (error) {
         console.error('Login error:', error)
-        return { success: false, error: 'Login fehlgeschlagen' }
+        return { success: false, error: error.response?.data?.message || 'Login fehlgeschlagen' }
       }
     },
 
@@ -80,8 +80,10 @@ export const useAuthStore = defineStore('auth', {
         }
       } catch (error) {
         console.error('Fetch user error:', error)
-        // Falls Token ungültig, logout
-        if (error.response?.status === 401) {
+        // Only logout on 401 if we don't have user data from login response
+        // This prevents immediate logout after successful login
+        if (error.response?.status === 401 && !this.user) {
+          console.warn('Session invalid, logging out')
           this.logout()
         }
       }
@@ -91,7 +93,10 @@ export const useAuthStore = defineStore('auth', {
     init() {
       if (this.token) {
         axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
-        this.fetchUser()
+        // Only fetch if we have token but no user data
+        if (!this.user) {
+          this.fetchUser()
+        }
       }
     }
   }
