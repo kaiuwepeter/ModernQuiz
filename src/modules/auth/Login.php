@@ -86,15 +86,15 @@ class Login
             'id' => (int)$user['id'],
             'username' => $user['username'],
             'email' => $user['email'],
-            'role' => $user['role'] ?? 'user',
-            'is_admin' => (bool)($user['is_admin'] ?? false),
-            'coins' => (int)$user['coins'],
-            'bonus_coins' => (int)($user['bonus_coins'] ?? 0),
-            'points' => (int)$user['points'],
-            'level' => (int)$user['level'],
-            'avatar' => $user['avatar'],
-            'email_verified' => (bool)$user['email_verified'],
-            'is_active' => (bool)$user['is_active']
+            'role' => isset($user['role']) ? $user['role'] : 'user',
+            'is_admin' => isset($user['is_admin']) ? (bool)$user['is_admin'] : false,
+            'coins' => (int)($user['coins'] ?? 0),
+            'bonus_coins' => 0, // Will be loaded from profile if field exists
+            'points' => (int)($user['points'] ?? 0),
+            'level' => (int)($user['level'] ?? 1),
+            'avatar' => $user['avatar'] ?? '👤',
+            'email_verified' => (bool)($user['email_verified'] ?? false),
+            'is_active' => (bool)($user['is_active'] ?? true)
         ];
 
         return $response;
@@ -105,9 +105,10 @@ class Login
      */
     private function validateCredentials(string $identifier, string $password): ?array
     {
+        // Select only fields that definitely exist in database
         $stmt = $this->db->prepare("
-            SELECT id, username, email, password_hash, email_verified, is_active, role, is_admin,
-                   coins, bonus_coins, points, level, avatar, referral_code, created_at, last_login
+            SELECT id, username, email, password_hash, email_verified, is_active,
+                   coins, points, level, avatar, role, is_admin, created_at
             FROM users
             WHERE (username = ? OR email = ?)
             LIMIT 1
@@ -221,9 +222,10 @@ class Login
             return null;
         }
 
+        // Select only fields that definitely exist in database
         $stmt = $this->db->prepare("
-            SELECT id, username, email, role, is_admin, coins, bonus_coins, points, level,
-                   avatar, email_verified, is_active, referral_code, created_at, last_login
+            SELECT id, username, email, role, is_admin, coins, points, level,
+                   avatar, email_verified, is_active, created_at
             FROM users
             WHERE id = ?
         ");
