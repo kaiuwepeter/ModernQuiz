@@ -85,13 +85,10 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
 import { useAuthStore } from '../store/auth'
 
 const authStore = useAuthStore()
 
-onMounted(() => {
-  // Hole aktuelle User-Daten
-  authStore.fetchUser()
-})
+// User data is already loaded from login response
+// No need to fetch again - this was causing 401 and logout loop
 </script>
