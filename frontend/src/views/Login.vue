@@ -59,7 +59,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '../store/auth'
 
@@ -78,7 +78,11 @@ const handleLogin = async () => {
   const result = await authStore.login(identifier.value, password.value)
 
   if (result.success) {
-    router.push('/')
+    // Wait for Vue to update reactive state before navigation
+    await nextTick()
+
+    // Force page reload to ensure clean state
+    window.location.href = '/'
   } else {
     error.value = result.error || 'Login fehlgeschlagen'
   }

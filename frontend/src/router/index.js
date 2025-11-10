@@ -75,11 +75,16 @@ const router = createRouter({
 
 // Navigation Guards
 router.beforeEach((to, from, next) => {
+  // Check auth directly from localStorage for reliability
+  const token = localStorage.getItem('session_token')
+  const isAuthenticated = !!token
+
+  // For admin check, we need the store
   const authStore = useAuthStore()
 
-  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+  if (to.meta.requiresAuth && !isAuthenticated) {
     next('/login')
-  } else if (to.meta.guest && authStore.isAuthenticated) {
+  } else if (to.meta.guest && isAuthenticated) {
     next('/')
   } else if (to.meta.requiresAdmin) {
     // Check if user is admin
